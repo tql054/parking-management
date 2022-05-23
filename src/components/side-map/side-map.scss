@@ -1,0 +1,62 @@
+@use '../../assets/scss/' as *;
+
+.side-map {
+    margin: 15px auto;
+    background-color: $white-color;
+    
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $txt-color;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    &__list {
+        margin-bottom: -20px;
+        padding: 15px 20px;
+
+        &__row {
+            margin: 0;
+        }
+        
+        .item {
+            margin-bottom: 20px;
+        }
+    }
+
+    .side-map__types {
+        @include flex(center, none);
+        width: 100%;
+        padding: 10px 0px 25px 35px;
+        .type {
+            margin-right: 20px;
+            @include flex(center, unset);
+            .empty {
+                background-color: $empty-color;
+            }
+
+            .waiting {
+                background-color: $waiting-color;
+            }
+
+            .signed {
+                background-color: $signed-color;
+            }
+
+            &__color {
+                padding: 8px;
+                margin-right: 6px;
+                background-color: $red-color;
+            }
+
+            &__title {
+                font-size: 1rem;
+                font-family: $font-family;
+                font-weight: 550;
+            }
+
+        }
+    }
+}

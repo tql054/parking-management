@@ -1,0 +1,48 @@
+@use '../../assets//scss/' as *;
+
+.search-bar  {
+    @include flex(center, center);
+    font-family: $font-family;
+    font-size: .8rem;
+    position: relative;
+
+    &__button {
+        color: $red-color;
+        line-height: 200%;
+        height: 30px;
+        font-weight: 600;
+        background-color: $gray-color;
+        padding: 0 5px;
+        cursor: pointer;
+        @include border();
+    }
+
+    input {
+        @include border();
+        height: 30px;
+        padding: 0 50px 0px 5px;
+        border-left: none;
+        border-right: none;
+    }
+
+    &__type {
+        position: absolute;
+        top: 0%;
+        left: 93%;
+        height: 30px;
+        width: 95px;
+        @include flex(center, space-between);
+        @include border();
+        background-color: $yellow-color;
+        border-radius: 0 45px 45px 90px;
+
+        .icon-type {
+            margin-left: 25px;
+            font-size: 1.1rem;
+        }
+
+        .icon-change {
+            cursor: pointer;
+        }
+    }
+}

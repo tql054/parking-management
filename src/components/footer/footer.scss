@@ -1,0 +1,11 @@
+@use '../../assets/scss/' as *;
+
+footer {
+    @include flex(center, center);
+    font-size: 1rem;
+    color: $white-color;
+    font-weight: 600;
+    font-family: $font-family;
+    height: $footer-height;
+    background-color: $main-color;
+}

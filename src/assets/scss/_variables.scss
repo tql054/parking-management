@@ -1,0 +1,24 @@
+$body-bg: #e5e5e5;
+$main-color: #002745;
+$txt-color: #333;
+$white-color: #fff;
+$black-color: #000;
+$red-color: #C20000;
+$gray-color: #ccc;
+$yellow-color: #FFD154;
+
+$signed-color: #F90E0E;
+$waiting-color: #F7B731;
+$empty-color: #009432;
+
+$navbar-linear: linear-gradient(to bottom, $white-color, #B9D5FF, #88BBFF, #447DC1, $main-color);;
+$navbar-linear-reserved: linear-gradient(to top, $white-color, #B9D5FF, #88BBFF, #447DC1, $main-color);;
+
+$box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+$header-height: 150px;
+$navbar-height: 50px;
+$border-radius: 15px;
+$footer-height: 50px;
+
+$font-family: "Montserrat", sans-serif;

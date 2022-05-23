@@ -1,0 +1,63 @@
+@use '../../assets/scss/' as *;
+
+.header {
+    width: 100%;
+    transition: height .3s ease, background-color .3s ease;
+
+    &__image {
+        height: $header-height - $navbar-height;
+        background-image: url('../../assets/header-panel.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-color: $white-color;
+    }
+    
+    &__navbar {
+        height: $navbar-height;
+        background-image: $navbar-linear;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 5px;
+        height: 100%;
+        @include flex(center, space-between);
+        i {
+            margin-right: 15px;
+        }
+
+        ul {
+            @include flex(center, space-between);
+            width: 35%;
+            li {
+                font-size: .8rem;
+                font-weight: 600;
+    
+                a.active {
+                    color: $red-color;
+                }
+            }
+        }
+    }
+    
+    
+
+    &__user {
+        font-weight: 600;
+        i {
+            margin-left: 15px;
+        }
+    }
+
+    &.shrink {
+        .header__navbar{
+            background-image: $navbar-linear-reserved;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+    }
+}
+
