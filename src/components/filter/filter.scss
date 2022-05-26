@@ -1,0 +1,19 @@
+@use '../../assets/scss/' as *;
+
+
+.filter {
+    font-size: .8rem;
+    color: $black-color;
+    text-align: center;
+    background-color: $white-color;
+    height: 200px;
+    width: 100%;
+    @include border(solid, $gray-color, 1.5px);
+    border-top: none;
+    border-left: none;
+
+    &__title {
+        font-weight: 600;
+        padding: 10px 0;
+    }
+}

@@ -86,9 +86,11 @@ const Area = ({ id, name, type }) => {
                     {
                         boxList.map((box, i) => 
                             <li key={box.id} className="col l-1">
-                                <div className='area__box-list__item'>
-                                    {box.name}
-                                </div>
+                                <Link to={'/stranger'}>
+                                    <div className='area__box-list__item'>
+                                        {box.name}
+                                    </div>
+                                </Link>
                             </li>
                         )
                     }

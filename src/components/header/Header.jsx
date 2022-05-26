@@ -16,8 +16,8 @@ const headerNav = [
     },
 
     {
-        display: 'Cập nhật ô đỗ',
-        path: '/'
+        display: 'Thông báo',
+        path: '/thongbao'
     },
 
     {

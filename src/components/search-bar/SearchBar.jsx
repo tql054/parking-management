@@ -1,39 +1,56 @@
-import { useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './search-bar.scss'
 
 const SearchBar = (props) => {
-    
-
+    console.log('rerender')
+    const navigate = useNavigate()
     const searchTypes = [
         {
+            id: 0,
             type: 'username',
             icon: <i className="fa-solid fa-user icon-type"></i>
         },
 
         {
+            id: 1,
             type: 'phone',
             icon: <i className="fa-solid fa-phone icon-type"></i>
         },
 
         {
+            id: 2,
             type: 'number',
             icon: <i className="fa-brands fa-cc-amex icon-type"></i>
         }
     ]
-    
-    const [searchType, setSearchType] = useState(0)
-    console.log(searchType)
 
+    const [searchType, setSearchType] = useState(searchTypes[0])
+    const [searchKey, setSearchKey] = useState('')
+    const handleSearch = useCallback(() => {
+        if(searchKey.trim().length > 0) {
+            navigate(`/search/${searchType.type}/${searchKey}`)
+        }
+    }, [searchKey, searchType, navigate])
+    console.log(searchType.type)
     return (
         <div className='search-bar'>
-           <div className="search-bar__button">Tra cứu đăng ký</div>
-           <input type="text" placeholder='Tìm kiếm theo tên chủ xe'/>
-           <div className="search-bar__type" onClick={() => setSearchType( searchType < searchTypes.length-1  ? searchType+1 : 0)}>
-                {searchTypes[searchType].icon}
+           <div 
+                className="search-bar__button"
+                onClick={() => handleSearch()}
+            >Tra cứu đăng ký</div>
+           <input 
+                type="text" 
+                value={searchKey}
+                placeholder='Tìm kiếm theo tên chủ xe'
+                onChange={e => setSearchKey(e.target.value)}
+            />
+           <div className="search-bar__type" onClick={() => setSearchType( searchType.id < searchTypes.length-1  ? searchTypes[searchType.id+1] : searchTypes[0])}>
+                {searchType.icon}
                 <i className="fa-solid fa-rotate  icon-change"></i>
            </div>
         </div>
     )
 }
 
-export default SearchBar
+export default memo(SearchBar)
