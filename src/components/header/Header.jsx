@@ -27,7 +27,7 @@ const headerNav = [
 ]
 
 const Header = () => {
-    const { pathname } = useLocation()
+    const { pathname } = useLocation();
     const active = headerNav.findIndex(item => item.path === pathname)
     const headerRef = useRef();
 
