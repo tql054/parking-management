@@ -1,33 +1,41 @@
 import Area from '../area/Area'
 import './side-map.scss'
+import pmApi from '../../api/pmApi' 
+import { useEffect } from 'react'
+import axios from 'axios'
 
 const areas = [
     {
-        name: 'A',
+        name: 'KTVA',
         type: 'Từ 5 chỗ trở xuống'
     },
 
     {
-        name: 'B',
+        name: 'KTVB',
         type: 'Từ 5 chỗ trở xuống'
     },
 
-    {
-        name: 'C',
-        type: 'Từ 7 chỗ trở xuống'
-    },
+    // {
+    //     name: 'KTVE',
+    //     type: 'Từ 7 chỗ trở xuống'
+    // },
 
-    {
-        name: 'D',
-        type: 'Từ 7 chỗ trở xuống'
-    }
+    // {
+    //     name: 'KTVF',
+    //     type: 'Từ 7 chỗ trở xuống'
+    // }
 ]
+
+
+
 const SideMap = () => {
+
     return (
         <div className="side-map container">
             <h2>Sơ đồ ô đỗ</h2>
             
             <div className='side-map__list grid'>
+                
                 <ul className=" side-map__list__row row">
                     {
                         areas.map((item, index) => 
