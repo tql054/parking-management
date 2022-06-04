@@ -7,4 +7,8 @@ const pmApi = {
     }
 }
 
+const notificationApi = {
+    
+}
+
 export default pmApi

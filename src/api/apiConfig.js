@@ -1,6 +1,5 @@
 const apiConfig = {
-    baseUrl: 'https://parkingmanagement16.herokuapp.com/',
-    withCredentials: true
+    baseUrl: 'https://parkingmanagement16.herokuapp.com/'
 }
 
 export default apiConfig

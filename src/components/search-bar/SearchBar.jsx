@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import './search-bar.scss'
 
 const SearchBar = (props) => {
-    console.log('rerender')
     const navigate = useNavigate()
     const searchTypes = [
         {
@@ -32,7 +31,22 @@ const SearchBar = (props) => {
             navigate(`/search/${searchType.type}/${searchKey}`)
         }
     }, [searchKey, searchType, navigate])
-    console.log(searchType.type)
+
+    useEffect(() => {
+        const handleEnterKey = (e) => {
+            if(e.keyCode === 13) {
+                e.preventDefault()
+                handleSearch()
+                console.log('refresh')
+            }
+        }
+
+        window.addEventListener('keydown', handleEnterKey)
+
+        return () => {
+            window.removeEventListener('keydown', handleEnterKey)
+        }
+    }, [searchKey, handleSearch])
     return (
         <div className='search-bar'>
            <div 
