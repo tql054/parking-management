@@ -1,0 +1,83 @@
+.notification {
+    display: flex;
+    justify-content: center;
+}
+
+.title,
+.ckeditor,
+.receiver {
+    display: flex;
+    margin: 20px 0px;
+}
+
+.title input {
+    min-width: 400px;
+    padding: 10px;
+    border-radius: 6PX;
+}
+
+.content {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.staff {
+    margin: 0px 40px;
+}
+
+label {
+    width: 200px;
+}
+
+.ck-editor__editable_inline {
+    min-height: 400px;
+}
+
+.submit {
+    margin-left: 200px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    width: 150px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid grey;
+    margin-right: 100px;
+    background-color: rgb(0, 174, 255);
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffff;
+}
+
+/* table */
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 95%;
+    margin: 30px auto 50px auto;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #2c2d2d;
+    color: white;
+    text-align: center;
+}
