@@ -3,4 +3,4 @@ const apiConfig = {
     withCredentials: true
 }
 
-export default apiConfig
+export default apiConfig;

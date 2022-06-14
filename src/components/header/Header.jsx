@@ -4,26 +4,49 @@ import { Link, useLocation } from 'react-router-dom'
 import SearchBar from '../search-bar/SearchBar'
 import './header.scss'
 
-const headerNav = [
-    {
-        display: 'Trang chủ',
-        path: '/'
-    },
+const headerNav = ['a,b,c,d']
+const headerContent = [
+    [
+        {
+            display: 'Trang chủ',
+            path: '/'
+        },
+    ],
 
-    {
-        display: 'Đăng ký ô đỗ',
-        path: '/stranger'
-    },
+    [
+        {
+            display: 'Đăng ký ô đỗ',
+            path: '/stranger'
+        },
+        {
+            display: 'Đăng ký ô đỗ',
+            path: '/stranger'
+        },
+    ],
 
-    {
-        display: 'Thông báo',
-        path: '/thongbao'
-    },
+    [
+       
+        {
+            display: 'Thông báo',
+            path: '/thongbao'
+        },
+        {
+            display: 'Xem thông báo',
+            path: '/danhsachthongbao'
+        }
+    ],
 
-    {
-        display: 'Thống kê',
-        path: '/thongke'
-    }
+    [
+        {
+            display: 'Thống kê',
+            path: '/thongke'
+        },
+        {
+            display: 'Thống kê',
+            path: '/thongke'
+        },
+    ]
+
 ]
 
 const Header = () => {
@@ -33,42 +56,90 @@ const Header = () => {
 
     useEffect(() => {
         const shrinkHeader = () => {
-            if(document.documentElement.scrollTop > 101 || document.body.scrollTop > 101) {
+            if (document.documentElement.scrollTop > 101 || document.body.scrollTop > 101) {
                 headerRef.current.classList.add('shrink')
             } else {
                 headerRef.current.classList.remove('shrink')
             }
         }
-        
+
         window.addEventListener('scroll', shrinkHeader)
-        
+
         return () => {
             window.removeEventListener('scroll', shrinkHeader)
         }
 
     }, [])
 
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0;i < dropdowns.length;i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
     return (
         <header ref={headerRef} className="header">
             <div className="header__image"></div>
             <div className="header__navbar">
                 <nav className='header__list container'>
-                    <ul className=''>
+                    {
+                        headerContent.map((items, index) => (
+                            <div class="dropdown">
+                                {
+                                    items.length < 2 ?
+                                        (<Link to={items[0].path} className={active === index ? 'active' : ''}>
+                                            {items[0].display}
+                                        </Link>)
+                                        :
+                                        <>
+                                            <button class="dropbtn">{items[0].display}</button>
+                                            <div class="dropdown-content">
+                                                {
+                                                    items.map((item, index) => (
+
+                                                        <Link to={item.path} className={active === index ? 'active' : ''}>
+                                                            {item.display}
+                                                        </Link>
+                                                    ))
+                                                }
+                                            </div></>
+                                    }
+                                
+                            </div>
+                        ))
+                    }
+
+
+                    {/* <ul className=''>
                         {
-                            headerNav.map((item, index)=> {
-                                return (
-                                    <li  key={index}>
+                            headerNav.map(items => (
+                                items.map((item, index) => (
+                                    <li key={index}>
                                         <Link to={item.path} className={active === index ? 'active' : ''}>
                                             {item.display}
                                         </Link>
                                     </li>
-                                )
-                            })
+                                ))
+
+                            ))
                         }
-                    </ul>
-                    <SearchBar/>
+
+                    </ul> */}
+                    <SearchBar />
                     <div className="header__user">
-                        Xin chào, Tuấn
+                        Xin chào, Quốc
                         <i className="fa-solid fa-user"></i>
                     </div>
                 </nav>
