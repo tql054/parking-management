@@ -1,1 +1,32 @@
 @use '../../assets/scss/' as *;
+
+.form-group {
+    @include flex(center, center);
+    margin-top: 10px;
+    margin-left: 35px;
+    .input__check {
+        margin-right: 20px;
+        cursor: pointer;
+    }
+}
+
+.filter-date {
+    font-size: 1rem;
+    color: $gray-color;
+    width: 100%;
+    &__control {
+        @include flex(center, center);
+        flex-direction: column;
+        .title {
+            
+        }
+
+        .controller {
+            @include flex(center, space-between);
+            i {
+                font-size: 1.8rem;
+                cursor: pointer;
+            }
+        }
+    }
+}

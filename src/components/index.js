@@ -4,7 +4,9 @@ export {default as Footer} from './footer/Footer'
 export {default as SideMap} from './side-map/SideMap'
 export {default as Area} from './area/Area'
 export {default as Filter} from './filter/Filter'
-export {default as RegisterGrid} from './register-grid/RegisterGrid'
+export {default as SearchGrid} from './search-grid/SearchGrid'
+export {default as SearchItem} from './search-item/SearchItem'
 export {default as FilterItem} from './filter-item/FilterItem'
+
 
 
