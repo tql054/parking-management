@@ -14,12 +14,11 @@ const NotificationList = () => {
     const usersPerPage = 10;
     const pagesVisited = pageNumber * usersPerPage;
     //fetch API
+    const fetchData = async () => {
+        const res = await Axios.get('https://parkingmanagement16.herokuapp.com/thongbao');
+        setData(res.data);
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            const res = await Axios.get('https://parkingmanagement16.herokuapp.com/thongbao');
-            setData(res.data);
-        };
-
         fetchData();
     }, []);
 
@@ -34,7 +33,7 @@ const NotificationList = () => {
 
     return (
         <>
-            <Pagination pagesVisited={pagesVisited} usersPerPage={usersPerPage} />
+            <Pagination pagesVisited={pagesVisited} usersPerPage={usersPerPage} data={data} />
             <ReactPaginate
                 previousLabel={"Previous"}
                 nextLabel={"Next"}
