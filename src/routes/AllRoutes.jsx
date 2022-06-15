@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {Home, MemberRenting, StrangerRenting, Statics, SearchResult, Notification} from '../pages'
+import {Home, MemberRenting, StrangerRenting, Statics, SearchResult, Notification,NotificationList} from '../pages'
 const AllRoutes = () => {
     return (
         <>
@@ -26,7 +26,13 @@ const AllRoutes = () => {
                 <Route
                     exact
                     path='/thongbao'
-                    element={<Notification/>}
+                    element={<Notification />}
+                />
+                
+                <Route
+                    exact
+                    path='/danhsachthongbao'
+                    element={<NotificationList />}
                 />
 
                 <Route

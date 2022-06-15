@@ -13,7 +13,7 @@
         background-size: contain;
         background-color: $white-color;
     }
-    
+
     &__navbar {
         height: $navbar-height;
         background-image: $navbar-linear;
@@ -25,6 +25,7 @@
         gap: 5px;
         height: 100%;
         @include flex(center, space-between);
+
         i {
             margin-right: 15px;
         }
@@ -32,28 +33,30 @@
         ul {
             @include flex(center, space-between);
             width: 35%;
+
             li {
                 font-size: .8rem;
                 font-weight: 600;
-    
+
                 a.active {
                     color: $red-color;
                 }
             }
         }
     }
-    
-    
+
+
 
     &__user {
         font-weight: 600;
+
         i {
             margin-left: 15px;
         }
     }
 
     &.shrink {
-        .header__navbar{
+        .header__navbar {
             background-image: $navbar-linear-reserved;
             position: fixed;
             top: 0;
@@ -63,3 +66,45 @@
     }
 }
 
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    color: white ;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
