@@ -62,7 +62,7 @@ const Notification = () => {
                     <input
                         type="text"
                         required
-
+                        name='tieude'
                         value={tieude}
                         onChange={e => setTitle(e.target.value)}
                     /> <span style={{ color: 'red', margin: 'auto 20px', fontWeight: '700' }}>(*)</span>

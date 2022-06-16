@@ -63,7 +63,7 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
     useEffect(() => {
         getResults()
     }, [searchType, searchKey, params, dangky])
-    console.log(results)
+    // console.log(results)
     return (
         <div className="list-result grid">
             <ul className='row'>
