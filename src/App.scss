@@ -44,6 +44,20 @@ a {
 
 // @media (hover)
 
+// colors
+
+// .main-color {
+//     background-color: $main-color;
+// }
+
+// .gray-color {
+//     background-color: $gray-color;
+// }
+
+// .red-color {
+//     background-color: $red-color;
+// }
+
 button, 
 input {
     outline: 0;
@@ -75,8 +89,9 @@ iframe {
     margin-bottom: 2rem;
 }
 
-.section {
+section {
     padding: 0 2rem;
+    min-height: 800px;
 }
 
 
@@ -303,6 +318,7 @@ iframe {
         margin-left: 91.66667%;
     }
 }
+
 
 /* PC low resolution */
 @media(min-width: 1113px) {

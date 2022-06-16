@@ -1,27 +1,18 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './pagination.css'
 import Axios from 'axios'
-const Pagination = ({ pagesVisited, usersPerPage }) => {
-    const [data1, setData1] = useState([])
-    const fetchData = async () => {
-        const res = await Axios.get('https://parkingmanagement16.herokuapp.com/thongbao');
-        setData1(res.data1);
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
+const Pagination = ({ pagesVisited, usersPerPage,data }) => {
 
     const handleDeleteById = id => {
         Axios.delete(`http://localhost:8080/delete-thongbao/${id}`)
             .then(res => {
                 console.log(res);
-                console.log(res.data1);
             })
+        
     }
-    const displayData = data1
+
+    const displayData = data && data
         .slice(pagesVisited, pagesVisited + usersPerPage)
         .map((post) => {
             return (

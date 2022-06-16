@@ -51,7 +51,7 @@ const headerContent = [
 
 const Header = () => {
     const { pathname } = useLocation()
-    const active = headerNav.findIndex(item => item.path === pathname)
+    const active = headerContent.findIndex(listItem =>listItem.some((item)=>item.path===pathname))
     const headerRef = useRef();
 
     useEffect(() => {
@@ -75,7 +75,7 @@ const Header = () => {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    // Close the dropdown if the user clicks outside of it
+    // Close the dropdown if the user clicks outside of it -- need use useEffect()
     window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -96,25 +96,26 @@ const Header = () => {
                 <nav className='header__list container'>
                     {
                         headerContent.map((items, index) => (
-                            <div class="dropdown">
+                            <div className="dropdown">
                                 {
                                     items.length < 2 ?
-                                        (<Link to={items[0].path} className={active === index ? 'active' : ''}>
+                                        (<Link to={items[0].path} className={active === index ? 'dropbtn active' : 'dropbtn'}>
                                             {items[0].display}
                                         </Link>)
-                                        :
+                                        :(
                                         <>
-                                            <button class="dropbtn">{items[0].display}</button>
-                                            <div class="dropdown-content">
+                                            <button className={active === index ? 'dropbtn active' : 'dropbtn'} >{items[0].display}</button>
+                                            <div className="dropdown-content">
                                                 {
                                                     items.map((item, index) => (
 
-                                                        <Link to={item.path} className={active === index ? 'active' : ''}>
+                                                        <Link to={item.path} >
                                                             {item.display}
                                                         </Link>
                                                     ))
                                                 }
                                             </div></>
+                                        )
                                     }
                                 
                             </div>

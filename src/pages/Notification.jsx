@@ -22,27 +22,27 @@ const data = [
 
 
 const Notification = () => {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [checked, setChecked] = useState(1)
+    const [tieude, setTitle] = useState('');
+    const [noidung, setContent] = useState('');
+    const [nguoinhan, setChecked] = useState(1)
 
     //post data 
 
-    const handlePostNotification = event => {
-        event.preventDefault();
-        console.log(title)
-        const notification = {
-            // nguoidang: checked,
-            tieude: title,
-            noidung: ReactHtmlParser(content),
-        };
-        console.log(notification)
-        axios.post(`https://parkingmanagement16.herokuapp.com/create-thongbao`, { notification })
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
-    }
+    // const handlePostNotification = event => {
+    //     event.preventDefault();
+    //     console.log(tieude)
+    //     const notification = {
+    //         nguoidang: nguoinhan,
+    //         tieude: tieude,
+    //         noidung: ReactHtmlParser(noidung),
+    //     };
+    //     console.log(notification)
+    //     axios.post(`https://parkingmanagement16.herokuapp.com/create-thongbao`, { notification })
+    //         .then(res => {
+    //             console.log(res);
+    //             console.log(res.data);
+    //         })
+    // }
   
     //reset form
     const handleRefresh = (e) => {
@@ -55,14 +55,15 @@ const Notification = () => {
     console.log('re-render')
     return (
         <div className='notification'>
-            <form>
+            <form method='POST' action='http://localhost:8080/create-thongbao' >
 
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>
                     <input
                         type="text"
                         required
-                        value={title}
+                        name='tieude'
+                        value={tieude}
                         onChange={e => setTitle(e.target.value)}
                     /> <span style={{ color: 'red', margin: 'auto 20px', fontWeight: '700' }}>(*)</span>
                 </div>
@@ -71,7 +72,8 @@ const Notification = () => {
                     <CKEditor
                         required
                         className='ckeditor_line'
-                        data={content}
+                        data={noidung}
+                        name='noidung'
                         editor={ClassicEditor}
                         onChange={(e, editor) => setContent(editor.getData())}
                     />
@@ -85,7 +87,8 @@ const Notification = () => {
                                     <input type="radio"
                                         value={dt.name}
                                         id={dt.id}
-                                        checked={checked === dt.id}
+                                        name="nguoinhan"
+                                        checked={nguoinhan === dt.id}
                                         onChange={() => setChecked(dt.id)}
                                     />
                                     <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.name}</label>
@@ -95,8 +98,8 @@ const Notification = () => {
                     </div>
                 </div>
                 <div className="submit">
-                    <button onClick={handlePostNotification}  className='btn post' type='submit'>Đăng</button>
-                    {/* <button onClick={handleRefresh} className='btn' type='submit'>Làm mới</button> */}
+                    <button   className='btn post' type='submit'>Đăng</button>
+                    <button onClick={handleRefresh} className='btn' type='submit'>Làm mới</button>
                 </div>
             </form>
         </div>

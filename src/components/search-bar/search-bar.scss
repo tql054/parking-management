@@ -21,7 +21,7 @@
     input {
         @include border();
         height: 30px;
-        padding: 0 50px 0px 5px;
+        padding: 0 80px 0px 5px;
         border-left: none;
         border-right: none;
     }
@@ -29,7 +29,7 @@
     &__type {
         position: absolute;
         top: 0%;
-        left: 93%;
+        left: 80%;
         height: 30px;
         width: 95px;
         @include flex(center, space-between);
