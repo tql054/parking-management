@@ -3,6 +3,8 @@ import './side-map.scss'
 import pmApi from '../../api/pmApi' 
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
+import UpdownBox from '../updown-box/UpdownBox'
+import { createContext } from 'react'
 
 const areas = [
     {
@@ -26,14 +28,16 @@ const SideMap = () => {
     const timeBegin = useRef()
     const timeEnd = useRef()
     const tabs = ['Khu thành viên', 'Khu vãng lai']
-    let hours = []
-    for(let x=0; x<=23; x++) hours.push(x)
+    const hourContext = createContext()
+    var hour = ''
     const handleFilting = (e) => {
         e.preventDefault()
-        console.log(timeBegin.current.value)
-        console.log(timeEnd.current.value)
+        // console.log(timeBegin.current.value)
+        // console.log(timeEnd.current.value)
+        console.log(hour)
 
     }
+    
     return (
         <div className="side-map container">
             <div className="side-map__tabs">
@@ -66,14 +70,17 @@ const SideMap = () => {
                         <div className="date date-from">
                             <div className="form-group">
                                 <label htmlFor="timeBegin">Giờ</label>
-                                <select ref={timeBegin} name="timeBegin" id="cars">
+                                {/* <select size='5' ref={timeBegin} name="timeBegin" id="cars">
                                     {
                                         hours.map((hour, index)=>(
                                             <option key={index} value={hour}>{hour}:00</option>
                                         ))
                                     }
                                     
-                                </select>
+                                </select> */}
+                                <hourContext.Provider value={hour}>
+                                    <UpdownBox max={23} min={0}/>
+                                </hourContext.Provider>
                             </div>
 
                             <div className="form-group">
@@ -90,11 +97,11 @@ const SideMap = () => {
                             <div className="form-group">
                                 <label htmlFor="timeEnd">Giờ</label>
                                 <select ref={timeEnd} name="timeEnd" id="cars">
-                                    {
+                                    {/* {
                                         hours.map((hour, index)=>(
                                             <option key={index} value={hour}>{hour}:00</option>
                                         ))
-                                    }
+                                    } */}
                                 </select>
                             </div>
 
