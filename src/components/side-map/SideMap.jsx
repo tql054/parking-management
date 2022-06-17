@@ -12,7 +12,7 @@ const areas = [
 
     {
         name: 'KTVB',
-        type: 'Từ 5 chỗ trở xuống'
+        type: 'Từ 7 chỗ trở xuống'
     },
 ]
 

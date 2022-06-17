@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './notification.css'
 // import Post from './Post';
-import ReactPaginate from "react-paginate";
+import ReactPaginate from "react";
 import Pagination from '../components/Pagination/Pagination';
 
 

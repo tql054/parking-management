@@ -1,7 +1,9 @@
+import Statistical from "../components/Static/Statistical"
+
 const Statics = () => {
     return (
         <section>
-           Statics
+           <Statistical/>
         </section>
     )
 }

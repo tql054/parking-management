@@ -1,0 +1,25 @@
+@use '../../assets/scss/' as *;
+
+  
+
+
+td{
+    border-left: 1px solid ;
+    width: 8em;
+    
+}
+
+.wrapper .combobox{
+    position: static;
+    line-height: 2.5em;
+}
+label{
+    margin-left: 2em;
+    font-size: medium;
+    margin-inline: block;
+}
+.table{
+  background-color: rgb(255, 255, 255);
+  width: 90em;
+  margin:10px 5rem ;
+}

@@ -56,7 +56,6 @@ const Notification = () => {
     return (
         <div className='notification'>
             <form>
-
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>
                     <input
