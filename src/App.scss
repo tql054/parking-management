@@ -57,6 +57,14 @@ a {
 // .red-color {
 //     background-color: $red-color;
 // }
+h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $txt-color;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
 
 button, 
 input {
@@ -92,6 +100,10 @@ iframe {
 section {
     padding: 0 2rem;
     min-height: 800px;
+}
+
+label {
+    max-width: 80px;
 }
 
 

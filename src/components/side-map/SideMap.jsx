@@ -1,7 +1,7 @@
 import Area from '../area/Area'
 import './side-map.scss'
 import pmApi from '../../api/pmApi' 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 
 const areas = [
@@ -19,11 +19,100 @@ const areas = [
 
 
 const SideMap = () => {
+    const now = new Date()
+    const today = `${now.getFullYear()}-${(now.getMonth()+1).toString.length === 1?'0'+(now.getMonth()+1): now.getMonth()+1}-${now.getDate()}`
+    const [dateBegin, setDateBegin] = useState('')
+    const [tabSM, setTabSM] = useState('Khu thành viên')
+    const timeBegin = useRef()
+    const timeEnd = useRef()
+    const tabs = ['Khu thành viên', 'Khu vãng lai']
+    let hours = []
+    for(let x=0; x<=23; x++) hours.push(x)
+    const handleFilting = (e) => {
+        e.preventDefault()
+        console.log(timeBegin.current.value)
+        console.log(timeEnd.current.value)
 
+    }
     return (
         <div className="side-map container">
+            <div className="side-map__tabs">
+                {   
+                    tabs.map((tab, i)=> (
+                        <div 
+                            key={i} 
+                            className="tab"
+                            style={tabSM === tab ? {backgroundColor: "#3266a7", color: "#fff", borderBottom: "solid 2.5px #c20000"} : {}}
+                            onClick={(e) => {setTabSM(tab)}}
+                            >
+                            {tab}
+                        </div>
+                    ))
+                }
+            </div>
+
             <h2>Sơ đồ ô đỗ</h2>
             
+            <div className="side-map__filter">
+                <h5 className="side-map__filter__title">
+                    Chọn mốc thời gian:
+                </h5>
+
+                <form   action="GET" 
+                        className=""
+                        onSubmit={handleFilting}
+                >
+                    <div className='side-map__filter__form'>
+                        <div className="date date-from">
+                            <div className="form-group">
+                                <label htmlFor="timeBegin">Giờ</label>
+                                <select ref={timeBegin} name="timeBegin" id="cars">
+                                    {
+                                        hours.map((hour, index)=>(
+                                            <option key={index} value={hour}>{hour}:00</option>
+                                        ))
+                                    }
+                                    
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="dateBegin">Ngày</label>
+                                <input  type="date" 
+                                        id="start" 
+                                        name="dateBegin"
+                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                </input>
+                            </div>
+                        </div>
+                        <h3>Đến</h3>                
+                        <div className="date date-to">
+                            <div className="form-group">
+                                <label htmlFor="timeEnd">Giờ</label>
+                                <select ref={timeEnd} name="timeEnd" id="cars">
+                                    {
+                                        hours.map((hour, index)=>(
+                                            <option key={index} value={hour}>{hour}:00</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="dateEnd">Ngày</label>
+                                <input  type="date" 
+                                        id="start" 
+                                        name="dateEnd"
+                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                </input>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button className="form-submit" type='submit'>Xác nhận</button>
+                </form>
+            </div>
+
             <div className='side-map__list grid'>
                 
                 <ul className=" side-map__list__row row">
@@ -53,6 +142,7 @@ const SideMap = () => {
                     <div className="type__title">Chỗ đã đặt</div>
                 </li>
             </ul>
+            
         </div>
     )
 }

@@ -16,7 +16,6 @@ const Area = ({ id, name, type }) => {
     useEffect(() => {
         getAllOdo()
     }, [])
-
     return (
         <div className='area'>
             <div className='area__info'>
@@ -31,11 +30,12 @@ const Area = ({ id, name, type }) => {
                         ) : (
                             boxList.map((box, i) => 
                                 <li key={box.id} className="col l-1">
-                                    <Link to={'/stranger'}>
-                                        <div className='area__box-list__item'>
-                                            {box.tenodo}
+                                    {/* <Link to={'/stranger'}> */}
+                                    <div>
+                                        <div className={`area__box-list__item ${box.trangthai}`}>
+                                            {box.tenodo.slice(3)}
                                         </div>
-                                    </Link>
+                                    </div>
                                 </li>
                             )
                         )

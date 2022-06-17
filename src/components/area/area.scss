@@ -34,7 +34,7 @@
             cursor: pointer;
             height: 50px;
             width: 100%;
-            font-size: .5rem;
+            font-size: 1rem;
             font-weight: 550;
             font-family: $font-family;
             text-align: center;
@@ -42,7 +42,25 @@
             margin-top: 30px;
             @include border(dashed, $black-color, 1px);
             background-color: $red-color;
+            border-radius: 5px;
         }
+
+        &__item.empty {
+            background-color: $empty-color;
+            color: $white-color;
+        }
+
+        &__item.waiting {
+            background-color: $waiting-color;
+            color: $red-color;
+        }
+
+        &__item.filled {
+            background-color: $filled-color;
+            color: $yellow-color;
+        }
+
+
     }
     
 }
