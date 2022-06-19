@@ -8,6 +8,7 @@ export {default as SearchGrid} from './search-grid/SearchGrid'
 export {default as SearchItem} from './search-item/SearchItem'
 export {default as FilterItem} from './filter-item/FilterItem'
 export {default as Statistical} from './Static/Statistical'
+export {default as StatisticalMonth} from './Static/StatisticalMonth'
 
 
 

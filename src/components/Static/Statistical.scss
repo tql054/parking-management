@@ -3,7 +3,7 @@
   
 
 
-td{
+th,td{
     border-left: 1px solid ;
     width: 8em;
     
@@ -22,4 +22,8 @@ label{
   background-color: rgb(255, 255, 255);
   width: 90em;
   margin:10px 5rem ;
+}
+
+thead{
+    margin: auto;
 }

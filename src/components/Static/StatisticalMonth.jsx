@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Statistical.scss";
-
-import Axios from "axios";
 import axios from "axios";
 import { filter } from "domutils";
-
-function Statistical() {
+import "./Statistical.scss";
+function StatisticalMonth() {
   const [data, setData] = useState();
   const [isRender, setIsRender] = useState(false);
   //fetch data
   const fetchData = async () => {
     const resp = await axios.get(
-      "https://parkingmanagement16.herokuapp.com/dangkyvanglai"
+      "https://parkingmanagement16.herokuapp.com/dangkythanhvien"
     );
     setData(resp.data);
   };
@@ -20,32 +17,21 @@ function Statistical() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  function tinhTien() {
-    data?.map((item) => {
-      const startDate = new Date(item?.thoigianbatdau);
-      const endDate = new Date(item?.thoigianketthuc);
-      const soGio = (endDate - startDate) / 3600 / 1000;
-      const thanhTien = soGio * 15000;
-    });
-  }
+  console.log(data);
 
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();
       return;
     }
-
     const dataFilter = data?.filter((item) => {
       const getCate = item?.loaixe.split(" ")[1];
-      //    const getCate = item.loaixe.slice(3, 4);
       if (filterValue === getCate) {
         return item;
       }
     });
     setData(dataFilter);
   }
-
   function handlemoney(filterValue) {
     if (!filterValue) {
       fetchData();
@@ -54,32 +40,31 @@ function Statistical() {
     const dataFilter = data?.filter((item) => {
       const startDate = new Date(item?.thoigianbatdau).getTime();
       const endDate = new Date(item?.thoigianketthuc).getTime();
-
-      const soGio = (endDate - startDate) / 3600 / 1000;
+      const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
+      const soGio = (endDateReal - endDate) / 3600 / 1000;
       const thanhTien = soGio * 15;
       console.log(soGio);
       console.log(endDate);
       console.log(thanhTien);
       switch (filterValue) {
-        case "500":
+        case "50":
           {
             console.log(123);
-            console.log(thanhTien);
+            if (thanhTien < 50) {
+              return item;
+            }
+          }
+          break;
+        case "100":
+          {
+            if (thanhTien < 100) {
+              return item;
+            }
+          }
+          break;
+        case "500":
+          {
             if (thanhTien < 500) {
-              return item;
-            }
-          }
-          break;
-        case "1000":
-          {
-            if (thanhTien < 1000) {
-              return item;
-            }
-          }
-          break;
-        case "5000":
-          {
-            if (thanhTien < 5000) {
               return item;
             }
           }
@@ -87,19 +72,6 @@ function Statistical() {
       }
     });
     setData(dataFilter);
-    setIsRender(!isRender);
-  }
-  function handleSortPlace(value) {
-    switch (value) {
-      case "up":
-        console.log(12);
-        console.log(data);
-        data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
-        break;
-      case "down":
-        data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
-        break;
-    }
     setIsRender(!isRender);
   }
 
@@ -122,6 +94,21 @@ function Statistical() {
     }
     setIsRender(!isRender);
   }
+
+  function handleSortPlace(value) {
+    switch (value) {
+      case "up":
+        console.log(12);
+        console.log(data);
+        data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
+        break;
+      case "down":
+        data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
+        break;
+    }
+    setIsRender(!isRender);
+  }
+
   return (
     <div class="wrapper">
       <div class="combobox">
@@ -155,9 +142,9 @@ function Statistical() {
           onChange={(e) => handlemoney(e.target.value)}
         >
           <option value=""> -- Chọn -- </option>
+          <option value="50">Dưới 50.000vnđ</option>
+          <option value="100">Dưới 100.000vnđ</option>
           <option value="500">Dưới 500.000vnđ</option>
-          <option value="1000">Dưới 1.000.000vnđ</option>
-          <option value="5000">Dưới 5.000.000vnđ</option>
         </select>
         <label for="toatal">Tổng tiền</label>
         <select
@@ -166,11 +153,11 @@ function Statistical() {
           onChange={(e) => handlemoney(e.target.value)}
         >
           <option value=""> -- Chọn -- </option>
+          <option value="50">Dưới 50.000vnđ</option>
+          <option value="100">Dưới 100.000vnđ</option>
           <option value="500">Dưới 500.000vnđ</option>
-          <option value="1000">Dưới 1.000.000vnđ</option>
-          <option value="5000">Dưới 5.000.000vnđ</option>
         </select>
-        <label for="id">Mã ô đỗ</label>
+        <label for="id">Mã ô đỗ :</label>
         <select
           name="id"
           id="id"
@@ -186,37 +173,40 @@ function Statistical() {
         <table class="tabledata">
           <thead>
             <tr>
-              <th>STT</th>
-              <th>Mã Ô đỗ</th>
+              <th>Số thứ tự</th>
+              <th>Mã ô đỗ</th>
+              <th>Họ và tên</th>
               <th>Biển số xe</th>
               <th>Số điện thoại</th>
               <th>Loại xe</th>
-              <th>Giờ vào bãi</th>
-              <th>Giờ ra bãi</th>
-              <th>Mã khu đỗ</th>
-              <th>Số giờ</th>
+              <th>Ngày bắt đầu</th>
+              <th>Ngày kết thúc</th>
+              <th>Ngày kết thúc thực</th>
+
+              <th>Trạng thái</th>
               <th>Thành tiền</th>
-              <th>Tiền nợ</th>
-              <th>Tổng Tiền</th>
             </tr>
           </thead>
+
           {data?.map((item, index) => {
-            const startDate = new Date(item?.thoigianbatdau).getTime();
+            const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
             const endDate = new Date(item?.thoigianketthuc).getTime();
-            const soGio = (endDate - startDate) / 3600 / 1000;
-            const thanhTien = soGio * 15000;
+            const dateNo = (endDateReal - endDate) / 3600 / 1000;
+            const thanhTien = dateNo * 15;
+            console.log(dateNo);
             return (
-              <tbody className="body" key={index}>
+              <tbody key={index}>
                 <tr>
-                  <td>{index + 1}</td>
+                  <th>{index++}</th>
                   <td>{item?.tenodo}</td>
+                  <td>{item?.hoten}</td>
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
                   <td>{item?.thoigianbatdau}</td>
                   <td>{item?.thoigianketthuc}</td>
-                  <td>{item?.makhudo}</td>
-                  <td>{soGio}</td>
+                  <td>{item?.thoigiankethucthuc}</td>
+                  <td>{item?.trangthai}</td>
                   <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
                 </tr>
               </tbody>
@@ -227,4 +217,4 @@ function Statistical() {
     </div>
   );
 }
-export default Statistical;
+export default StatisticalMonth;
