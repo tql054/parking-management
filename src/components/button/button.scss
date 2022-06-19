@@ -1,0 +1,18 @@
+@use "../../assets//scss/" as *;
+
+.button {
+    font-size: 1rem;
+    padding: 6px 20px;
+    margin: 15px auto;
+    color: $white-color;
+    background-color: $main-color;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    border: none;
+    box-shadow: $box-shadow;
+}
+
+button:hover {
+    background-color: #396fb1;
+}

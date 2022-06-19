@@ -43,6 +43,11 @@
             @include border(dashed, $black-color, 1px);
             background-color: $red-color;
             border-radius: 5px;
+            transition: all .3s ease;
+        }
+
+        &__item:hover {
+            font-size: 150%;
         }
 
         &__item.empty {

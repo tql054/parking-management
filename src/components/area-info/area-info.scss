@@ -1,0 +1,42 @@
+@use "../../assets/scss/" as *;
+
+.area-info {
+    background-color: $white-color;
+    border-radius: 8px;
+    @include border(solid, $main-color, 1px);
+
+    &__title {
+        font-size: 1.5rem;
+        color: $white-color;
+        text-align: center;
+        padding: 8px 0;
+        background-color: $main-color;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    &__list {
+        font-size: 1.1rem;
+        color: $txt-color;
+        padding: 0 10px;
+        &__item {
+            @include flex(center, flex-start);
+            padding: 5px 0;
+            font-weight: 600;
+            label {
+                text-align: left;
+                min-width: 190px;
+            }
+
+            span {
+                text-align: left;
+                min-width: 160px;
+            }
+        }
+    }
+
+    &__controller {
+        margin: 0 20px;
+        @include flex(center, space-between)
+    }
+}
