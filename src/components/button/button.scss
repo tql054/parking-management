@@ -11,6 +11,11 @@
     display: flex;
     border: none;
     box-shadow: $box-shadow;
+    transition: background-color .2s ease;
+    &.unactive {
+        background-color: $gray-color;
+        cursor: no-drop;
+    }
 }
 
 button:hover {

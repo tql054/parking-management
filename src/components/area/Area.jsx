@@ -4,15 +4,18 @@ import pmApi from '../../api/pmApi'
 import { useState, useEffect } from 'react'
 import Modal from '../modal/Modal'
 import AreaInfo from '../area-info/AreaInfo'
-
-const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab }) => {
+import { createContext } from 'react'
+export const AreaContext = createContext()
+const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
     const [boxList, setBoxList] = useState([])
     const [idRegister, setIdRegister] = useState()
+    const [checkoutRegister, setCheckoutRegister] = useState(false)
+
     const getAllOdo = async () => {
+        console.log('refresh')
         try {
             const response = await pmApi.getAllOdo(name, {})
             const registedRes = await pmApi.getRegistedOdo(name, {dateBegin, dateEnd})
-            // console.log(registedRes)
             response.forEach(element => {
                 element.trangthai = 'empty'
                 element.iddk = null
@@ -48,7 +51,6 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab }) => {
             response.forEach(element => {
                 element.trangthai = 'empty'
                 element.iddk = null
-                let checkStatus = false
                 for(let odo of registedRes) {
                     if(odo.tenodo===element.tenodo) {
                         element.iddk = odo.id
@@ -76,18 +78,26 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab }) => {
             }
         }
         
-    }, [dateBegin, dateEnd, tab, name])
+    }, [refresh, tab, name, checkoutRegister, filter])
 
     const handleCloseInfo = () => {
         setIdRegister(null)
     }
-    console.log(boxList)
+
+    const handleCheckout = () => {
+        setCheckoutRegister(prevState => !prevState)
+    }
+
+    
     return (
         <>
             {idRegister ? (
-            <Modal>
-                <AreaInfo  onClose={handleCloseInfo} idRegister={idRegister}/>
-            </Modal>):(<></>)}
+                <AreaContext.Provider value={{handleCloseInfo, handleCheckout}}>
+                    <Modal>
+                        <AreaInfo idRegister={idRegister} loaiDk={tab}/>
+                    </Modal>
+                </AreaContext.Provider>
+            ):(<></>)}
 
             <div className='area'>
                 <div className='area__info'>
@@ -102,13 +112,25 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab }) => {
                             ) : (
                                 boxList.map((box, i) => 
                                     <li key={box.id} className="col l-1">
-                                        {/* <Link to={'/stranger'}> */}
+                                        {
+                                            box.iddk?(
+                                                <div 
+                                                    onClick={() => { setIdRegister(box.iddk)} }
+                                                    className={`area__box-list__item ${box.trangthai}`}>
+                                                    {box.tenodo.slice(3)}
+                                                </div>
+                                            ):(
+                                            
+                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}`} target="_blank">
+                                                        <div className={`area__box-list__item ${box.trangthai}`}>
+                                                            {box.tenodo.slice(3)}
+                                                        </div>
+                                                    </Link>
+                                            
+                                            )
+                                        }
                                         <div>
-                                            <div 
-                                                onClick={() => { setIdRegister(box.iddk)} }
-                                                className={`area__box-list__item ${box.trangthai}`}>
-                                                {box.tenodo.slice(3)}
-                                            </div>
+                                            
                                         </div>
                                     </li>
                                 )
@@ -123,3 +145,4 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab }) => {
 }
 
 export default Area
+// export { AreaContext }

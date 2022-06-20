@@ -18,7 +18,7 @@
     &__list {
         font-size: 1.1rem;
         color: $txt-color;
-        padding: 0 10px;
+        padding: 0 20px;
         &__item {
             @include flex(center, flex-start);
             padding: 5px 0;
@@ -30,7 +30,7 @@
 
             span {
                 text-align: left;
-                min-width: 160px;
+                min-width: 180px;
             }
         }
     }

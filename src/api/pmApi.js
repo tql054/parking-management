@@ -28,10 +28,23 @@ const pmApi = {
         })
     },
 
+    getInfoOdo: (loaiDk, params) => {
+        const url = `${loaiDk}`
+        return axiosClient.get(url, {
+            params: {...params}
+        })
+    },
+
+    //dangky
+    checkoutDangky: (id, loaiDk) => {
+        const url = `checkoutDangky${loaiDk}/${id}`
+        return axiosClient.post(url, {})
+    },
+
     //Khudo
-    getKhudo: (loaiKhudo) => {
+    getKhudo: (loaiKhudo, params) => {
         const url = `all-khudo/${loaiKhudo}`
-        return axiosClient.get(url, {})
+        return axiosClient.get(url, params)
     }
 
 }
