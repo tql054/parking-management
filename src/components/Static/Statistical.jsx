@@ -125,7 +125,7 @@ function Statistical() {
   return (
     <div class="wrapper">
       <div class="combobox">
-        <label for="typeOfCar">Loại xe</label>
+        <label for="typeOfCar">Loại xe :</label>
         <select
           name="cars"
           id="cars"
@@ -136,7 +136,7 @@ function Statistical() {
           <option value="7">7 chỗ</option>
         </select>
 
-        <label for="time">Thời gian</label>
+        <label for="time">Thời gian :</label>
         <select
           name="time"
           id="time"
@@ -148,7 +148,7 @@ function Statistical() {
           <option value="input">Nhập khung giờ</option>
         </select>
 
-        <label for="loan">Tiền nợ</label>
+        <label for="loan">Tiền nợ :</label>
         <select
           name="loan"
           id="loan"
@@ -159,7 +159,7 @@ function Statistical() {
           <option value="1000">Dưới 1.000.000vnđ</option>
           <option value="5000">Dưới 5.000.000vnđ</option>
         </select>
-        <label for="toatal">Tổng tiền</label>
+        <label for="toatal">Tổng tiền :</label>
         <select
           name="total"
           id="total"
@@ -170,7 +170,7 @@ function Statistical() {
           <option value="1000">Dưới 1.000.000vnđ</option>
           <option value="5000">Dưới 5.000.000vnđ</option>
         </select>
-        <label for="id">Mã ô đỗ</label>
+        <label for="id">Mã ô đỗ :</label>
         <select
           name="id"
           id="id"
@@ -183,7 +183,7 @@ function Statistical() {
         </select>
       </div>
       <div className="table">
-        <table class="tabledata">
+        <table class="tabledata" cellSpacing="0">
           <thead>
             <tr>
               <th>STT</th>

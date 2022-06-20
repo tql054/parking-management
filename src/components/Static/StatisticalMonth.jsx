@@ -112,7 +112,7 @@ function StatisticalMonth() {
   return (
     <div class="wrapper">
       <div class="combobox">
-        <label for="typeOfCar">Loại xe</label>
+        <label for="typeOfCar">Loại xe :</label>
         <select
           name="cars"
           id="cars"
@@ -123,7 +123,7 @@ function StatisticalMonth() {
           <option value="7">7 chỗ</option>
         </select>
 
-        <label for="time">Thời gian</label>
+        <label for="time">Thời gian :</label>
         <select
           name="time"
           id="time"
@@ -135,7 +135,7 @@ function StatisticalMonth() {
           <option value="input">Nhập khung giờ</option>
         </select>
 
-        <label for="loan">Tiền nợ</label>
+        <label for="loan">Tiền nợ :</label>
         <select
           name="loan"
           id="loan"
@@ -146,7 +146,7 @@ function StatisticalMonth() {
           <option value="100">Dưới 100.000vnđ</option>
           <option value="500">Dưới 500.000vnđ</option>
         </select>
-        <label for="toatal">Tổng tiền</label>
+        <label for="toatal">Tổng tiền :</label>
         <select
           name="total"
           id="total"
@@ -170,7 +170,7 @@ function StatisticalMonth() {
         </select>
       </div>
       <div className="table">
-        <table class="tabledata">
+        <table class="tabledata" cellSpacing="0">
           <thead>
             <tr>
               <th>Số thứ tự</th>
@@ -197,7 +197,7 @@ function StatisticalMonth() {
             return (
               <tbody key={index}>
                 <tr>
-                  <th>{index++}</th>
+                  <td>{index + 1}</td>
                   <td>{item?.tenodo}</td>
                   <td>{item?.hoten}</td>
                   <td>{item?.biensoxe}</td>
