@@ -11,6 +11,7 @@ export {default as Statistical} from './Static/Statistical'
 export {default as Modal} from './modal/Modal'
 export {default as AreaInfo} from './area-info/AreaInfo'
 
+export {default as StatisticalMonth} from './Static/StatisticalMonth'
 
 
 
