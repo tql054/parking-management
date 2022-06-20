@@ -2,48 +2,147 @@ import { Link } from 'react-router-dom'
 import './area.scss'
 import pmApi from '../../api/pmApi' 
 import { useState, useEffect } from 'react'
-
-const Area = ({ id, name, type }) => {
+import Modal from '../modal/Modal'
+import AreaInfo from '../area-info/AreaInfo'
+import { createContext } from 'react'
+export const AreaContext = createContext()
+const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
     const [boxList, setBoxList] = useState([])
+    const [idRegister, setIdRegister] = useState()
+    const [checkoutRegister, setCheckoutRegister] = useState(false)
+
     const getAllOdo = async () => {
+        console.log('refresh')
         try {
             const response = await pmApi.getAllOdo(name, {})
+            const registedRes = await pmApi.getRegistedOdo(name, {dateBegin, dateEnd})
+            response.forEach(element => {
+                element.trangthai = 'empty'
+                element.iddk = null
+                for(let odo of registedRes) {
+                    if(odo.tenodo===element.tenodo) {
+                        element.iddk = odo.id
+                        if(odo.ttthanhtoan === 'Chưa thanh toán') element.trangthai = 'waiting'
+                        else {
+                            let now = new Date()
+                            let dateEnd = new Date(odo.thoigianketthuc)
+                            let dateOut = new Date(odo.thoigiankethucthuc)
+                            
+
+                            if(dateEnd - now < 0 && odo.thoigiankethucthuc===null){
+                                element.trangthai = 'outdate'
+                            }else{
+                                element.trangthai = 'filled'
+                            }
+                        }
+                    }
+                }
+            });
+            setBoxList(response)
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    const getAllOdoVL = async () => {
+        try {
+             const response = await pmApi.getAllOdo(name, {})
+            const registedRes = await pmApi.getUnRegistedOdo(name, {dateBegin, dateEnd})
+            response.forEach(element => {
+                element.trangthai = 'empty'
+                element.iddk = null
+                for(let odo of registedRes) {
+                    if(odo.tenodo===element.tenodo) {
+                        element.iddk = odo.id
+                        element.trangthai = 'filled'
+                    }
+                }
+            });
             setBoxList(response)
         } catch(err) {
             console.log(err)
         }
     }
     useEffect(() => {
-        getAllOdo()
-    }, [])
+        setBoxList([])
+        
+        switch(tab) {
+            case 'KTV': {
+                getAllOdo()
+                break
+            }
 
+            case 'KVL': {
+                getAllOdoVL()
+                break
+            }
+        }
+        
+    }, [refresh, tab, name, checkoutRegister, filter])
+
+    const handleCloseInfo = () => {
+        setIdRegister(null)
+    }
+
+    const handleCheckout = () => {
+        setCheckoutRegister(prevState => !prevState)
+    }
+
+    
     return (
-        <div className='area'>
-            <div className='area__info'>
-                <div className="area__info__name">Khu {name}:</div>
-                <div className="area__info__type">{type}</div>
-            </div>
-            <div className='grid'>
-                <ul className="area__box-list row">
-                    {   
-                        Object.keys(boxList).length === 0 ?(
-                            <div style={{marginTop: '25px', color: '#C20000'}}>Loading...</div>
-                        ) : (
-                            boxList.map((box, i) => 
-                                <li key={box.id} className="col l-1">
-                                    <Link to={'/stranger'}>
-                                        <div className='area__box-list__item'>
-                                            {box.tenodo}
+        <>
+            {idRegister ? (
+                <AreaContext.Provider value={{handleCloseInfo, handleCheckout}}>
+                    <Modal>
+                        <AreaInfo idRegister={idRegister} loaiDk={tab}/>
+                    </Modal>
+                </AreaContext.Provider>
+            ):(<></>)}
+
+            <div className='area'>
+                <div className='area__info'>
+                    <div className="area__info__name">Khu {name}:</div>
+                    <div className="area__info__type">{type}</div>
+                </div>
+                <div className='grid'>
+                    <ul className="area__box-list row">
+                        {   
+                            Object.keys(boxList).length === 0 ?(
+                                <div style={{marginTop: '25px', color: '#C20000'}}>Loading...</div>
+                            ) : (
+                                boxList.map((box, i) => 
+                                    <li key={box.id} className="col l-1">
+                                        {
+                                            box.iddk?(
+                                                <div 
+                                                    onClick={() => { setIdRegister(box.iddk)} }
+                                                    className={`area__box-list__item ${box.trangthai}`}>
+                                                    {box.tenodo.slice(3)}
+                                                </div>
+                                            ):(
+                                            
+                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}`} target="_blank">
+                                                        <div className={`area__box-list__item ${box.trangthai}`}>
+                                                            {box.tenodo.slice(3)}
+                                                        </div>
+                                                    </Link>
+                                            
+                                            )
+                                        }
+                                        <div>
+                                            
                                         </div>
-                                    </Link>
-                                </li>
+                                    </li>
+                                )
                             )
-                        )
-                    }
-                </ul>
+                        }
+                    </ul>
+                </div>
             </div>
-        </div>
+
+        </>
     )
 }
 
 export default Area
+// export { AreaContext }

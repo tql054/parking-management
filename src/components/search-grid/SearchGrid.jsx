@@ -28,7 +28,7 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
     const getResults = async () => {
         try {
             const response = await pmApi.getSearchResults(dangky, searchType, {searchKey, ...params})
-            response.filter((register, index) => {
+            const result = response.filter((register, index) => {
                 register.code = 0
                 register.trangthai = '0'
                 let dateEnd = new Date(register.thoigianketthuc)
@@ -53,9 +53,11 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
                     case 'Outdate': {
                         return register.code === -1
                     }
+
+                    default: return true
                 }
             })
-            setResult(response)
+            setResult(result)
         } catch(err) {
             console.log(err)
         }
@@ -63,7 +65,7 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
     useEffect(() => {
         getResults()
     }, [searchType, searchKey, params, dangky])
-    // console.log(results)
+    console.log(results)
     return (
         <div className="list-result grid">
             <ul className='row'>

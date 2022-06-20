@@ -4,13 +4,120 @@
     margin: 15px auto;
     background-color: $white-color;
     
+    &__tabs {
+        @include flex(center, flex-start);
+        width: 100%;
+
+        .tab {
+            font-size: 1.2rem;
+            padding: 5px 50px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            transition: background-color .5s ease-out;
+        }
+    }
     h2 {
         font-size: 1.5rem;
         font-weight: 600;
         color: $txt-color;
         width: 100%;
         text-align: center;
+        padding: 20px 0 10px 0 ;
+        border-top: solid 1px $red-color;
+    }
+
+    &__check {
+        @include flex(center, flex-start);
+        margin-left: 40px;
+        input {
+            width: 15px;
+            height: 15px;
+            margin-right: 15px;
+            margin-bottom: 2px;
+        }
+        &__title {
+            text-align: center;
+            font-size: 1.1rem;
+        }
+    }
+
+    &__filter {
+        color: $txt-color;
+        margin: 5px 30px;
+        border-radius: 8px;
         padding: 10px 0;
+        border: solid 1px #ccc;
+        h3 {
+            font-size: 1rem;
+            margin-top: 15px
+        }
+
+        &__form {
+            @include flex(center, space-between);
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0 100px;
+            .date {
+                @include flex(center, flex-start);
+                .form-group {
+                    text-align: center;
+                    margin-top: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    .box {
+
+                        position: relative;
+                        .time {
+                            max-width: 120px;
+                        }
+                        
+                        .controller {
+                            font-size: 1.4rem;
+                            position: absolute;
+                            @include flex(center, space-between);
+                            flex-direction: column;
+                            top: -1px;
+                            right: 15%;
+                            i {
+                                height: 10px;
+                                margin-bottom: 5px;
+                                color: $black-color;
+                            }
+                    
+                            i.max-size {
+                                color: $gray-color;
+                            }
+                    
+                            i.min-size {
+                                color: $gray-color;
+                            }
+                        }
+                    }
+
+                    select, input {
+                        font-size: 1.2rem;
+                        border: solid 1px $main-color;
+                        padding: 5px;
+                        border-radius: 8px;
+                    }
+
+                }
+            }
+        }
+
+        .form-submit {
+            font-size: 1rem;
+            padding: 5px 20px;
+            margin: 15px auto;
+            color: $white-color;
+            background-color: $main-color;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+        }
     }
 
     &__list {
@@ -29,7 +136,7 @@
     .side-map__types {
         @include flex(center, none);
         width: 100%;
-        padding: 10px 0px 25px 35px;
+        padding: 10px 0px 50px 35px;
         .type {
             margin-right: 20px;
             @include flex(center, unset);
@@ -42,7 +149,7 @@
             }
 
             .signed {
-                background-color: $signed-color;
+                background-color: $filled-color;
             }
 
             &__color {

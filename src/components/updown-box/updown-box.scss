@@ -1,0 +1,30 @@
+@use "../../assets//scss/" as *;
+.box {
+
+    position: relative;
+    .time {
+        max-width: 90px;
+    }
+    
+    .controller {
+        font-size: 1.4rem;
+        position: absolute;
+        @include flex(center, space-between);
+        flex-direction: column;
+        top: -1px;
+        right: 15%;
+        i {
+            height: 10px;
+            margin-bottom: 5px;
+            color: $black-color;
+        }
+
+        i.max-size {
+            color: $gray-color;
+        }
+
+        i.min-size {
+            color: $gray-color;
+        }
+    }
+}
