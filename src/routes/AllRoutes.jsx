@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {Home, MemberRenting, StrangerRenting, Statics, SearchResult, Notification,NotificationList} from '../pages'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home, MemberRenting, StrangerRenting, Statics, SearchResult, Notification, NotificationList, EditNotification } from '../pages'
 const AllRoutes = () => {
     return (
         <>
@@ -8,27 +8,31 @@ const AllRoutes = () => {
                 <Route
                     exact
                     path='/'
-                    element={<Home/>}
+                    element={<Home />}
                 />
 
                 <Route
                     exact
                     path='/thuethanhvien'
-                    element={<MemberRenting/>}
+                    element={<MemberRenting />}
                 />
 
                 <Route
                     exact
-                    path='/stranger'
-                    element={<StrangerRenting/>}
+                    path='/khach-vanglai'
+                    element={<StrangerRenting />}
                 />
-       
+                {/* <Route
+                    exact
+                    path='/stranger'
+                    element={<StrangerRenting />}
+                /> */}
                 <Route
                     exact
                     path='/thongbao'
                     element={<Notification />}
                 />
-                
+
                 <Route
                     exact
                     path='/danhsachthongbao'
@@ -37,16 +41,22 @@ const AllRoutes = () => {
 
                 <Route
                     exact
-                    path='/thongke'
-                    element={<Statics/>}
+                    path='/sua-thongbao/:id'
+                    element={<EditNotification />}
                 />
 
+                <Route
+                    exact
+                    path='/thongke'
+                    element={<Statics />}
+                />
 
                 <Route
                     exact
                     path='/search/:type/:key'
-                    element={<SearchResult/>}
+                    element={<SearchResult />}
                 />
+
             </Routes>
         </>
     )

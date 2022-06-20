@@ -4,7 +4,7 @@ import React from 'react';
 const RegisterGrid = () => {
     return (
         <div className="register-grid">
-            register grid
+            
         </div>
     )
 }

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios'
 import './notification.css'
-// import Post from './Post';
 import ReactPaginate from "react-paginate";
-import Pagination from '../components/Pagination/Pagination';
+import Pagination from '../../components/Pagination/Pagination';
 
 
 
@@ -14,11 +13,11 @@ const NotificationList = () => {
     const usersPerPage = 10;
     const pagesVisited = pageNumber * usersPerPage;
     //fetch API
-    const fetchData = async () => {
-        const res = await Axios.get('https://parkingmanagement16.herokuapp.com/thongbao');
-        setData(res.data);
-    };
     useEffect(() => {
+        const fetchData = async () => {
+            const res = await Axios.get('http://localhost:8080/thongbao');
+            setData(res.data);
+        };
         fetchData();
     }, []);
 

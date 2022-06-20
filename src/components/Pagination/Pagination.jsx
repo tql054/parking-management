@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import './pagination.css'
 import Axios from 'axios'
-const Pagination = ({ pagesVisited, usersPerPage,data }) => {
 
+const Pagination = ({ pagesVisited, usersPerPage, data }) => {
+
+ 
+
+    //call API delete notification by Id
     const handleDeleteById = id => {
         Axios.delete(`http://localhost:8080/delete-thongbao/${id}`)
             .then(res => {
                 console.log(res);
             })
-        
+
     }
 
-    const displayData = data && data
+
+
+    //Hiển thị danh sách thông báo
+    const displayData = data
         .slice(pagesVisited, pagesVisited + usersPerPage)
         .map((post) => {
             return (
@@ -23,15 +30,16 @@ const Pagination = ({ pagesVisited, usersPerPage,data }) => {
                     <td>{post.ngaydang}</td>
                     <td>
                         <div className='list_btn'>
-                            <button onClick={() => handleDeleteById(post.id)} className='btn-delete'>Xóa</button>
-                            <button className='btn-edit'>Sửa</button>
+                            <a href='http://localhost:3000/danhsachthongbao' onClick={() => handleDeleteById(post.id)} className='btn-delete'>Xóa</a>
+                            <Link to={{
+                                pathname: `/sua-thongbao/${post.id}`,
+                            }} className='btn-edit'>Sửa</Link>
                         </div>
-
                     </td>
                 </tr>
             )
         });
-
+    //Chuyênr trang
     const history = useNavigate();
 
 

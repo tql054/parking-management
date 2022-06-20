@@ -1,8 +1,7 @@
-import React, { useRef, useState, useMemo } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import ReactHtmlParser from 'html-react-parser'
-import axios from 'axios'
+import React, { useState} from 'react';
+
+import { useNavigate } from "react-router-dom";
+
 import './notification.css'
 
 const data = [
@@ -28,22 +27,7 @@ const Notification = () => {
 
     //post data 
 
-    // const handlePostNotification = event => {
-    //     event.preventDefault();
-    //     console.log(tieude)
-    //     const notification = {
-    //         nguoidang: nguoinhan,
-    //         tieude: tieude,
-    //         noidung: ReactHtmlParser(noidung),
-    //     };
-    //     console.log(notification)
-    //     axios.post(`https://parkingmanagement16.herokuapp.com/create-thongbao`, { notification })
-    //         .then(res => {
-    //             console.log(res);
-    //             console.log(res.data);
-    //         })
-    // }
-  
+
     //reset form
     const handleRefresh = (e) => {
         e.preventDefault();
@@ -52,31 +36,34 @@ const Notification = () => {
         setChecked(1)
     }
 
-    console.log('re-render')
+    const navigate = useNavigate();
+
+
+    const ckeditorstate = (event, editor) => {
+        const data = editor.getData();
+        this.setState({ content: data });
+        console.log("STATE", { data })
+    }
+    const newPage = () => {
+        
+    }
     return (
         <div className='notification'>
             <form method='POST' action='http://localhost:8080/create-thongbao' >
-
+                <h2>ĐĂNG THÔNG BÁO</h2>
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>
                     <input
                         type="text"
                         required
-
+                        name="tieude"
                         value={tieude}
                         onChange={e => setTitle(e.target.value)}
                     /> <span style={{ color: 'red', margin: 'auto 20px', fontWeight: '700' }}>(*)</span>
                 </div>
                 <div className="ckeditor">
                     <label htmlFor="ckeditor">Nội dung thông báo</label>
-                    <CKEditor
-                        required
-                        className='ckeditor_line'
-                        data={noidung}
-                        name='noidung'
-                        editor={ClassicEditor}
-                        onChange={(e, editor) => setContent(editor.getData())}
-                    />
+                    <textarea name="noidung" id="ckeditor" value={noidung} onChange={e => setContent(e.target.value)} cols="65" rows="10"></textarea>
                 </div>
                 <div className="receiver">
                     <label htmlFor="">Người nhận thông báo</label>
@@ -98,8 +85,8 @@ const Notification = () => {
                     </div>
                 </div>
                 <div className="submit">
-                    <button   className='btn post' type='submit'>Đăng</button>
-                    <button onClick={handleRefresh} className='btn' type='submit'>Làm mới</button>
+                    <button  className='btn post' type='submit'> Đăng bài</button>
+                    <button href='#' onClick={handleRefresh} className='btn' type='submit'>Làm mới</button>
                 </div>
             </form>
         </div>

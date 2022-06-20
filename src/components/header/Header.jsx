@@ -15,12 +15,12 @@ const headerContent = [
 
     [
         {
-            display: 'Đăng ký ô đỗ',
+            display: 'Đăng ký khách thành viên',
             path: '/stranger'
         },
         {
-            display: 'Đăng ký ô đỗ',
-            path: '/stranger'
+            display: 'Đăng ký khách vãng lai',
+            path: '/khach-vanglai'
         },
     ],
 
