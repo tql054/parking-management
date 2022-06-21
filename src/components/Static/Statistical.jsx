@@ -188,6 +188,7 @@ function Statistical() {
             <tr>
               <th>STT</th>
               <th>Mã Ô đỗ</th>
+              <th>Họ tên</th>
               <th>Biển số xe</th>
               <th>Số điện thoại</th>
               <th>Loại xe</th>
@@ -196,8 +197,6 @@ function Statistical() {
               <th>Mã khu đỗ</th>
               <th>Số giờ</th>
               <th>Thành tiền</th>
-              <th>Tiền nợ</th>
-              <th>Tổng Tiền</th>
             </tr>
           </thead>
           {data?.map((item, index) => {
@@ -210,6 +209,7 @@ function Statistical() {
                 <tr>
                   <td>{index + 1}</td>
                   <td>{item?.tenodo}</td>
+                  <td>{item?.hoten}</td>
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
