@@ -102,6 +102,20 @@ function Statistical() {
     }
     setIsRender(!isRender);
   }
+  function handleSortTimeplace(value) {
+    data.map();
+    switch (value) {
+      case "up":
+        {
+        }
+        break;
+      case "down":
+        {
+        }
+        break;
+    }
+    setIsRender(!isRender);
+  }
 
   function handleSortTime(value) {
     switch (value) {
@@ -145,19 +159,13 @@ function Statistical() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
 
-        <label for="loan">Tiền nợ :</label>
-        <select
-          name="loan"
-          id="loan"
-          onChange={(e) => handlemoney(e.target.value)}
-        >
+        <label for="loan">Số giờ :</label>
+        <select name="loan" id="loan">
           <option value=""> -- Chọn -- </option>
-          <option value="500">Dưới 500.000vnđ</option>
-          <option value="1000">Dưới 1.000.000vnđ</option>
-          <option value="5000">Dưới 5.000.000vnđ</option>
+          <option value="up">Tăng dần</option>
+          <option value="down">Giảm dần</option>
         </select>
         <label for="toatal">Tổng tiền :</label>
         <select
@@ -179,7 +187,6 @@ function Statistical() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
       </div>
       <div className="table">
