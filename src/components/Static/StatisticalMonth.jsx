@@ -207,9 +207,9 @@ function StatisticalMonth() {
                 <td>{item?.biensoxe}</td>
                 <td>{item?.sodienthoai}</td>
                 <td>{item?.loaixe}</td>
-                <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDay()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()}`}</td>
-                <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDay()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()}`}</td>
-                <td>{`${thoigianktt.getHours()} : ${thoigianktt.getMinutes()} || ${thoigianktt.getDay()}-${thoigianktt.getMonth()}-${thoigianktt.getFullYear()}`}</td>
+                <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()}0 || ${thoigianbd.getDay()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()}`}</td>
+                <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()}0 || ${thoigiankt.getDay()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()}`}</td>
+                <td>{`${thoigianktt.getHours()} : ${thoigianktt.getMinutes()}0 || ${thoigianktt.getDay()}-${thoigianktt.getMonth()}-${thoigianktt.getFullYear()}`}</td>
 
                 <td>{item?.trangthai}</td>
                 <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
