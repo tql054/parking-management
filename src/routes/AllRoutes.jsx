@@ -23,7 +23,7 @@ const AllRoutes = () => {
                     exact
                     path='/dangky-KTV/:id/:dateBegin/:dateEnd'
                     params
-                    element={<StrangerRenting />}
+                    element={<MemberRenting />}
                 />
 
                 <Route
