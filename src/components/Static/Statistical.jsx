@@ -188,6 +188,7 @@ function Statistical() {
             <tr>
               <th>STT</th>
               <th>Mã Ô đỗ</th>
+              <th>Họ tên</th>
               <th>Biển số xe</th>
               <th>Số điện thoại</th>
               <th>Loại xe</th>
@@ -196,8 +197,6 @@ function Statistical() {
               <th>Mã khu đỗ</th>
               <th>Số giờ</th>
               <th>Thành tiền</th>
-              <th>Tiền nợ</th>
-              <th>Tổng Tiền</th>
             </tr>
           </thead>
           {data?.map((item, index) => {
@@ -205,16 +204,19 @@ function Statistical() {
             const endDate = new Date(item?.thoigianketthuc).getTime();
             const soGio = (endDate - startDate) / 3600 / 1000;
             const thanhTien = soGio * 15000;
+            const thoigianbd = new Date(item.thoigianbatdau);
+            const thoigiankt = new Date(item.thoigianketthuc);
             return (
               <tbody className="body" key={index}>
                 <tr>
                   <td>{index + 1}</td>
                   <td>{item?.tenodo}</td>
+                  <td>{item?.hoten}</td>
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
-                  <td>{item?.thoigianbatdau}</td>
-                  <td>{item?.thoigianketthuc}</td>
+                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
+                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
                   <td>{item?.makhudo}</td>
                   <td>{soGio}</td>
                   <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
