@@ -5,7 +5,7 @@ import Axios from 'axios'
 
 const Pagination = ({ pagesVisited, usersPerPage, data }) => {
 
- const navigate = useNavigate()
+    const navigate = useNavigate()
 
     //call API delete notification by Id
     const handleDeleteById = id => {
@@ -13,6 +13,7 @@ const Pagination = ({ pagesVisited, usersPerPage, data }) => {
             .then(res => {
                 console.log(res);
             });
+            
     }
 
 
