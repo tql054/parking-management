@@ -24,6 +24,7 @@
         text-align: center;
         padding: 20px 0 10px 0 ;
         border-top: solid 1px $red-color;
+        margin: 0
     }
 
     &__check {
@@ -56,7 +57,7 @@
             @include flex(center, space-between);
             font-size: 1rem;
             font-weight: bold;
-            margin: 0 100px;
+            margin: 0 ;
             .date {
                 @include flex(center, flex-start);
                 .form-group {
@@ -108,6 +109,10 @@
                     
                     .date {
                         margin-left: 20px;
+                    }
+
+                    label {
+                        margin: 0;
                     }
                 }
             }

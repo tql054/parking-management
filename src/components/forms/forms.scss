@@ -1,0 +1,81 @@
+@use '../../assets/scss/' as *;
+
+.form-contain {
+    font-size: 1.2rem;
+    margin: 15px auto;
+    background-color: $white-color;
+    min-height: 800px;
+    h2 {
+        color: $main-color;
+        font-size: 2rem;
+        font-weight: 600;
+        padding-top: 50px;
+    }
+    #form-register {
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 20px;
+
+            .id {
+                color: $red-color;
+                font-size: 1.8rem;
+                font-weight: 600;
+            }
+
+            input, select {
+                font-size: 1.2rem;
+                
+                padding: 5px;
+                margin: 0;
+                border: 1px solid $black-color;
+                background: $white-color;
+
+            
+            }
+            .label {
+                font-weight: 600;
+            }
+
+            .input {
+                width: 50%;
+                border-radius: 6px;
+
+            }
+
+            .date {
+                @include flex(center, center);
+                width: 50%;
+
+                span {
+                    padding: 0 10px;
+                    color: $red-color;
+                }
+
+                &__item {
+                    padding: 5px 22px;
+                    @include border(solid, $black-color, 1px);
+                    border-radius: 6px;
+                    font-weight: 600;
+                }
+            }
+
+            .total-price {
+                font-size: 1.8rem;
+                color: $red-color;
+                font-weight: 600;
+            }
+            
+        }
+
+        .form-buttons {
+            @include flex(center, flex-end);
+            margin: 10px 250px;
+
+            button {
+                font-size: 1.4rem;
+            }
+        }
+    }
+}

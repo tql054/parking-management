@@ -50,11 +50,28 @@ const pmApi = {
     postThongbao: (params) => {
         const url = `create-thongbao/`
         return axiosClient.post((url, {
-            params: { ...params }
+            ...params
         }))
+    },
+
+    //xe
+
+    getXeByPhone: (phone, params) => {
+        if(phone) {
+            const url = `list-xe/${phone}`
+            return axiosClient.get(url, params)
+        } return []
+    }, 
+
+    //Dang ky
+    postDangkyTV: (params) => {
+        const url = `create-dangkythanvien/`
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
     }
 
-
+    
 
 }
 
