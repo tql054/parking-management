@@ -151,16 +151,16 @@ const SideMap = () => {
             if(stampEnd-stampBegin>=0) {
                 if(stampEnd-stampBegin===0) {
                     setDateLimit({
-                        dateBegin: `${dateBegin}`,
-                        dateEnd: `${e.target.value}`,
+                        dateBegin: `${e.target.value}`,
+                        dateEnd: `${dateEnd}`,
                         hourBegin: `${now.getHours()}:00`,
                         hourEnd: `${now.getHours()+1}:00`
     
                     })
                 } else {
                     setDateLimit({
-                        dateBegin: `${dateBegin}`,
-                        dateEnd: `${e.target.value}`,
+                        dateBegin: `${e.target.value}`,
+                        dateEnd: `${dateEnd}`,
                         hourBegin: `${hoursRefBegin.current.value}`,
                         hourEnd: `${hoursRefEnd.current.value}`,
     
@@ -323,8 +323,6 @@ const SideMap = () => {
                                     type={item.loaixe} 
                                     filter={isFilter} 
                                     dateBegin={`${dateLimit.dateBegin} ${dateLimit.hourBegin}`}
-                                    dateBg={`${dateLimit.dateBegin}T${dateLimit.hourBegin.length === 4 ? "0"+dateLimit.hourBegin:dateLimit.hourBegin}:00.000Z`} 
-                                    dateEd={`${dateLimit.dateEnd}T${dateLimit.hourEnd.length === 4 ? "0"+dateLimit.hourEnd:dateLimit.hourEnd}:00.000Z`}
                                     dateEnd={`${dateLimit.dateEnd} ${dateLimit.hourEnd}`}
                                     tab={tabSM.key}
                                     refresh={refresh}

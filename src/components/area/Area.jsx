@@ -6,7 +6,7 @@ import Modal from '../modal/Modal'
 import AreaInfo from '../area-info/AreaInfo'
 import { createContext } from 'react'
 export const AreaContext = createContext()
-const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh, dateBg, dateEd }) => {
+const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh}) => {
     const [boxList, setBoxList] = useState([])
     const [idRegister, setIdRegister] = useState()
     const [checkoutRegister, setCheckoutRegister] = useState(false)
@@ -120,7 +120,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh, dateBg
                                                 </div>
                                             ):(
                                             
-                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}/${dateBg}/${dateEd}`} target="_blank">
+                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}`} target="_blank">
                                                         <div className={`area__box-list__item ${box.trangthai}`}>
                                                             {box.tenodo.slice(3)}
                                                         </div>

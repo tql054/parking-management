@@ -8,7 +8,7 @@ import { AreaContext } from "../area/Area";
 const AreaInfo = ({idRegister, loaiDk}) => {
     const {handleCloseInfo, handleCheckout} = useContext(AreaContext)
     const [register, setRegister] = useState([])
-    const warningTime = 60
+    const warningTime = 30
     const get_minute_remaining = (d1, d2) => {
         let ms1 = d1.getTime()
         let ms2 = d2.getTime()

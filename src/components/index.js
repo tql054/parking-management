@@ -10,6 +10,8 @@ export {default as FilterItem} from './filter-item/FilterItem'
 export {default as Statistical} from './Static/Statistical'
 export {default as Modal} from './modal/Modal'
 export {default as AreaInfo} from './area-info/AreaInfo'
+export {default as Forms} from './forms/Forms'
+
 
 export {default as StatisticalMonth} from './Static/StatisticalMonth'
 
