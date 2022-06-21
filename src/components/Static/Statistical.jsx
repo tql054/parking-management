@@ -222,8 +222,8 @@ function Statistical() {
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
-                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
-                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
+                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()}0 || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
+                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()}0 || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
                   <td>{item?.makhudo}</td>
                   <td>{soGio}</td>
                   <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
