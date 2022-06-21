@@ -204,6 +204,8 @@ function Statistical() {
             const endDate = new Date(item?.thoigianketthuc).getTime();
             const soGio = (endDate - startDate) / 3600 / 1000;
             const thanhTien = soGio * 15000;
+            const thoigianbd = new Date(item.thoigianbatdau);
+            const thoigiankt = new Date(item.thoigianketthuc);
             return (
               <tbody className="body" key={index}>
                 <tr>
@@ -213,8 +215,8 @@ function Statistical() {
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
-                  <td>{item?.thoigianbatdau}</td>
-                  <td>{item?.thoigianketthuc}</td>
+                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
+                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
                   <td>{item?.makhudo}</td>
                   <td>{soGio}</td>
                   <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
