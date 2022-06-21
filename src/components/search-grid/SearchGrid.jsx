@@ -4,9 +4,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import SearchItem from '../search-item/SearchItem';
 
-const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
-
-    
+const SearchResult = ({setIsLimited, dangky, searchType, searchKey, params}) => {
     const get_time_remaining = (d1, d2) => {
         let ms1 = d1.getTime()
         let ms2 = d2.getTime()
@@ -20,14 +18,18 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
                 hours + ' giờ';
     };
 
-    
-    let date = new Date()
-    // console.log(date)
-    // console.log(params['tinhtrang'])
     const [results, setResult] = useState([])
     const getResults = async () => {
+        console.log('refresh')
         try {
             const response = await pmApi.getSearchResults(dangky, searchType, {searchKey, ...params})
+            if(response.length === params.limit) {
+                response.pop()
+                console.log('cut')
+                setIsLimited(false)
+            } else {
+                setIsLimited(true)
+            }
             const result = response.filter((register, index) => {
                 register.code = 0
                 register.trangthai = '0'
@@ -65,7 +67,6 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
     useEffect(() => {
         getResults()
     }, [searchType, searchKey, params, dangky])
-    console.log(results)
     return (
         <div className="list-result grid">
             <ul className='row'>
@@ -77,4 +78,4 @@ const RegisterGrid = ({ dangky, searchType, searchKey, params}) => {
     )
 }
 
-export default RegisterGrid
+export default SearchResult

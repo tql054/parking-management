@@ -1,5 +1,5 @@
 const apiConfig = {
-    baseUrl: 'https://parkingmanagement16.herokuapp.com/'
+    baseUrl: 'http://localhost:8080/'
 }
 
 export default apiConfig;
