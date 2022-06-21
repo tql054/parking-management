@@ -54,7 +54,7 @@ const Notification = () => {
     return (
 
         <div className='notification'>
-            <form action='http://localhost:8080/create-thongbao' method='POST' >
+            <form action='https://parkingmanagement16.herokuapp.com/create-thongbao' method='POST' >
                 <h2>ĐĂNG THÔNG BÁO</h2>
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>

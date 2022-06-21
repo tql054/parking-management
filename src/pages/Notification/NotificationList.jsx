@@ -15,7 +15,7 @@ const NotificationList = () => {
     //fetch API
     useEffect(() => {
         const fetchData = async () => {
-            const res = await Axios.get('http://localhost:8080/thongbao');
+            const res = await Axios.get('https://parkingmanagement16.herokuapp.com/thongbao');
             setData(res.data);
         };
         fetchData();

@@ -26,7 +26,7 @@ const EditNotification = (props) => {
     const { id } = useParams();
 
     const fetchData = async () => {
-        const res = await Axios.get(`http://localhost:8080/edit-thongbao/${id}`);
+        const res = await Axios.get(`https://parkingmanagement16.herokuapp.com/edit-thongbao/${id}`);
 
         setTitle(res.data.tieude)
         setContent(res.data.noidung)
@@ -43,7 +43,7 @@ const EditNotification = (props) => {
         <div>
            { console.log(id)}
             <div className='notification'>
-                <form method='POST' action='http://localhost:8080/put-thongbao' >
+                <form method='POST' action='https://parkingmanagement16.herokuapp.com/put-thongbao' >
                     <h2>SỬA THÔNG BÁO</h2>
                     <div className="title">
                         <label htmlFor="">Tiêu đề thông báo</label>

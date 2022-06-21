@@ -92,14 +92,13 @@ function Statistical() {
   function handleSortPlace(value) {
     switch (value) {
       case "up":
-        console.log(12);
-        console.log(data);
         data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
         break;
       case "down":
         data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
         break;
     }
+
     setIsRender(!isRender);
   }
 
@@ -120,6 +119,27 @@ function Statistical() {
         );
         break;
     }
+    setIsRender(!isRender);
+  }
+  function handleSortTime2(value) {
+    data?.map((item, index) => {
+      const startDate = new Date(item?.thoigianbatdau).getTime();
+      const endDate = new Date(item?.thoigianketthuc).getTime();
+      const soGio = (endDate - startDate) / 3600 / 1000;
+      soGio.toLocaleString();
+      data[index].soGio = soGio;
+      switch (value) {
+        case "up":
+          console.log(soGio);
+          data.sort((a, b) => a.soGio - b.soGio);
+          break;
+        case "down":
+          console.log("giam dan");
+          data.sort((a, b) => b.soGio - a.soGio);
+          break;
+      }
+    });
+
     setIsRender(!isRender);
   }
   return (
@@ -145,19 +165,17 @@ function Statistical() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
 
-        <label for="loan">Tiền nợ :</label>
+        <label for="loan">Số giờ :</label>
         <select
-          name="loan"
-          id="loan"
-          onChange={(e) => handlemoney(e.target.value)}
+          name="time"
+          id="time"
+          onChange={(e) => handleSortTime2(e.target.value)}
         >
           <option value=""> -- Chọn -- </option>
-          <option value="500">Dưới 500.000vnđ</option>
-          <option value="1000">Dưới 1.000.000vnđ</option>
-          <option value="5000">Dưới 5.000.000vnđ</option>
+          <option value="up">Tăng dần</option>
+          <option value="down">Giảm dần</option>
         </select>
         <label for="toatal">Tổng tiền :</label>
         <select
@@ -179,7 +197,6 @@ function Statistical() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
       </div>
       <div className="table">
@@ -215,8 +232,8 @@ function Statistical() {
                   <td>{item?.biensoxe}</td>
                   <td>{item?.sodienthoai}</td>
                   <td>{item?.loaixe}</td>
-                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
-                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
+                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()}0 || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
+                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()}0 || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
                   <td>{item?.makhudo}</td>
                   <td>{soGio}</td>
                   <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>

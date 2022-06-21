@@ -14,17 +14,6 @@ const headerContent = [
 
   [
     {
-      display: "Đăng ký ô đỗ",
-      path: "/stranger",
-    },
-    {
-      display: "Đăng ký ô đỗ",
-      path: "/stranger",
-    },
-  ],
-
-  [
-    {
       display: "Thông báo",
       path: "/thongbao",
     },
