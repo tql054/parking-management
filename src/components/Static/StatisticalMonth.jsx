@@ -50,21 +50,21 @@ function StatisticalMonth() {
         case "50":
           {
             console.log(123);
-            if (thanhTien < 50) {
+            if (thanhTien < 50000) {
               return item;
             }
           }
           break;
-        case "100":
+        case "0":
           {
-            if (thanhTien < 100) {
+            if (thanhTien < 100000) {
               return item;
             }
           }
           break;
         case "500":
           {
-            if (thanhTien < 500) {
+            if (thanhTien < 500000) {
               return item;
             }
           }
@@ -98,21 +98,23 @@ function StatisticalMonth() {
   function handleSortPlace(value) {
     switch (value) {
       case "up":
-        console.log(12);
-        console.log(data);
-        data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
+        data.sort((a, b) => a.tenodo - b.tenodo);
+
         break;
       case "down":
-        data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
+        {
+          data.sort((a, b) => b.tenodo - a.tenodo);
+        }
         break;
     }
+
     setIsRender(!isRender);
   }
 
   return (
     <div class="wrapper">
       <div class="combobox">
-        <label for="typeOfCar">Loại xe :</label>
+        <label for="typeOfCar">Loại xe</label>
         <select
           name="cars"
           id="cars"
@@ -123,7 +125,7 @@ function StatisticalMonth() {
           <option value="7">7 chỗ</option>
         </select>
 
-        <label for="time">Thời gian :</label>
+        <label for="time">Thời gian</label>
         <select
           name="time"
           id="time"
@@ -135,7 +137,7 @@ function StatisticalMonth() {
           <option value="input">Nhập khung giờ</option>
         </select>
 
-        <label for="loan">Tiền nợ :</label>
+        <label for="loan">Tiền nợ</label>
         <select
           name="loan"
           id="loan"
@@ -143,10 +145,10 @@ function StatisticalMonth() {
         >
           <option value=""> -- Chọn -- </option>
           <option value="50">Dưới 50.000vnđ</option>
-          <option value="100">Dưới 100.000vnđ</option>
+          <option value="0">Dưới 100.000vnđ</option>
           <option value="500">Dưới 500.000vnđ</option>
         </select>
-        <label for="toatal">Tổng tiền :</label>
+        <label for="toatal">Tổng tiền</label>
         <select
           name="total"
           id="total"
@@ -169,51 +171,53 @@ function StatisticalMonth() {
           <option value="input">Nhập khung giờ</option>
         </select>
       </div>
-      <div className="table">
-        <table class="tabledata" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>Số thứ tự</th>
-              <th>Mã ô đỗ</th>
-              <th>Họ và tên</th>
-              <th>Biển số xe</th>
-              <th>Số điện thoại</th>
-              <th>Loại xe</th>
-              <th>Ngày bắt đầu</th>
-              <th>Ngày kết thúc</th>
-              <th>Ngày kết thúc thực</th>
+      <table class="tabledata" cellSpacing="0">
+        <thead>
+          <tr>
+            <th>Số thứ tự</th>
+            <th>Mã ô đỗ</th>
+            <th>Họ và tên</th>
+            <th>Biển số xe</th>
+            <th>Số điện thoại</th>
+            <th>Loại xe</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Ngày kết thúc thực</th>
 
-              <th>Trạng thái</th>
-              <th>Thành tiền</th>
-            </tr>
-          </thead>
+            <th>Trạng thái</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
 
-          {data?.map((item, index) => {
-            const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
-            const endDate = new Date(item?.thoigianketthuc).getTime();
-            const dateNo = (endDateReal - endDate) / 3600 / 1000;
-            const thanhTien = dateNo * 15;
-            console.log(dateNo);
-            return (
-              <tbody key={index}>
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{item?.tenodo}</td>
-                  <td>{item?.hoten}</td>
-                  <td>{item?.biensoxe}</td>
-                  <td>{item?.sodienthoai}</td>
-                  <td>{item?.loaixe}</td>
-                  <td>{item?.thoigianbatdau}</td>
-                  <td>{item?.thoigianketthuc}</td>
-                  <td>{item?.thoigiankethucthuc}</td>
-                  <td>{item?.trangthai}</td>
-                  <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
-      </div>
+        {data?.map((item, index) => {
+          const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
+          const endDate = new Date(item?.thoigianketthuc).getTime();
+          const dateNo = (endDateReal - endDate) / 3600 / 1000;
+          const thanhTien = dateNo * 15;
+          const thoigianbd = new Date(item.thoigianbatdau);
+          const thoigianktt = new Date(item.thoigiankethucthuc);
+          const thoigiankt = new Date(item.thoigianketthuc);
+          console.log(dateNo);
+          return (
+            <tbody className="body" key={index}>
+              <tr>
+                <td>{index++}</td>
+                <td>{item?.tenodo}</td>
+                <td>{item?.hoten}</td>
+                <td>{item?.biensoxe}</td>
+                <td>{item?.sodienthoai}</td>
+                <td>{item?.loaixe}</td>
+                <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()} || ${thoigianbd.getDay()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()}`}</td>
+                <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()} || ${thoigiankt.getDay()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()}`}</td>
+                <td>{`${thoigianktt.getHours()} : ${thoigianktt.getMinutes()} || ${thoigianktt.getDay()}-${thoigianktt.getMonth()}-${thoigianktt.getFullYear()}`}</td>
+
+                <td>{item?.trangthai}</td>
+                <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
+              </tr>
+            </tbody>
+          );
+        })}
+      </table>
     </div>
   );
 }
