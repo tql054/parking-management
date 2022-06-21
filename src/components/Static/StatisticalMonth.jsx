@@ -134,7 +134,6 @@ function StatisticalMonth() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
 
         <label for="loan">Tiền nợ</label>
@@ -168,7 +167,6 @@ function StatisticalMonth() {
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
-          <option value="input">Nhập khung giờ</option>
         </select>
       </div>
       <table class="tabledata" cellSpacing="0">
