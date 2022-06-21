@@ -92,28 +92,13 @@ function Statistical() {
   function handleSortPlace(value) {
     switch (value) {
       case "up":
-        console.log(12);
-        console.log(data);
         data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
         break;
       case "down":
         data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
         break;
     }
-    setIsRender(!isRender);
-  }
-  function handleSortTimeplace(value) {
-    data.map();
-    switch (value) {
-      case "up":
-        {
-        }
-        break;
-      case "down":
-        {
-        }
-        break;
-    }
+
     setIsRender(!isRender);
   }
 
@@ -134,6 +119,27 @@ function Statistical() {
         );
         break;
     }
+    setIsRender(!isRender);
+  }
+  function handleSortTime2(value) {
+    data?.map((item, index) => {
+      const startDate = new Date(item?.thoigianbatdau).getTime();
+      const endDate = new Date(item?.thoigianketthuc).getTime();
+      const soGio = (endDate - startDate) / 3600 / 1000;
+      soGio.toLocaleString();
+      data[index].soGio = soGio;
+      switch (value) {
+        case "up":
+          console.log(soGio);
+          data.sort((a, b) => a.soGio - b.soGio);
+          break;
+        case "down":
+          console.log("giam dan");
+          data.sort((a, b) => b.soGio - a.soGio);
+          break;
+      }
+    });
+
     setIsRender(!isRender);
   }
   return (
@@ -162,7 +168,11 @@ function Statistical() {
         </select>
 
         <label for="loan">Số giờ :</label>
-        <select name="loan" id="loan">
+        <select
+          name="time"
+          id="time"
+          onChange={(e) => handleSortTime2(e.target.value)}
+        >
           <option value=""> -- Chọn -- </option>
           <option value="up">Tăng dần</option>
           <option value="down">Giảm dần</option>
