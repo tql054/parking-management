@@ -3,24 +3,18 @@ import { useState } from "react"
 import './strangerrenting.scss'
 import Button from '../components/button/Button'
 const StrangerRenting = () => {
-    // const [odo, setOdo] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    // const [] = useState('')
-    const { id, dateBegin, dateEnd } = useParams()
     
+    const { id, dateBegin, dateEnd, dateBg, dateEd } = useParams()
+    
+    const date_begin = new Date(dateBegin);
+    const date_end = new Date(dateEnd);
     const price = () => {
-        const date_begin = new Date(dateBegin);
-        const date_end = new Date(dateEnd);
         const hours = (date_end - date_begin) / 3600 / 1000;
         return hours * 15000;
     }
     return (
-        <>
+        <>  
+            <h1></h1>
             <h2>ĐĂNG KÝ Ô ĐỖ</h2>`
             <section className="rgt">
                 <form action="http://localhost:8080/create-khachvanglai" method="POST">
@@ -48,7 +42,7 @@ const StrangerRenting = () => {
                     <div className="rgt__times">
                         <label htmlFor="">Thời gian</label>
                         <div className="rgt__time__content">
-                            <input type="text" required name="thoigianbatdau" value={dateBegin} /> <span style={{ padding: ' 0px 10px' }}>Đến</span>
+                            <input type="text" required name="thoigianbatdau" value={`${date_begin.getHours()}:00 ${date_end.getDate()}`} /> <span style={{ padding: ' 0px 10px' }}>Đến</span>
                             <input type="text" required name="thoigianketthuc" value={dateEnd} />
                         </div>
                     </div>

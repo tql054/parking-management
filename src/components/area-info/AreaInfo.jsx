@@ -29,8 +29,8 @@ const AreaInfo = ({idRegister, loaiDk}) => {
             const response = await pmApi.getInfoOdo(loaiDk,{id:idRegister})
             const begin = new Date(response[0].thoigianbatdau) 
             const end= new Date(response[0].thoigianketthuc) 
-            response[0].thoigianbatdau = `${begin.getHours()}:${begin.getMinutes()} ngày ${begin.getDate()}/${begin.getMonth()+1}/${begin.getFullYear()}`
-            response[0].thoigianketthuc = `${end.getHours()}:${end.getMinutes()} ngày ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()}`
+            response[0].thoigianbatdau = `${begin.getHours()}:${begin.getMinutes()}0 ngày ${begin.getDate()}/${begin.getMonth()+1}/${begin.getFullYear()}`
+            response[0].thoigianketthuc = `${end.getHours()}:${end.getMinutes()}0 ngày ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()}`
             response[0].warning = checkRegister(end)
             setRegister(response[0])
         }
@@ -70,20 +70,19 @@ const AreaInfo = ({idRegister, loaiDk}) => {
             <ul className="area-info__list">
                 <li className="area-info__list__item">
                     <label>Mã số ô đỗ: </label>
-                    <span>{register.odo}</span>
+                    <span style={{color:"#c20000"}}>{register.odo}</span>
                 </li>
-                { loaiDk === 'KTV' ? (
-                <>
-                    <li className="area-info__list__item">
+
+                <li className="area-info__list__item">
                         <label>Họ và tên: </label>
                         <span>{register.hoten}</span>
-                    </li>
+                </li>
 
+                { loaiDk === 'KTV' ? (
                     <li className="area-info__list__item">
                         <label>CCCD/CMND:</label>
                         <span>{register.cccd}</span>
                     </li>
-                </>
                 ):(<></>)}
 
 
@@ -105,13 +104,13 @@ const AreaInfo = ({idRegister, loaiDk}) => {
 
                 <li className="area-info__list__item">
                     <label>Thời gian kết thúc:</label>
-                    <span>{register.thoigianketthuc}</span>
+                    <span style={{color:"#c20000"}} >{register.thoigianketthuc}</span>
                 </li>
 
-                <li className="area-info__list__item">
+                {/* <li className="area-info__list__item">
                     <label>Tình trạng:</label>
                     <span>{register.trangthai}</span>
-                </li>
+                </li> */}
             </ul>
             <div className="area-info__controller">
                 {register.warning?(

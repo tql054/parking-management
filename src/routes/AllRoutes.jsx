@@ -21,14 +21,14 @@ const AllRoutes = () => {
 
                 <Route
                     exact
-                    path='/dangky-KTV/:id/:dateBegin/:dateEnd'
+                    path='/dangky-KTV/:id/:dateBegin/:dateEnd/:dateBg/:dateEd'
                     params
-                    element={<StrangerRenting />}
+                    element={<MemberRenting />}
                 />
 
                 <Route
                     exact
-                    path='/dangky-KVL/:id/:dateBegin/:dateEnd'
+                    path='/dangky-KVL/:id/:dateBegin/:dateEnd/:dateBg/:dateEd'
                     element={<StrangerRenting />}
                 />
 

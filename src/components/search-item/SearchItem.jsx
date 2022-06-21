@@ -23,6 +23,7 @@ const SearchItem = ({ register, index }) => {
 
         }
     }, [register.code])
+    console.log(register)
     return (
         <li key={index} className='col l-4'>
             <div ref={registerItem} className="register">

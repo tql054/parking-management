@@ -54,20 +54,18 @@ const SideMap = () => {
             console.log(e)
         }
     }
-    console.log('ref: sm')
     const setMaxHours = () => {
         let dateBegin = dateRefBegin.current.value
         let dateEnd = dateRefEnd.current.value
         if(dateBegin && dateEnd) {
             let stampBegin = new Date(dateBegin)
             let stampEnd = new Date(dateEnd)
-            if(stampEnd-stampBegin===0 && stampBegin.getDate()===now.getDate()) {
+            if(stampEnd-stampBegin===0) {
                 let value = +hoursRefEnd.current.value.slice(0 ,hoursRefEnd.current.value.length-3)
                 hoursRefBegin.current.value = `${--value}:00`
                 maxHours=value
                 minHours = 1
                 console.log('set')
-
             }
             else {
                 console.log('noneset')
@@ -151,15 +149,23 @@ const SideMap = () => {
             let stampBegin = new Date(dateBegin)
             let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin>=0) {
-                // setDateLimit((prevState => {return {...prevState, dateBegin: e.target.value}}))
-                
-                setDateLimit({
-                    dateBegin: `${e.target.value}`,
-                    dateEnd: `${dateEnd}`,
-                    hourBegin: `${hoursRefBegin.current.value}`,
-                    hourEnd: `${hoursRefEnd.current.value}`,
-
-                })
+                if(stampEnd-stampBegin===0) {
+                    setDateLimit({
+                        dateBegin: `${dateBegin}`,
+                        dateEnd: `${e.target.value}`,
+                        hourBegin: `${now.getHours()}:00`,
+                        hourEnd: `${now.getHours()+1}:00`
+    
+                    })
+                } else {
+                    setDateLimit({
+                        dateBegin: `${dateBegin}`,
+                        dateEnd: `${e.target.value}`,
+                        hourBegin: `${hoursRefBegin.current.value}`,
+                        hourEnd: `${hoursRefEnd.current.value}`,
+    
+                    })
+                }
             } else {
                 alert('Ngày không hợp lệ')
             }
@@ -176,7 +182,7 @@ const SideMap = () => {
             let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin>=0) {
                 // setDateLimit((prevState => {return {...prevState, dateBegin: e.target.value}}))
-                if(stampEnd-stampBegin===0 && stampBegin.getDate() === now.getDate()) {
+                if(stampEnd-stampBegin===0) {
                     setDateLimit({
                         dateBegin: `${dateBegin}`,
                         dateEnd: `${e.target.value}`,
@@ -256,13 +262,14 @@ const SideMap = () => {
                             <div className="form-group">
                                 <label htmlFor="dateBegin">Ngày</label>
                                 <input  
-                                        ref={dateRefBegin}
-                                        type="date" 
-                                        id="start" 
-                                        name="dateBegin"
-                                        value={dateLimit.dateBegin}
-                                        onChange={handleChangeDateBegin}
-                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                    className='date'
+                                    ref={dateRefBegin}
+                                    type="date" 
+                                    id="start" 
+                                    name="dateBegin"
+                                    value={dateLimit.dateBegin}
+                                    onChange={handleChangeDateBegin}
+                                    min={today} max={`${now.getFullYear()}-12-31`}>
                                 </input>
                             </div>
                         </div>
@@ -287,13 +294,14 @@ const SideMap = () => {
                             <div className="form-group">
                                 <label htmlFor="dateEnd">Ngày</label>
                                 <input  
-                                        ref={dateRefEnd}
-                                        type="date" 
-                                        id="start" 
-                                        name="dateEnd"
-                                        value={`${dateLimit.dateEnd}`}
-                                        onChange={handleChangeDateEnd}
-                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                    className='date'
+                                    ref={dateRefEnd}
+                                    type="date" 
+                                    id="start" 
+                                    name="dateEnd"
+                                    value={`${dateLimit.dateEnd}`}
+                                    onChange={handleChangeDateEnd}
+                                    min={today} max={`${now.getFullYear()}-12-31`}>
                                 </input>
                             </div>
                         </div>
@@ -314,7 +322,9 @@ const SideMap = () => {
                                     name={item.makhudo} 
                                     type={item.loaixe} 
                                     filter={isFilter} 
-                                    dateBegin={`${dateLimit.dateBegin} ${dateLimit.hourBegin}`} 
+                                    dateBegin={`${dateLimit.dateBegin} ${dateLimit.hourBegin}`}
+                                    dateBg={`${dateLimit.dateBegin}T${dateLimit.hourBegin.length === 4 ? "0"+dateLimit.hourBegin:dateLimit.hourBegin}:00.000Z`} 
+                                    dateEd={`${dateLimit.dateEnd}T${dateLimit.hourEnd.length === 4 ? "0"+dateLimit.hourEnd:dateLimit.hourEnd}:00.000Z`}
                                     dateEnd={`${dateLimit.dateEnd} ${dateLimit.hourEnd}`}
                                     tab={tabSM.key}
                                     refresh={refresh}

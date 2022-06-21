@@ -6,13 +6,11 @@ import Modal from '../modal/Modal'
 import AreaInfo from '../area-info/AreaInfo'
 import { createContext } from 'react'
 export const AreaContext = createContext()
-const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
+const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh, dateBg, dateEd }) => {
     const [boxList, setBoxList] = useState([])
     const [idRegister, setIdRegister] = useState()
     const [checkoutRegister, setCheckoutRegister] = useState(false)
-
     const getAllOdo = async () => {
-        console.log('refresh')
         try {
             const response = await pmApi.getAllOdo(name, {})
             const registedRes = await pmApi.getRegistedOdo(name, {dateBegin, dateEnd})
@@ -25,6 +23,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
                         if(odo.ttthanhtoan === 'Chưa thanh toán') element.trangthai = 'waiting'
                         else {
                             let now = new Date()
+                            console.log(odo.thoigianketthuc)
                             let dateEnd = new Date(odo.thoigianketthuc)
                             let dateOut = new Date(odo.thoigiankethucthuc)
                             
@@ -102,7 +101,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
             <div className='area'>
                 <div className='area__info'>
                     <div className="area__info__name">Khu {name}:</div>
-                    <div className="area__info__type">{type}</div>
+                    <div className="area__info__type">Dành cho {type}</div>
                 </div>
                 <div className='grid'>
                     <ul className="area__box-list row">
@@ -121,7 +120,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
                                                 </div>
                                             ):(
                                             
-                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}`} target="_blank">
+                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}/${dateBg}/${dateEd}`} target="_blank">
                                                         <div className={`area__box-list__item ${box.trangthai}`}>
                                                             {box.tenodo.slice(3)}
                                                         </div>
