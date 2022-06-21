@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useNavigate } from "react-router-dom";
-import pmApi from '../../api/pmApi';
+// import pmApi from '../../api/pmApi';
+import Axios from 'axios';
 
 import './notification.css'
 
@@ -21,12 +22,21 @@ const data = [
 ];
 
 
+//
+
+
+
+
+
 const Notification = () => {
     const [tieude, setTitle] = useState('');
     const [noidung, setContent] = useState('');
-    const [nguoinhan, setChecked] = useState(1)
+    const [nguoinhan, setChecked] = useState(1);
 
-    //post data 
+    const [nv, setNv] = useState('8')
+    const [kh, setKh] = useState('9')
+
+    const navigate = useNavigate();
 
 
     //reset form
@@ -37,21 +47,14 @@ const Notification = () => {
         setChecked(1)
     }
 
-    const navigate = useNavigate();
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        try {
-            const response = pmApi.postThongbao({})
-        }
-        catch (e) {
-            alert("Error: ", e)
-        }
+    const handleChange = (id) => {
+        setChecked(id);
     }
-    
+
     return (
+
         <div className='notification'>
-            <form method='POST' onSubmit={handleSubmit} action='http://localhost:8080/create-thongbao' >
+            <form action='http://localhost:8080/create-thongbao' method='POST' >
                 <h2>ĐĂNG THÔNG BÁO</h2>
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>
@@ -63,6 +66,7 @@ const Notification = () => {
                         onChange={e => setTitle(e.target.value)}
                     /> <span style={{ color: 'red', margin: 'auto 20px', fontWeight: '700' }}>(*)</span>
                 </div>
+                {/* <input type="text" value={[...quyen]} /> */}
                 <div className="ckeditor">
                     <label htmlFor="ckeditor">Nội dung thông báo</label>
                     <textarea name="noidung" id="ckeditor" value={noidung} onChange={e => setContent(e.target.value)} cols="65" rows="10"></textarea>
@@ -74,11 +78,11 @@ const Notification = () => {
                             data.map(dt => (
                                 <div key={dt.id}>
                                     <input type="radio"
-                                        value={dt.name}
+                                        // value={{  }}
                                         id={dt.id}
                                         name="nguoinhan"
                                         checked={nguoinhan === dt.id}
-                                        onChange={() => setChecked(dt.id)}
+                                        onChange={() => handleChange(dt.id)}
                                     />
                                     <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.name}</label>
                                 </div>
@@ -87,7 +91,7 @@ const Notification = () => {
                     </div>
                 </div>
                 <div className="submit">
-                    <button  className='btn post' type='submit'> Đăng bài</button>
+                    <button className='btn post' type='submit'> Đăng bài</button>
                     <button href='#' onClick={handleRefresh} className='btn' type='submit'>Làm mới</button>
                 </div>
             </form>
