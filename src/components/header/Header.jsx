@@ -2,40 +2,111 @@ import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SearchBar from "../search-bar/SearchBar";
 import "./header.scss";
-
-const headerNav = ["a,b,c,d"];
-const headerContent = [
-  [
-    {
-      display: "Trang chủ",
-      path: "/",
-    },
-  ],
-
-  [
-    {
-      display: "Thông báo",
-      path: "/thongbao",
-    },
-    {
-      display: "Xem thông báo",
-      path: "/danhsachthongbao",
-    },
-  ],
-
-  [
-    {
-      display: "Thống kê theo giờ",
-      path: "/thongketheogio",
-    },
-    {
-      display: "Thống kê theo tháng",
-      path: "/thongketheothang",
-    },
-  ],
-];
+import { useStore } from "../../store/hooks";
+import {unsetInfoUser} from '../../store/actions'
+import Button from "../button/Button";
 
 const Header = () => {
+  const [state, dispatch] = useStore()
+  const {right, accessToken} = state
+  console.log(state)
+  let headerContent = []
+  switch(right) {
+    case 1: {
+       headerContent = [
+        [
+          {
+            display: "Trang chủ",
+            path: "/",
+          },
+        ],
+      
+        [
+          {
+            display: "Thông báo",
+            path: "/thongbao",
+          },
+          {
+            display: "Xem thông báo",
+            path: "/danhsachthongbao",
+          },
+        ],
+      
+        [
+          {
+            display: "Thống kê theo giờ",
+            path: "/thongketheogio",
+          },
+          {
+            display: "Thống kê theo tháng",
+            path: "/thongketheothang",
+          },
+        ],
+      ];
+      break;
+    }
+
+    case 2: {
+       headerContent = [
+        [
+          {
+            display: "Trang chủ",
+            path: "/",
+          },
+        ],
+      
+        [
+          {
+            display: "Xem thông báo",
+            path: "/danhsachthongbao",
+          },
+        ],
+      
+        [
+          {
+            display: "Thống kê theo giờ",
+            path: "/thongketheogio",
+          },
+          {
+            display: "Thống kê theo tháng",
+            path: "/thongketheothang",
+          },
+        ],
+      ];
+      break;
+    }
+
+    case 3: {
+       headerContent = [
+        [
+          {
+            display: "Trang chủ",
+            path: "/",
+          },
+        ],
+      
+        [
+          {
+            display: "Xem thông báo",
+            path: "/danhsachthongbao",
+          },
+        ],
+      ];
+      break
+    }
+    default:  headerContent = [
+      [
+        {
+          display: "Trang chủ",
+          path: "/",
+        },
+      ],
+    ];
+  }
+  
+
+
+
   const { pathname } = useLocation();
   const active = headerContent.findIndex((listItem) =>
     listItem.some((item) => item.path === pathname)
@@ -78,6 +149,11 @@ const Header = () => {
       }
     }
   };
+
+  const handleSignout = () => {
+    window.location="http://localhost:3000/login"
+    dispatch(unsetInfoUser())
+  }
 
   return (
     <header ref={headerRef} className="header">
@@ -127,8 +203,18 @@ const Header = () => {
                     </ul> */}
           <SearchBar />
           <div className="header__user">
-            Xin chào, Quốc
-            <i className="fa-solid fa-user"></i>
+            {/* handle show user info */}
+
+            {accessToken?(
+              <>
+                  {/* Xin chào, Quốc
+                  <i className="fa-solid fa-user"></i> */}
+                  <Button onClick={handleSignout} name={'Đăng xuất'} />
+              </>
+            ) : (
+              <Link  to={"/login"}>Đăng nhập</Link>
+            )} 
+              
           </div>
         </nav>
       </div>

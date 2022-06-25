@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom"
 import { Forms } from "../components"
 
 const MemberRenting = () => {
-    const { id, dateBegin, dateEnd, dateBg, dateEd } = useParams()
+    const { id, dateBegin, dateEnd, type} = useParams()
     return (
         <>
-            <Forms id={id} dateBegin={dateBegin} dateEnd={dateEnd} dateBg={dateBg} dateEd={dateEd}/>
+            <Forms id={id} dateBegin={dateBegin} dateEnd={dateEnd} type={type}/>
         </>
     
     )

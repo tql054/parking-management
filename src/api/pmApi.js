@@ -1,6 +1,16 @@
 import axiosClient from "./axiosClient";
 
 const pmApi = {
+    //login
+    checkLogin: (params) => {
+        const url = `login`
+        return axiosClient.post(url, {
+                 ...params 
+            }   
+        )
+    },
+
+
     //lay tat ca o do
     getAllOdo: (id, params) => {
         const url = `all-odo/${id}`
@@ -56,9 +66,9 @@ const pmApi = {
 
     //xe
 
-    getXeByPhone: (phone, params) => {
+    getXeByPhone: (phone, carType, searchCar, params) => {
         if(phone) {
-            const url = `list-xe/${phone}`
+            const url = `list-xe/${phone}/${carType}/${searchCar}`
             return axiosClient.get(url, params)
         } return []
     }, 

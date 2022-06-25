@@ -11,12 +11,17 @@
         font-weight: 600;
         padding-top: 50px;
     }
-    #form-register {
+    #form-register, #form-login {
         .form-group {
             display: flex;
             align-items: center;
             justify-content: flex-start;
             margin-top: 20px;
+            .car-number {
+                position: absolute;
+                left: 33.5%;
+                top: 56%;
+            }
 
             .id {
                 color: $red-color;
@@ -26,7 +31,6 @@
 
             input, select {
                 font-size: 1.2rem;
-                
                 padding: 5px;
                 margin: 0;
                 border: 1px solid $black-color;
@@ -77,5 +81,40 @@
                 font-size: 1.4rem;
             }
         }
+    }
+
+    #form-login {
+        position: relative;
+        .form-group {
+        }
+
+        .form-message {
+            font-size: .9rem;
+            color: $red-color;
+            
+            left: 25%;
+            position: absolute;
+
+            &.phone {
+                top: 37px;
+            }
+
+            &.password {
+                top: 95px;
+            }
+        }
+
+        .form-button {
+            margin-top: 40px;
+
+            button {
+                // padding: 15px 30px;
+                font-size: 1.3rem;
+                box-shadow: $box-shadow;
+            }
+        }
+
+        
+        
     }
 }

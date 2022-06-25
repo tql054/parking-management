@@ -8,7 +8,7 @@ function App() {
     <div>
       <Router>
         <Header/>
-        <AllRoutes/>
+          <AllRoutes/>
         <Footer/>
       </Router>
     </div>
