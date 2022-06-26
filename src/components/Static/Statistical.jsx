@@ -40,10 +40,6 @@ function Statistical() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "STT",
-        accessor: "",
-      },
-      {
         Header: "Mã ô đỗ",
         accessor: "tenodo",
       },

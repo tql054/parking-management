@@ -20,7 +20,7 @@ const renderDataTable = (cell, header) => {
     case "thoigianketthuc":
     case "thoigiankethucthuc":
     case "loaixe":
-    case "STT":
+
     case "":
       return <div dangerouslySetInnerHTML={{ __html: cell.value }} />;
     default:
