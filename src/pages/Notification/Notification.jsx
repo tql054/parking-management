@@ -1,29 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { useNavigate } from "react-router-dom";
-// import pmApi from '../../api/pmApi';
+// import pmApi from '../../api/pmApi';úe
 import Axios from 'axios';
 
 import './notification.css'
 
-const data = [
-    {
-        id: 1,
-        name: 'Tất cả'
-    },
-    {
-        id: 2,
-        name: 'Nhân viên'
-    },
-    {
-        id: 3,
-        name: 'Khách hàng'
-    }
-];
+// const data = [
+//     {
+//         id: 1,
+//         name: 'Tất cả'
+//     },
+//     {
+//         id: 2,
+//         name: 'Nhân viên'
+//     },
+//     {
+//         id: 3,
+//         name: 'Khách hàng'
+//     }
+// ];
 
 
-//
-
+// call api quyen
 
 
 
@@ -31,12 +30,26 @@ const data = [
 const Notification = () => {
     const [tieude, setTitle] = useState('');
     const [noidung, setContent] = useState('');
-    const [nguoinhan, setChecked] = useState(1);
+    const doituong = useRef([])
+    const idDt = useRef([])
+    const [quyen, setQuyen] = useState([])
+    const [nguoinhan, setNguoiNhan] = useState([])
 
-    const [nv, setNv] = useState('8')
-    const [kh, setKh] = useState('9')
+    //call api quyen
+    const fetchData = async () => {
+        const resp = await Axios.get("https://parkingmanagement16.herokuapp.com/quyen");
+        const q = await resp.data.filter(item => item.tenquyen !== "Quản lý")
+        setNguoiNhan(q.map(item => item.id));
+        setQuyen(resp.data.filter(item => item.tenquyen !== "Quản lý"));
+        doituong.current = q
+        idDt.current = q.map(item => item.id)
+        // setData(resp.data);
+    };
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
 
     //reset form
@@ -44,17 +57,34 @@ const Notification = () => {
         e.preventDefault();
         setContent('');
         setTitle('');
-        setChecked(1)
+        // setChecked(1)
     }
 
-    const handleChange = (id) => {
-        setChecked(id);
+
+
+    const handleSubmit = () => {
+        Axios({
+            method: 'post',
+            url: 'http://localhost:8080/create-thongbao',
+            data: {
+                tieude: tieude,
+                noidung: noidung,
+                nguoinhan: nguoinhan
+            }
+        });
+    }
+
+    const handleChecked = (id, a) => {
+        setNguoiNhan(id);
+        setQuyen(a);
     }
 
     return (
-
         <div className='notification'>
-            <form action='https://parkingmanagement16.herokuapp.com/create-thongbao' method='POST' >
+            {
+                console.log('quyen : ', quyen)
+            }
+            <form onSubmit={handleSubmit}>
                 <h2>ĐĂNG THÔNG BÁO</h2>
                 <div className="title">
                     <label htmlFor="">Tiêu đề thông báo</label>
@@ -74,17 +104,26 @@ const Notification = () => {
                 <div className="receiver">
                     <label htmlFor="">Người nhận thông báo</label>
                     <div className="content">
+                        <div >
+                            <input type="radio"
+                                name="nguoinhan"
+                                value={nguoinhan}
+                                // checked={nguoinhan == idDt.current}
+                                onChange={() => handleChecked(idDt.current, doituong.current)}
+                            />
+                            <label style={{ marginLeft: '10px' }} >Tất cả</label>
+                        </div>
                         {
-                            data.map(dt => (
-                                <div key={dt.id}>
+                            doituong.current.map((dt, index) => (
+                                <div key={index}>
                                     <input type="radio"
-                                        // value={{  }}
+                                        value={nguoinhan}
                                         id={dt.id}
                                         name="nguoinhan"
-                                        checked={nguoinhan === dt.id}
-                                        onChange={() => handleChange(dt.id)}
+                                        // checked={nguoinhan === dt.id}
+                                        onChange={() => handleChecked(dt.id, dt)}
                                     />
-                                    <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.name}</label>
+                                    <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.tenquyen}</label>
                                 </div>
                             ))
                         }
