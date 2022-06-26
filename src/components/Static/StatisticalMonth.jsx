@@ -1,23 +1,49 @@
+import ReactPaginate from "react-paginate";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { filter } from "domutils";
 import "./Statistical.scss";
+import Pagination from "../../components/Pagination/Pagination";
+import InfoTable from "./TableData";
+import { compareAsc, format } from "date-fns";
+
 function StatisticalMonth() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+
   const [isRender, setIsRender] = useState(false);
-  //fetch data
+
+  //fetch api
   const fetchData = async () => {
     const resp = await axios.get(
       "https://parkingmanagement16.herokuapp.com/dangkythanhvien"
     );
+    resp?.data?.map((item) => {
+      const endDate = new Date(item?.thoigianketthuc).getTime();
+      const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
+      const soGio = (endDateReal - endDate) / 3600 / 1000;
+      const tinhTien = soGio * 15000;
+      console.log(soGio);
+      item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
+      item.thoigianbatdau = format(
+        new Date(item?.thoigianbatdau),
+        "H:mma dd/MM/yyyy"
+      );
+      item.thoigianketthuc = format(
+        new Date(item?.thoigianketthuc),
+        "H:mma dd/MM/yyyy"
+      );
+      item.thoigiankethucthuc = format(
+        new Date(item?.thoigiankethucthuc),
+        "H:mma dd/MM/yyyy"
+      );
+    });
     setData(resp.data);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(data);
 
   function handlecars(filterValue) {
     if (!filterValue) {
@@ -38,33 +64,27 @@ function StatisticalMonth() {
       return;
     }
     const dataFilter = data?.filter((item) => {
-      const startDate = new Date(item?.thoigianbatdau).getTime();
-      const endDate = new Date(item?.thoigianketthuc).getTime();
-      const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
-      const soGio = (endDateReal - endDate) / 3600 / 1000;
-      const thanhTien = soGio * 15;
-      console.log(soGio);
-      console.log(endDate);
-      console.log(thanhTien);
+      const getCate = item?.thanhTien.split(" ")[0];
+      console.log(getCate);
       switch (filterValue) {
-        case "50":
-          {
-            console.log(123);
-            if (thanhTien < 500) {
-              return item;
-            }
-          }
-          break;
-        case "0":
-          {
-            if (thanhTien < 1000) {
-              return item;
-            }
-          }
-          break;
         case "500":
           {
-            if (thanhTien < 5000) {
+            console.log(123);
+            if (getCate < 500) {
+              return item;
+            }
+          }
+          break;
+        case "1000":
+          {
+            if (getCate < 1000) {
+              return item;
+            }
+          }
+          break;
+        case "5000":
+          {
+            if (getCate < 5000) {
               return item;
             }
           }
@@ -92,13 +112,9 @@ function StatisticalMonth() {
         );
         break;
     }
+
     setIsRender(!isRender);
   }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();
@@ -126,31 +142,60 @@ function StatisticalMonth() {
 
     setIsRender(!isRender);
   }
-  function handleSortTime2(value) {
-    data?.map((item, index) => {
-      const startDate = new Date(item?.thoigianbatdau).getTime();
-      const endDate = new Date(item?.thoigianketthuc).getTime();
-      const soGio = (endDate - startDate) / 3600 / 1000;
-      soGio.toLocaleString();
-      data[index].soGio = soGio;
-      switch (value) {
-        case "up":
-          console.log(soGio);
-          data.sort((a, b) => a.soGio - b.soGio);
-          break;
-        case "down":
-          console.log("giam dan");
-          data.sort((a, b) => b.soGio - a.soGio);
-          break;
-      }
-    });
 
-    setIsRender(!isRender);
-  }
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Mã ô đỗ",
+        accessor: "tenodo",
+      },
+      {
+        Header: "Họ và tên",
+        accessor: "hoten", // accessor is the "key" in the data
+      },
+
+      {
+        Header: "Số điện thoại",
+        accessor: "sodienthoai",
+      },
+      {
+        Header: "Biển số xe",
+        accessor: "biensoxe",
+      },
+      {
+        Header: "Loại xe",
+        accessor: "loaixe",
+      },
+      {
+        Header: "Thời gian bắt đầu",
+        accessor: "thoigianbatdau",
+      },
+      {
+        Header: "Thời gian kết thúc",
+        accessor: "thoigianketthuc",
+      },
+      {
+        Header: "Thời gian kết thúc thực",
+        accessor: "thoigiankethucthuc",
+      },
+      {
+        Header: "Trạng thái",
+        accessor: "trangthai",
+      },
+      {
+        Header: "Tổng tiền",
+        accessor: "thanhTien",
+      },
+    ],
+    []
+  );
+
   return (
-    <div class="wrapper">
-      <div class="combobox">
-        <label for="typeOfCar">Loại xe</label>
+    <div className="wrapper">
+      <div className="combobox">
+        <label for="typeOfCar" className="label loaixe">
+          Loại xe
+        </label>
         <select
           name="cars"
           id="cars"
@@ -161,7 +206,7 @@ function StatisticalMonth() {
           <option value="7">7 chỗ</option>
         </select>
 
-        <label for="time">Thời gian</label>
+        <label for="time">Thời gian :</label>
         <select
           name="time"
           id="time"
@@ -172,7 +217,7 @@ function StatisticalMonth() {
           <option value="down">Giảm dần</option>
         </select>
 
-        <label for="toatal">Tổng tiền</label>
+        <label for="toatal">Tổng tiền :</label>
         <select
           name="total"
           id="total"
@@ -195,53 +240,7 @@ function StatisticalMonth() {
         </select>
       </div>
 
-      <table class="tabledata" cellSpacing="0">
-        <thead>
-          <tr>
-            <th>Số thứ tự</th>
-            <th>Mã ô đỗ</th>
-            <th>Họ và tên</th>
-            <th>Biển số xe</th>
-            <th>Số điện thoại</th>
-            <th>Loại xe</th>
-            <th>Ngày bắt đầu</th>
-            <th>Ngày kết thúc</th>
-            <th>Ngày kết thúc thực</th>
-
-            <th>Trạng thái</th>
-            <th>Thành tiền</th>
-          </tr>
-        </thead>
-
-        {data?.map((item, index) => {
-          const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
-          const endDate = new Date(item?.thoigianketthuc).getTime();
-          const dateNo = (endDateReal - endDate) / 3600 / 1000;
-          const thanhTien = dateNo * 15;
-          const thoigianbd = new Date(item.thoigianbatdau);
-          const thoigianktt = new Date(item.thoigiankethucthuc);
-          const thoigiankt = new Date(item.thoigianketthuc);
-          console.log(dateNo);
-          return (
-            <tbody className="body" key={index}>
-              <tr>
-                <td>{index++}</td>
-                <td>{item?.tenodo}</td>
-                <td>{item?.hoten}</td>
-                <td>{item?.biensoxe}</td>
-                <td>{item?.sodienthoai}</td>
-                <td>{item?.loaixe}</td>
-                <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()}0 || ${thoigianbd.getDay()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()}`}</td>
-                <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()}0 || ${thoigiankt.getDay()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()}`}</td>
-                <td>{`${thoigianktt.getHours()} : ${thoigianktt.getMinutes()}0 || ${thoigianktt.getDay()}-${thoigianktt.getMonth()}-${thoigianktt.getFullYear()}`}</td>
-
-                <td>{item?.trangthai}</td>
-                <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
-              </tr>
-            </tbody>
-          );
-        })}
-      </table>
+      <InfoTable columns={columns} data={data} />
     </div>
   );
 }

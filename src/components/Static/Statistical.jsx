@@ -1,85 +1,125 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Statistical.scss";
-
-import Axios from "axios";
 import axios from "axios";
-import { filter } from "domutils";
+import { useTable } from "react-table";
+import Table from "./TableData";
+import "./Statistical.scss";
+import { compareAsc, format } from "date-fns";
 
 function Statistical() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [isRender, setIsRender] = useState(false);
-  //fetch data
   const fetchData = async () => {
     const resp = await axios.get(
       "https://parkingmanagement16.herokuapp.com/dangkyvanglai"
     );
+    resp?.data?.map((item, index) => {
+      const startDate = new Date(item?.thoigianbatdau).getTime();
+      const endDate = new Date(item?.thoigianketthuc).getTime();
+      const soGio = (endDate - startDate) / 3600 / 1000;
+      const tinhTien = soGio * 15000;
+      item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
+
+      item.thoigianbatdau = format(
+        new Date(item?.thoigianbatdau),
+        "H:mma dd/MM/yyyy"
+      );
+      item.thoigianketthuc = format(
+        new Date(item?.thoigianketthuc),
+        "H:mma dd/MM/yyyy"
+      );
+    });
     setData(resp.data);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+  const a = 1;
+  console.log(data);
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "STT",
+        accessor: "",
+      },
+      {
+        Header: "Mã ô đỗ",
+        accessor: "tenodo",
+      },
+      {
+        Header: "Họ và tên",
+        accessor: "hoten", // accessor is the "key" in the data
+      },
 
-  function tinhTien() {
-    data?.map((item) => {
-      const startDate = new Date(item?.thoigianbatdau);
-      const endDate = new Date(item?.thoigianketthuc);
-      const soGio = (endDate - startDate) / 3600 / 1000;
-      const thanhTien = soGio * 15000;
-    });
-  }
+      {
+        Header: "Số điện thoại",
+        accessor: "sodienthoai",
+      },
+      {
+        Header: "Biển số xe",
+        accessor: "biensoxe",
+      },
+      {
+        Header: "Loại xe",
+        accessor: "loaixe",
+      },
+      {
+        Header: "Thời gian bắt đầu",
+        accessor: "thoigianbatdau",
+      },
+      {
+        Header: "Thời gian kết thúc",
+        accessor: "thoigianketthuc",
+      },
+      {
+        Header: "Tổng tiền",
+        accessor: "thanhTien",
+      },
+    ],
+    []
+  );
 
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();
       return;
     }
-
     const dataFilter = data?.filter((item) => {
       const getCate = item?.loaixe.split(" ")[1];
-      //    const getCate = item.loaixe.slice(3, 4);
       if (filterValue === getCate) {
         return item;
       }
     });
     setData(dataFilter);
   }
-
   function handlemoney(filterValue) {
     if (!filterValue) {
       fetchData();
       return;
     }
     const dataFilter = data?.filter((item) => {
-      const startDate = new Date(item?.thoigianbatdau).getTime();
-      const endDate = new Date(item?.thoigianketthuc).getTime();
-
-      const soGio = (endDate - startDate) / 3600 / 1000;
-      const thanhTien = soGio * 15;
-      console.log(soGio);
-      console.log(endDate);
-      console.log(thanhTien);
+      const getCate = item?.thanhTien.split(" ")[0];
+      console.log(getCate);
       switch (filterValue) {
         case "500":
           {
             console.log(123);
-            console.log(thanhTien);
-            if (thanhTien < 500) {
+            if (getCate < 500) {
               return item;
             }
           }
           break;
         case "1000":
           {
-            if (thanhTien < 1000) {
+            if (getCate < 1000) {
               return item;
             }
           }
           break;
         case "5000":
           {
-            if (thanhTien < 5000) {
+            if (getCate < 5000) {
               return item;
             }
           }
@@ -87,18 +127,6 @@ function Statistical() {
       }
     });
     setData(dataFilter);
-    setIsRender(!isRender);
-  }
-  function handleSortPlace(value) {
-    switch (value) {
-      case "up":
-        data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
-        break;
-      case "down":
-        data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
-        break;
-    }
-
     setIsRender(!isRender);
   }
 
@@ -119,33 +147,43 @@ function Statistical() {
         );
         break;
     }
-    setIsRender(!isRender);
-  }
-  function handleSortTime2(value) {
-    data?.map((item, index) => {
-      const startDate = new Date(item?.thoigianbatdau).getTime();
-      const endDate = new Date(item?.thoigianketthuc).getTime();
-      const soGio = (endDate - startDate) / 3600 / 1000;
-      soGio.toLocaleString();
-      data[index].soGio = soGio;
-      switch (value) {
-        case "up":
-          console.log(soGio);
-          data.sort((a, b) => a.soGio - b.soGio);
-          break;
-        case "down":
-          console.log("giam dan");
-          data.sort((a, b) => b.soGio - a.soGio);
-          break;
-      }
-    });
 
     setIsRender(!isRender);
   }
+  function handlecars(filterValue) {
+    if (!filterValue) {
+      fetchData();
+      return;
+    }
+    const dataFilter = data?.filter((item) => {
+      const getCate = item?.loaixe.split(" ")[1];
+      if (filterValue === getCate) {
+        return item;
+      }
+    });
+    setData(dataFilter);
+    setIsRender(!isRender);
+  }
+
+  function handleSortPlace(value) {
+    switch (value) {
+      case "up":
+        data.sort((a, b) => a.tenodo.localeCompare(b.tenodo));
+        break;
+      case "down":
+        data.sort((a, b) => b.tenodo.localeCompare(a.tenodo));
+        break;
+    }
+
+    setIsRender(!isRender);
+  }
+
   return (
-    <div class="wrapper">
-      <div class="combobox">
-        <label for="typeOfCar">Loại xe :</label>
+    <div className="wrapper">
+      <div className="combobox">
+        <label for="typeOfCar" className="label loaixe">
+          Loại xe
+        </label>
         <select
           name="cars"
           id="cars"
@@ -167,16 +205,6 @@ function Statistical() {
           <option value="down">Giảm dần</option>
         </select>
 
-        <label for="loan">Số giờ :</label>
-        <select
-          name="time"
-          id="time"
-          onChange={(e) => handleSortTime2(e.target.value)}
-        >
-          <option value=""> -- Chọn -- </option>
-          <option value="up">Tăng dần</option>
-          <option value="down">Giảm dần</option>
-        </select>
         <label for="toatal">Tổng tiền :</label>
         <select
           name="total"
@@ -199,50 +227,8 @@ function Statistical() {
           <option value="down">Giảm dần</option>
         </select>
       </div>
-      <div className="table">
-        <table class="tabledata" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Mã Ô đỗ</th>
-              <th>Họ tên</th>
-              <th>Biển số xe</th>
-              <th>Số điện thoại</th>
-              <th>Loại xe</th>
-              <th>Giờ vào bãi</th>
-              <th>Giờ ra bãi</th>
-              <th>Mã khu đỗ</th>
-              <th>Số giờ</th>
-              <th>Thành tiền</th>
-            </tr>
-          </thead>
-          {data?.map((item, index) => {
-            const startDate = new Date(item?.thoigianbatdau).getTime();
-            const endDate = new Date(item?.thoigianketthuc).getTime();
-            const soGio = (endDate - startDate) / 3600 / 1000;
-            const thanhTien = soGio * 15000;
-            const thoigianbd = new Date(item.thoigianbatdau);
-            const thoigiankt = new Date(item.thoigianketthuc);
-            return (
-              <tbody className="body" key={index}>
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>{item?.tenodo}</td>
-                  <td>{item?.hoten}</td>
-                  <td>{item?.biensoxe}</td>
-                  <td>{item?.sodienthoai}</td>
-                  <td>{item?.loaixe}</td>
-                  <td>{`${thoigianbd.getHours()} : ${thoigianbd.getMinutes()}0 || ${thoigianbd.getDate()}-${thoigianbd.getMonth()}-${thoigianbd.getFullYear()} `}</td>
-                  <td>{`${thoigiankt.getHours()} : ${thoigiankt.getMinutes()}0 || ${thoigiankt.getDate()}-${thoigiankt.getMonth()}-${thoigiankt.getFullYear()} `}</td>
-                  <td>{item?.makhudo}</td>
-                  <td>{soGio}</td>
-                  <td>{`${thanhTien.toLocaleString()} VNĐ`}</td>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
-      </div>
+
+      <Table columns={columns} data={data} />
     </div>
   );
 }
