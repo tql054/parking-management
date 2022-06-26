@@ -54,6 +54,9 @@ $padding: 10px;
    margin: 1em auto;
    overflow: hidden;
    width: 2000px;
+   font-family: Arial, Helvetica, sans-serif;
+   min-height: 300px;
+
 }
 
 table {
@@ -93,7 +96,12 @@ table {
 }
 
 th {
+   
    border: solid 1px;
+   border-left: none;
+}
+th:last-child{
+   border-right: none ;
 }
 
 @media screen and (max-width: 700px) {
@@ -106,7 +114,7 @@ th {
 
    td {
       &:first-child {
-         position: absolute;
+         position: relative;
          top: 50%;
          transform: translateY(-50%);
          width: $imageBig;
@@ -206,6 +214,7 @@ th {
 
 .combobox {
    width: 100%;
+   position: absolute;
 }
 
 label {
@@ -222,3 +231,143 @@ select {
    padding: 4px 10px;
    border-radius: 5px;
 }
+
+.combobox{
+   background-color: white;
+   align-items: center;
+   line-height: 4rem;
+   position: relative;
+
+}
+.combobox select {
+   background-color: #68afe9;
+   color: white;
+   padding: 12px;
+   border: none;
+   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+   -webkit-appearance: button;
+   appearance: button;
+   outline: none;
+ }
+ 
+.combobox::before {
+   content: "\f13a";
+   position: absolute;
+   top: 0;
+   right: 0;
+   width: 20%;
+   height: 100%;
+   text-align: center;
+   font-size: 28px;
+   line-height: 45px;
+   color: rgba(255, 255, 255, 0.5);
+   background-color: rgba(255, 255, 255, 0.1);
+   pointer-events: none;
+ }
+ .combobox:hover::before {
+   color: rgba(255, 255, 255, 0.6);
+   background-color: rgba(255, 255, 255, 0.2);
+ }
+ .combobox select option {
+   padding: 30px;
+ }
+
+ label{
+   text-transform: uppercase;
+   margin-right:1em ;
+ }
+ 
+$primary: #27e4d4;
+$secondary: #25c562;
+$white: rgb(1, 1, 1);
+$gray: #0055ff;
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.form__field {
+    font-family: inherit;
+    width: 30%;
+    border: 0;
+    border-bottom: 2px solid $gray;
+    outline: 0;
+    font-size: 1.3rem;
+    color: $white;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    &::placeholder {
+        color: transparent;
+      }
+      &:placeholder-shown ~ .form__label {
+        font-size: 1.3rem;
+        cursor: text;
+        top: 20px;
+      }
+    }
+    .form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: $gray;
+    }
+
+    .form__field:focus {
+        ~ .form__label {
+          position: absolute;
+          top: 0;
+          display: block;
+          transition: 0.2s;
+          font-size: 1rem;
+          color: $primary;
+          font-weight:700;    
+        }
+        padding-bottom: 6px;  
+        font-weight: 700;
+        border-width: 3px;
+        border-image: linear-gradient(to right, $primary,$secondary);
+        border-image-slice: 1;
+      }.form__field{
+        &:required,&:invalid { box-shadow:none; }
+      }    
+
+.form__group{
+   margin-top: 1px;
+   margin-bottom: 1rem;
+   position: absolute;
+   left: 70%;
+   top:22%;
+
+}
+.gotoPage{
+   background-color: white;
+   border: 1px solid darken($baseColor, 5%);
+   height: 3em;
+   align-items: center;
+   
+}
+
+button{
+   font-size: 16px;
+   margin: 2px;
+   border: none;
+   text-align: center;
+   padding: 2px 5px;
+   background-color: $baseColor;
+   display: inline-block;
+}
+.gotoPage_item{
+  margin-left: 50% ;
+  margin-top: 10px;
+  button:hover{
+ 
+   padding: 5px 10px;
+   background-color: #4CAF50; 
+   
+  }
+ }
