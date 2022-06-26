@@ -5,11 +5,14 @@ import "./header.scss";
 import { useStore } from "../../store/hooks";
 import {unsetInfoUser} from '../../store/actions'
 import Button from "../button/Button";
+import Context from "../../store/Context";
+import pmApi from "../../api/pmApi";
+import { useState } from "react";
 
 const Header = () => {
   const [state, dispatch] = useStore()
-  const {right, accessToken} = state
-  console.log(state)
+  const {right, accessToken, phone} = state
+  const [info, setInfo] = useState([])
   let headerContent = []
   switch(right) {
     case 1: {
@@ -105,8 +108,6 @@ const Header = () => {
   }
   
 
-
-
   const { pathname } = useLocation();
   const active = headerContent.findIndex((listItem) =>
     listItem.some((item) => item.path === pathname)
@@ -154,6 +155,21 @@ const Header = () => {
     window.location="http://localhost:3000/login"
     dispatch(unsetInfoUser())
   }
+
+  const getInfoByphone = async function() {
+    try {
+      const response = await pmApi.getInfoUser(right, phone);
+      //Nên xử lý dispatch
+      setInfo(response)
+
+    } catch(e) {
+      console.log('Đã lỗi xảy ra khi lấy thông tin user, mã lỗi:', e)
+    }
+  }
+
+  useEffect(() => {
+    getInfoByphone()
+  }, [phone])
 
   return (
     <header ref={headerRef} className="header">
@@ -206,13 +222,16 @@ const Header = () => {
             {/* handle show user info */}
 
             {accessToken?(
-              <>
-                  {/* Xin chào, Quốc
-                  <i className="fa-solid fa-user"></i> */}
-                  <Button onClick={handleSignout} name={'Đăng xuất'} />
-              </>
+              <div className="header__user__info">
+                  Xin chào, {info.hoten||info.hovaten}
+                  <i className="fa-solid fa-user"></i>
+                  <div className="header__user__info__list">
+                    <Button onClick={handleSignout} name={'Đăng xuất'} />
+                  </div>
+              </div>
+
             ) : (
-              <Link  to={"/login"}>Đăng nhập</Link>
+              <Link  to={"/login"}><Button  name={'Đăng nhập'} /></Link>
             )} 
               
           </div>

@@ -10,6 +10,12 @@ const pmApi = {
         )
     },
 
+    //taikhoan
+    getInfoUser: (right, phone) => {
+        const url = `getinfo/${right}/${phone}`
+        return axiosClient.get(url, {})
+    },
+
 
     //lay tat ca o do
     getAllOdo: (id, params) => {
