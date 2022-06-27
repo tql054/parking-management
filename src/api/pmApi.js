@@ -10,6 +10,11 @@ const pmApi = {
         )
     },
 
+    checkHasUser: (phone) => {
+        const url = `check-user/${phone}`
+        return axiosClient.post(url, {})
+    }, 
+
     //taikhoan
     getInfoUser: (right, phone) => {
         const url = `getinfo/${right}/${phone}`
@@ -74,14 +79,21 @@ const pmApi = {
 
     getXeByPhone: (phone, carType, searchCar, params) => {
         if(phone) {
+            console.log({phone, carType, searchCar})
             const url = `list-xe/${phone}/${carType}/${searchCar}`
             return axiosClient.get(url, params)
         } return []
     }, 
-
     //Dang ky
     postDangkyTV: (params) => {
         const url = `create-dangkythanvien/`
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
+    },
+
+    postDangkyVL: (params) => {
+        const url = `create-khachvanglai/`
         return axiosClient.post(url, {
             params: { ...params }
         }   )

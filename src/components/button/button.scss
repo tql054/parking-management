@@ -15,6 +15,11 @@
         background-color: $gray-color;
         cursor: no-drop;
     }
+
+    &.unactive:hover {
+        background-color: $gray-color;
+        cursor: no-drop;
+    }
 }
 
 button {

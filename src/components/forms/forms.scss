@@ -17,10 +17,21 @@
             align-items: center;
             justify-content: flex-start;
             margin-top: 20px;
+            position: relative;
+
+            .error-message {
+                font-size: .8rem;
+                color: $red-color;
+                position: absolute;
+                left: 25%;
+                top: 100%;
+            }
+
             .car-number {
                 position: absolute;
-                left: 33.5%;
-                top: 56%;
+                left: 25%;
+                z-index: 10;
+                top: 100%;
             }
 
             .id {
