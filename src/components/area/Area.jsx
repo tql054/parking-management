@@ -125,7 +125,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh}) => {
                                                     )
                                                 ):(
                                                     
-                                                    right >= 3 && tab==='KVL' ? (
+                                                    right !=2 && tab==='KVL' ? (
                                                         <div className={`area__box-list__item ${box.trangthai}`}>
                                                             {box.tenodo.slice(3)}
                                                         </div>

@@ -3,8 +3,10 @@ import pmApi from '../../api/pmApi'
 import React from 'react';
 import { useState, useEffect } from 'react';
 import SearchItem from '../search-item/SearchItem';
-
+import { createContext } from 'react';
+export const SearchContext = createContext()
 const SearchResult = ({setIsLimited, dangky, searchType, searchKey, params}) => {
+
     const get_time_remaining = (d1, d2) => {
         let ms1 = d1.getTime()
         let ms2 = d2.getTime()
@@ -71,7 +73,9 @@ const SearchResult = ({setIsLimited, dangky, searchType, searchKey, params}) => 
         <div className="list-result grid">
             <ul className='row'>
                 {results.map((result, i) => (
-                    <SearchItem register={result} index={i} />
+                    <SearchContext.Provider value={{searchKey}}>
+                        <SearchItem register={result} index={i} />
+                    </SearchContext.Provider>
                 ))}
             </ul>
         </div>

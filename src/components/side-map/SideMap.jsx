@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import Button from '../button/Button'
 import pmApi from '../../api/pmApi'
 import { useEffect } from 'react'
+import MemmberPrice from '../prices/Prices'
 
 
 const SideMap = () => {
@@ -64,11 +65,14 @@ const SideMap = () => {
                 let value = +hoursRefEnd.current.value.slice(0 ,hoursRefEnd.current.value.length-3)
                 hoursRefBegin.current.value = `${--value}:00`
                 maxHours=value
-                minHours = 1
-                console.log('set')
+
+                if(stampBegin.getDate() === now.getDate() && stampBegin.getMonth() === now.getMonth()) {
+                    minHours = now.getHours() + 1
+                } else {
+                    minHours = 1
+                }
             }
             else {
-                console.log('noneset')
                 maxHours = 23
                 minHours = 0
             }
@@ -209,6 +213,8 @@ const SideMap = () => {
     useEffect(() => {
         getKhudo()
     }, [tabSM])
+
+
     return (
         <div className="side-map container">
             <div className="side-map__tabs">
@@ -350,6 +356,7 @@ const SideMap = () => {
                 </li>
             </ul>
             
+            <MemmberPrice/>
 
         </div>
     )

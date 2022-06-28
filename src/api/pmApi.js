@@ -57,9 +57,11 @@ const pmApi = {
     },
 
     //dangky
-    checkoutDangky: (id, loaiDk) => {
+    checkoutDangky: (id, loaiDk, params) => {
         const url = `checkoutDangky${loaiDk}/${id}`
-        return axiosClient.post(url, {})
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
     },
 
     //Khudo

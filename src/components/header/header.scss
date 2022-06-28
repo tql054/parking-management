@@ -25,7 +25,9 @@
         gap: 5px;
         height: 100%;
         @include flex(center, space-between);
-
+        &.container {
+            padding: 0;
+        }
         i {
             margin-right: 15px;
         }
@@ -61,7 +63,7 @@
         &__info__list{
             display: none;
             position: absolute;
-            top: 111%;
+            top: 133%;
             right: 20px;
             min-width: 150px;
             background-color: #ffe3e3;
@@ -92,6 +94,16 @@
             border-style: solid;
             border-color: transparent transparent #ffe3e3 transparent;
             z-index: 11;
+        }
+
+        &__info::after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 180px;
+            height: 20px;
+            background-color: #ccc;
+            opacity: 0;
         }
 
         &__info:hover >  .header__user__info__list {

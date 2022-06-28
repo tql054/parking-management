@@ -10,6 +10,7 @@ import Button from "../button/Button";
 import './forms.scss'
 import { useFormik } from "formik";
 import * as Yup from 'yup'
+import MemmberPrice, { StrangerPrice } from "../prices/Prices";
 
 const Forms = ({id, dateBegin, dateEnd, type}) => {
     const [phoneNumber, setPhone] = useState('')
@@ -191,6 +192,8 @@ const Forms = ({id, dateBegin, dateEnd, type}) => {
                     )}
                 </div>
             </form>
+
+            <MemmberPrice/>
         </div>
     )
 }
@@ -221,10 +224,8 @@ const FormAuth = () => {
             console.log(response)
             setResponse(response)
             if(response.errCode === 0) {
-                //dispatch action
+                await dispatch(setInfoUser({phone: response.userData.sodienthoai, right: response.userData.maquyen}))
                 window.location="http://localhost:3000/"
-                dispatch(setInfoUser({phone: response.userData.sodienthoai, right: response.userData.maquyen}))
-                //redirect(/)
             }
         } catch (e) {
             alert("Rất tiếc! Đã có lỗi xảy ra")
@@ -420,6 +421,8 @@ const FormStranger = ({id, dateBegin, dateEnd}) => {
                     <Button name="Thanh toán"/>
                 </div>
             </form>
+
+            <StrangerPrice/>
         </div>
     )
 }

@@ -16,4 +16,18 @@ const Modal  = ({ children}) => {
     )
 }
 
+const RegisterModal  = ({ children, handleClose}) => {
+    return (
+        <>
+            <div className="modal" >
+                <div className="modal__overlay" onClick={handleClose}></div>
+                <div className="modal__body"> 
+                    {children}
+                </div>
+            </div>
+        </>
+    )
+}
+
+export {RegisterModal}
 export default Modal
