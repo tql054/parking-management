@@ -1,6 +1,8 @@
 import React, { useState } from "react"
+import { useCallback } from "react"
 import { useParams } from "react-router-dom"
 import { Filter, FilterItem, SearchGrid } from "../components"
+import Button from "../components/button/Button"
 import { FilterDate } from "../components/filter-item/FilterItem"
 
 const SearchResult = () => {
@@ -75,8 +77,13 @@ const SearchResult = () => {
     const [ngaydang, setNgayDang] = useState(true)
     const [ngayBD, setNgayBD]  = useState('')
     const [ngayKT, setNgayKT]  = useState('')
-    // console.log(ngayBD, ngayKT)
-    // console.log('abc')
+    const [limit, setLimit] = useState(10)
+    const [isLimited, setIsLimited] = useState(true)
+    const handleLoadMore = (e) => {
+        console.log('loadMore')
+        setLimit(prevState => prevState+=9)
+    }
+
     return (
         <section className="grid">
             <div className="search-results row container" style={{display: "flex",margin: "15px auto", backgroundColor: "#fff", minHeight: "800px"}}>
@@ -103,10 +110,22 @@ const SearchResult = () => {
 
                     
                 </div>
-                <div className="col l-9">
+                <div className="col l-9" style={{position: "relative", paddingBottom: "20px"}}>
                     <div style={{fontSize: "1.2rem", padding: "11px 0", borderBottom:"solid #ccc 1px"}}>Kết quả tìm kiếm cho "{key}"</div>
-
-                    <SearchGrid dangky={dangky} searchType={type} searchKey={key} params={{loaixe, thutu, tinhtrang,ngaydang, ngayBD, ngayKT}}/>
+                    <SearchGrid setIsLimited={setIsLimited} dangky={dangky} searchType={type} searchKey={key} params={{loaixe, thutu, tinhtrang,ngaydang, ngayBD, ngayKT, limit}}/>
+                    
+                    {isLimited ? (
+                        <div 
+                            style={{textAlign: "center", 
+                                    color:"#ccc", 
+                                    marginBottom: "10px",
+                                    position: "absolute",
+                                    bottom: "0",
+                                    left: "50%",
+                                    transform: "translateX(-50%)"}}>Đã đến cuối kết quả tìm kiếm</div>
+                    ) : (
+                        <Button name="Tải thêm" onClick={handleLoadMore} />
+                    )}
                 </div>
             </div>
         </section>

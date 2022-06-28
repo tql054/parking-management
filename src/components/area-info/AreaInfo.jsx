@@ -4,11 +4,14 @@ import "./area-info.scss"
 import pmApi from "../../api/pmApi";
 import { useEffect, useState } from "react";
 import { AreaContext } from "../area/Area";
+import { SearchContext } from "../search-grid/SearchGrid";
+
+//Chú ý đến xử lý ngày giờ khi deploy website lên server
 
 const AreaInfo = ({idRegister, loaiDk}) => {
     const {handleCloseInfo, handleCheckout} = useContext(AreaContext)
     const [register, setRegister] = useState([])
-    const warningTime = 60
+    const warningTime = 30
     const get_minute_remaining = (d1, d2) => {
         let ms1 = d1.getTime()
         let ms2 = d2.getTime()
@@ -29,8 +32,8 @@ const AreaInfo = ({idRegister, loaiDk}) => {
             const response = await pmApi.getInfoOdo(loaiDk,{id:idRegister})
             const begin = new Date(response[0].thoigianbatdau) 
             const end= new Date(response[0].thoigianketthuc) 
-            response[0].thoigianbatdau = `${begin.getHours()}:${begin.getMinutes()} ngày ${begin.getDate()}/${begin.getMonth()+1}/${begin.getFullYear()}`
-            response[0].thoigianketthuc = `${end.getHours()}:${end.getMinutes()} ngày ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()}`
+            response[0].thoigianbatdau = `${begin.getHours()}:${begin.getMinutes()}0 ngày ${begin.getDate()}/${begin.getMonth()+1}/${begin.getFullYear()}`
+            response[0].thoigianketthuc = `${end.getHours()}:${end.getMinutes()}0 ngày ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()}`
             response[0].warning = checkRegister(end)
             setRegister(response[0])
         }
@@ -41,7 +44,7 @@ const AreaInfo = ({idRegister, loaiDk}) => {
 
     const checkoutRegister = async () => {
         try {
-            const response = await pmApi.checkoutDangky(idRegister, loaiDk)
+            const response = await pmApi.checkoutDangky(idRegister, loaiDk, {})
             alert('Checkout thành công!')
             handleCheckout()
             handleCloseInfo()
@@ -70,20 +73,19 @@ const AreaInfo = ({idRegister, loaiDk}) => {
             <ul className="area-info__list">
                 <li className="area-info__list__item">
                     <label>Mã số ô đỗ: </label>
-                    <span>{register.odo}</span>
+                    <span style={{color:"#c20000"}}>{register.odo}</span>
                 </li>
-                { loaiDk === 'KTV' ? (
-                <>
-                    <li className="area-info__list__item">
+
+                <li className="area-info__list__item">
                         <label>Họ và tên: </label>
                         <span>{register.hoten}</span>
-                    </li>
+                </li>
 
+                { loaiDk === 'KTV' ? (
                     <li className="area-info__list__item">
                         <label>CCCD/CMND:</label>
                         <span>{register.cccd}</span>
                     </li>
-                </>
                 ):(<></>)}
 
 
@@ -105,13 +107,13 @@ const AreaInfo = ({idRegister, loaiDk}) => {
 
                 <li className="area-info__list__item">
                     <label>Thời gian kết thúc:</label>
-                    <span>{register.thoigianketthuc}</span>
+                    <span style={{color:"#c20000"}} >{register.thoigianketthuc}</span>
                 </li>
 
-                <li className="area-info__list__item">
+                {/* <li className="area-info__list__item">
                     <label>Tình trạng:</label>
                     <span>{register.trangthai}</span>
-                </li>
+                </li> */}
             </ul>
             <div className="area-info__controller">
                 {register.warning?(
@@ -132,4 +134,82 @@ const AreaInfo = ({idRegister, loaiDk}) => {
     )
 }
 
+
+const RegisterInfo = ({register, handleClose}) => {
+    const {searchKey} = useContext(SearchContext)
+    console.log(register.thoigianbatdau)
+    const begin = new Date(register.thoigianbatdau) 
+    const end= new Date(register.thoigianketthuc) 
+
+    const handleReceipt = async () => {
+        try {
+            if(window.confirm("Xác nhận thanh toán?")) {
+                const response = await pmApi.checkoutDangky(register.id, register.makhudo.slice(0, 3), {isPunished: true})
+                alert('Thanh toán thành công ô đỗ thành công')
+                window.location=`http://localhost:3000/search/username/${searchKey}`
+            } 
+        }  catch(e) {
+            console.log(e)
+        }
+    }
+    return (
+        <div className="area-info">
+            {
+                 register.code === -1 ? (
+                    <div className="area-info__title outdate" >Thông tin đăng ký</div> 
+                ) : (<div className="area-info__title">Thông tin đăng ký</div>)
+            }
+            
+            <ul className="area-info__list">
+                <li className="area-info__list__item">
+                    <label>Mã số ô đỗ: </label>
+                    <span style={{color:"#c20000"}}>{register.tenodo}</span>
+                </li>
+
+                <li className="area-info__list__item">
+                        <label>Họ và tên: </label>
+                        <span>{register.hoten}</span>
+                </li>
+
+
+                <li className="area-info__list__item">
+                    <label>Số điện thoại:</label>
+                    <span>{register.sodienthoai}</span>
+                </li>
+
+                
+                <li className="area-info__list__item">
+                    <label>Biển số xe:</label>
+                    <span>{register.biensoxe}</span>
+                </li>
+
+                <li className="area-info__list__item">
+                    <label>Thời gian bắt đầu:</label>
+                    <span>{`${begin.getHours()}:${begin.getMinutes()}0 ngày ${begin.getDate()}/${begin.getMonth()+1}/${begin.getFullYear()}`}</span>
+                </li>
+
+                <li className="area-info__list__item">
+                    <label>Thời gian kết thúc:</label>
+                    <span style={{color:"#c20000"}} >{ `${end.getHours()}:${end.getMinutes()}0 ngày ${end.getDate()}/${end.getMonth()+1}/${end.getFullYear()}`}</span>
+                </li>
+            </ul>
+            {
+
+                
+                register.code === -1 ? (
+                    <div className="area-info__controller">
+                        <Button name={'Thanh toán'} onClick={handleReceipt}/>
+                        <Button name={'Đóng'} onClick={handleClose}/>
+                    </div>
+                ) : (
+                    <div className="area-info__controller just-showing">
+                        <Button name={'Đóng'} onClick={handleClose}/>
+                    </div>
+                )
+            }
+        </div>
+    )
+}
+
+export {RegisterInfo}
 export default AreaInfo

@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import Button from '../button/Button'
 import pmApi from '../../api/pmApi'
 import { useEffect } from 'react'
+import MemmberPrice from '../prices/Prices'
 
 
 const SideMap = () => {
@@ -54,23 +55,24 @@ const SideMap = () => {
             console.log(e)
         }
     }
-    console.log('ref: sm')
     const setMaxHours = () => {
         let dateBegin = dateRefBegin.current.value
         let dateEnd = dateRefEnd.current.value
         if(dateBegin && dateEnd) {
             let stampBegin = new Date(dateBegin)
             let stampEnd = new Date(dateEnd)
-            if(stampEnd-stampBegin===0 && stampBegin.getDate()===now.getDate()) {
+            if(stampEnd-stampBegin===0) {
                 let value = +hoursRefEnd.current.value.slice(0 ,hoursRefEnd.current.value.length-3)
                 hoursRefBegin.current.value = `${--value}:00`
                 maxHours=value
-                minHours = 1
-                console.log('set')
 
+                if(stampBegin.getDate() === now.getDate() && stampBegin.getMonth() === now.getMonth()) {
+                    minHours = now.getHours() + 1
+                } else {
+                    minHours = 1
+                }
             }
             else {
-                console.log('noneset')
                 maxHours = 23
                 minHours = 0
             }
@@ -151,15 +153,23 @@ const SideMap = () => {
             let stampBegin = new Date(dateBegin)
             let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin>=0) {
-                // setDateLimit((prevState => {return {...prevState, dateBegin: e.target.value}}))
-                
-                setDateLimit({
-                    dateBegin: `${e.target.value}`,
-                    dateEnd: `${dateEnd}`,
-                    hourBegin: `${hoursRefBegin.current.value}`,
-                    hourEnd: `${hoursRefEnd.current.value}`,
-
-                })
+                if(stampEnd-stampBegin===0) {
+                    setDateLimit({
+                        dateBegin: `${e.target.value}`,
+                        dateEnd: `${dateEnd}`,
+                        hourBegin: `${now.getHours()}:00`,
+                        hourEnd: `${now.getHours()+1}:00`
+    
+                    })
+                } else {
+                    setDateLimit({
+                        dateBegin: `${e.target.value}`,
+                        dateEnd: `${dateEnd}`,
+                        hourBegin: `${hoursRefBegin.current.value}`,
+                        hourEnd: `${hoursRefEnd.current.value}`,
+    
+                    })
+                }
             } else {
                 alert('Ngày không hợp lệ')
             }
@@ -176,7 +186,7 @@ const SideMap = () => {
             let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin>=0) {
                 // setDateLimit((prevState => {return {...prevState, dateBegin: e.target.value}}))
-                if(stampEnd-stampBegin===0 && stampBegin.getDate() === now.getDate()) {
+                if(stampEnd-stampBegin===0) {
                     setDateLimit({
                         dateBegin: `${dateBegin}`,
                         dateEnd: `${e.target.value}`,
@@ -203,6 +213,8 @@ const SideMap = () => {
     useEffect(() => {
         getKhudo()
     }, [tabSM])
+
+
     return (
         <div className="side-map container">
             <div className="side-map__tabs">
@@ -256,13 +268,14 @@ const SideMap = () => {
                             <div className="form-group">
                                 <label htmlFor="dateBegin">Ngày</label>
                                 <input  
-                                        ref={dateRefBegin}
-                                        type="date" 
-                                        id="start" 
-                                        name="dateBegin"
-                                        value={dateLimit.dateBegin}
-                                        onChange={handleChangeDateBegin}
-                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                    className='date'
+                                    ref={dateRefBegin}
+                                    type="date" 
+                                    id="start" 
+                                    name="dateBegin"
+                                    value={dateLimit.dateBegin}
+                                    onChange={handleChangeDateBegin}
+                                    min={today} max={`${now.getFullYear()}-12-31`}>
                                 </input>
                             </div>
                         </div>
@@ -287,13 +300,14 @@ const SideMap = () => {
                             <div className="form-group">
                                 <label htmlFor="dateEnd">Ngày</label>
                                 <input  
-                                        ref={dateRefEnd}
-                                        type="date" 
-                                        id="start" 
-                                        name="dateEnd"
-                                        value={`${dateLimit.dateEnd}`}
-                                        onChange={handleChangeDateEnd}
-                                        min={today} max={`${now.getFullYear()}-12-31`}>
+                                    className='date'
+                                    ref={dateRefEnd}
+                                    type="date" 
+                                    id="start" 
+                                    name="dateEnd"
+                                    value={`${dateLimit.dateEnd}`}
+                                    onChange={handleChangeDateEnd}
+                                    min={today} max={`${now.getFullYear()}-12-31`}>
                                 </input>
                             </div>
                         </div>
@@ -314,7 +328,7 @@ const SideMap = () => {
                                     name={item.makhudo} 
                                     type={item.loaixe} 
                                     filter={isFilter} 
-                                    dateBegin={`${dateLimit.dateBegin} ${dateLimit.hourBegin}`} 
+                                    dateBegin={`${dateLimit.dateBegin} ${dateLimit.hourBegin}`}
                                     dateEnd={`${dateLimit.dateEnd} ${dateLimit.hourEnd}`}
                                     tab={tabSM.key}
                                     refresh={refresh}
@@ -342,6 +356,7 @@ const SideMap = () => {
                 </li>
             </ul>
             
+            <MemmberPrice/>
 
         </div>
     )

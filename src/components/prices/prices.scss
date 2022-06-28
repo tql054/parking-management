@@ -1,0 +1,41 @@
+@use '../../assets/scss/' as *;
+
+.prices {
+    margin: 30px 50px;
+    font-size: 1.2rem;
+    font-style: italic;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px 40px;
+    max-height: 500px;
+
+    &__title {
+        font-size: 1.5rem;
+        border-bottom: solid;
+    }
+
+    &__list {
+        list-style: circle;
+        list-style-type: circle;
+        margin-top: 20px;
+        background-color: #e5f0ff;
+        padding: 20px;
+        border-radius: 12px;
+
+        &__area {
+            font-size: 1.2rem;
+            color: $red-color;
+            font-weight: 600;
+            font-style: initial;
+        }
+
+        &__item {
+            @include flex(center, flex-start);
+            .title {    
+                font-size: 1rem;
+                min-width: 280px;
+            }
+        }
+    }
+    
+}

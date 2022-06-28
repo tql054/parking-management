@@ -1,6 +1,27 @@
 import axiosClient from "./axiosClient";
 
 const pmApi = {
+    //login
+    checkLogin: (params) => {
+        const url = `login`
+        return axiosClient.post(url, {
+                 ...params 
+            }   
+        )
+    },
+
+    checkHasUser: (phone) => {
+        const url = `check-user/${phone}`
+        return axiosClient.post(url, {})
+    }, 
+
+    //taikhoan
+    getInfoUser: (right, phone) => {
+        const url = `getinfo/${right}/${phone}`
+        return axiosClient.get(url, {})
+    },
+
+
     //lay tat ca o do
     getAllOdo: (id, params) => {
         const url = `all-odo/${id}`
@@ -36,9 +57,11 @@ const pmApi = {
     },
 
     //dangky
-    checkoutDangky: (id, loaiDk) => {
+    checkoutDangky: (id, loaiDk, params) => {
         const url = `checkoutDangky${loaiDk}/${id}`
-        return axiosClient.post(url, {})
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
     },
 
     //Khudo
@@ -50,11 +73,35 @@ const pmApi = {
     postThongbao: (params) => {
         const url = `create-thongbao/`
         return axiosClient.post((url, {
-            params: { ...params }
+            ...params
         }))
+    },
+
+    //xe
+
+    getXeByPhone: (phone, carType, searchCar, params) => {
+        if(phone) {
+            console.log({phone, carType, searchCar})
+            const url = `list-xe/${phone}/${carType}/${searchCar}`
+            return axiosClient.get(url, params)
+        } return []
+    }, 
+    //Dang ky
+    postDangkyTV: (params) => {
+        const url = `create-dangkythanvien/`
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
+    },
+
+    postDangkyVL: (params) => {
+        const url = `create-khachvanglai/`
+        return axiosClient.post(url, {
+            params: { ...params }
+        }   )
     }
 
-
+    
 
 }
 

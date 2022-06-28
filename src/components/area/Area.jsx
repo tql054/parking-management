@@ -5,14 +5,18 @@ import { useState, useEffect } from 'react'
 import Modal from '../modal/Modal'
 import AreaInfo from '../area-info/AreaInfo'
 import { createContext } from 'react'
+import { useStore } from '../../store/hooks'
+import Context from '../../store/Context'
 export const AreaContext = createContext()
-const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
+const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh}) => {
+
+    const [state, dispatch] = useStore(Context)
+    const {accessToken, right} = state
+
     const [boxList, setBoxList] = useState([])
     const [idRegister, setIdRegister] = useState()
     const [checkoutRegister, setCheckoutRegister] = useState(false)
-
     const getAllOdo = async () => {
-        console.log('refresh')
         try {
             const response = await pmApi.getAllOdo(name, {})
             const registedRes = await pmApi.getRegistedOdo(name, {dateBegin, dateEnd})
@@ -24,16 +28,8 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
                         element.iddk = odo.id
                         if(odo.ttthanhtoan === 'Chưa thanh toán') element.trangthai = 'waiting'
                         else {
-                            let now = new Date()
-                            let dateEnd = new Date(odo.thoigianketthuc)
-                            let dateOut = new Date(odo.thoigiankethucthuc)
                             
-
-                            if(dateEnd - now < 0 && odo.thoigiankethucthuc===null){
-                                element.trangthai = 'outdate'
-                            }else{
                                 element.trangthai = 'filled'
-                            }
                         }
                     }
                 }
@@ -102,7 +98,7 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
             <div className='area'>
                 <div className='area__info'>
                     <div className="area__info__name">Khu {name}:</div>
-                    <div className="area__info__type">{type}</div>
+                    <div className="area__info__type">Dành cho {type}</div>
                 </div>
                 <div className='grid'>
                     <ul className="area__box-list row">
@@ -110,29 +106,55 @@ const Area = ({ id, name, type, filter, dateBegin, dateEnd, tab, refresh }) => {
                             Object.keys(boxList).length === 0 ?(
                                 <div style={{marginTop: '25px', color: '#C20000'}}>Loading...</div>
                             ) : (
-                                boxList.map((box, i) => 
-                                    <li key={box.id} className="col l-1">
-                                        {
-                                            box.iddk?(
-                                                <div 
-                                                    onClick={() => { setIdRegister(box.iddk)} }
-                                                    className={`area__box-list__item ${box.trangthai}`}>
-                                                    {box.tenodo.slice(3)}
-                                                </div>
-                                            ):(
-                                            
-                                                    <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}`} target="_blank">
+                                accessToken ? (
+                                    boxList.map((box, i) => 
+                                        <li key={box.id} className="col l-1">
+                                            {
+                                                box.iddk?(
+                                                    right <= 2 ? (
+                                                        <div 
+                                                            onClick={() => {setIdRegister(box.iddk)} }
+                                                            className={`area__box-list__item ${box.trangthai}`}>
+                                                            {box.tenodo.slice(3)}
+                                                        </div>
+                                                    ) : (
+                                                        <div 
+                                                            className={`area__box-list__item ${box.trangthai}`}>
+                                                            {box.tenodo.slice(3)}
+                                                        </div>
+                                                    )
+                                                ):(
+                                                    
+                                                    right !=2 && tab==='KVL' ? (
                                                         <div className={`area__box-list__item ${box.trangthai}`}>
                                                             {box.tenodo.slice(3)}
                                                         </div>
-                                                    </Link>
-                                            
-                                            )
-                                        }
-                                        <div>
-                                            
-                                        </div>
-                                    </li>
+                                                    ) : (
+                                                        <Link to={`/dangky-${tab}/${box.tenodo}/${dateBegin}/${dateEnd}/${type.slice(3,4)}`} target="_blank">
+                                                            <div className={`area__box-list__item ${box.trangthai}`}>
+                                                                {box.tenodo.slice(3)}
+                                                            </div>
+                                                        </Link>
+
+                                                    )
+                                                
+                                                )
+                                            }
+                                            <div>
+                                                
+                                            </div>
+                                        </li>
+                                    )
+
+                                ): (
+                                    boxList.map((box, i) => 
+                                        <li key={box.id} className="col l-1">
+                                            <div 
+                                                className={`area__box-list__item ${box.trangthai}`}>
+                                                {box.tenodo.slice(3)}
+                                            </div>
+                                        </li>
+                                    )
                                 )
                             )
                         }

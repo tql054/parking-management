@@ -69,7 +69,6 @@ function StatisticalMonth() {
       switch (filterValue) {
         case "500":
           {
-            console.log(123);
             if (getCate < 500) {
               return item;
             }
@@ -82,13 +81,11 @@ function StatisticalMonth() {
             }
           }
           break;
-        case "5000":
-          {
-            if (getCate < 5000) {
-              return item;
-            }
+        case "5000": {
+          if (getCate < 5000) {
+            return item;
           }
-          break;
+        }
       }
     });
     setData(dataFilter);
@@ -112,9 +109,9 @@ function StatisticalMonth() {
         );
         break;
     }
-
     setIsRender(!isRender);
   }
+
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();

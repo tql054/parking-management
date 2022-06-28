@@ -1,34 +1,13 @@
 import { SideMap } from "../components"
+import Context from "../store/Context"
+import { useStore } from "../store/hooks"
 
 const Home = () => {
-    const aArray = [
-        {
-            tenodo: 'abc',
-            ma: 'd'
-        },
-        {
-            tenodo: 'edf',
-            ma: 'k'
-        }
-    ]
-
-    const bArray = [
-        {
-            tenodo: 'abc',
-            ma: 'd'
-        },
-        {
-            tenodo: 'edf',
-            ma: 'k'
-        }
-    ]
-
-    
-    console.log([...aArray, ...bArray])
+    const [state, dispatch] = useStore(Context)
+    console.log(state)
     return (
         <section>
             <SideMap/>
-            
         </section>
     )
 }

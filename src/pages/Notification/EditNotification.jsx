@@ -1,40 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios'
 import './notification.css'
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
-const data = [
-    {
-        id: 1,
-        name: 'Tất cả'
-    },
-    {
-        id: 2,
-        name: 'Nhân viên'
-    },
-    {
-        id: 3,
-        name: 'Khách hàng'
-    }
-];
+
 
 const EditNotification = (props) => {
 
-    const [tieude, setTitle] = useState('')
-    const [noidung, setContent] = useState('')
-    const [nguoinhan, setChecked] = useState(1)
+    
+    
+
+    const [tieude, setTitle] = useState('');
+    const [noidung, setContent] = useState('');
+    const doituong = useRef([])
+    const idDt = useRef([])
+    const [quyen, setQuyen] = useState([])
+    const [nguoinhan, setNguoiNhan] = useState([])
     const { id } = useParams();
 
-    const fetchData = async () => {
-        const res = await Axios.get(`http://localhost:8080/edit-thongbao/${id}`);
+    // call api get quyen
+    const fetchQuyen = async () => {
+        const resp = await Axios.get("https://parkingmanagement16.herokuapp.com/quyen");
+        const q = await resp.data.filter(item => item.tenquyen !== "Quản lý")
+        setNguoiNhan(q.map(item => item.id));
+        setQuyen(resp.data.filter(item => item.tenquyen !== "Quản lý"));
+        doituong.current = q
+        idDt.current = q.map(item => item.id)
+        // setData(resp.data);
+    };
 
+    useEffect(() => {
+        fetchQuyen()
+    }, [])
+
+
+    // call api lay thong tin (tieude, noidung, maquyen) thong bao
+    const fetchData = async () => {
+        const res = await Axios.get(`http://localhost:8080/edit-thongbao/{id}`);
         setTitle(res.data.tieude)
         setContent(res.data.noidung)
-
     }
     useEffect(() => {    
         fetchData();
     }, [id]);
+
+
+    const handleChecked = (id, a) => {
+        setNguoiNhan(id);
+        setQuyen(a);
+    }
+
     const navigate = useNavigate();
     const newPage = () => {
         navigate('/danhsachthongbao')
@@ -43,7 +58,7 @@ const EditNotification = (props) => {
         <div>
            { console.log(id)}
             <div className='notification'>
-                <form method='POST' action='http://localhost:8080/put-thongbao' >
+                <form method='POST' action='https://parkingmanagement16.herokuapp.com/put-thongbao' >
                     <h2>SỬA THÔNG BÁO</h2>
                     <div className="title">
                         <label htmlFor="">Tiêu đề thông báo</label>
@@ -62,17 +77,26 @@ const EditNotification = (props) => {
                     <div className="receiver">
                         <label htmlFor="">Người nhận thông báo</label>
                         <div className="content">
+                            <div >
+                                <input type="radio"
+                                    name="nguoinhan"
+                                    value={nguoinhan}
+                                    // checked={nguoinhan == idDt.current}
+                                    onChange={() => handleChecked(idDt.current, doituong.current)}
+                                />
+                                <label style={{ marginLeft: '10px' }} >Tất cả</label>
+                            </div>
                             {
-                                data.map(dt => (
-                                    <div key={dt.id}>
+                                doituong.current.map((dt, index) => (
+                                    <div key={index}>
                                         <input type="radio"
-                                            value={dt.name}
+                                            value={nguoinhan}
                                             id={dt.id}
                                             name="nguoinhan"
-                                            checked={nguoinhan === dt.id}
-                                            onChange={() => setChecked(dt.id)}
+                                            // checked={nguoinhan === dt.id}
+                                            onChange={() => handleChecked(dt.id, dt)}
                                         />
-                                        <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.name}</label>
+                                        <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.tenquyen}</label>
                                     </div>
                                 ))
                             }

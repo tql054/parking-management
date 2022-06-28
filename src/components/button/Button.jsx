@@ -6,7 +6,7 @@ const Button = ({name, onClick, unable}) => {
         <>
             {unable ? (
                 <div>
-                    <button className="button unactive">{name}</button>
+                    <button className="button unactive" onClick={(e) => {e.preventDefault()}}>{name}</button>
                 </div>
             ):(
                 <div>
