@@ -23,7 +23,7 @@ function StatisticalMonth() {
       const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
       const soGio = (endDateReal - endDate) / 3600 / 1000;
       const tinhTien = soGio * 15000;
-      console.log(soGio);
+
       item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
       item.thoigianbatdau = format(
         new Date(item?.thoigianbatdau),
