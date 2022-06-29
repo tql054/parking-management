@@ -7,6 +7,7 @@ import "./Statistical.scss";
 import Pagination from "../../components/Pagination/Pagination";
 import InfoTable from "./TableData";
 import { compareAsc, format } from "date-fns";
+import { number } from "yup";
 
 function StatisticalMonth() {
   const [data, setData] = useState([]);
@@ -22,9 +23,9 @@ function StatisticalMonth() {
       const endDate = new Date(item?.thoigianketthuc).getTime();
       const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
       const soGio = (endDateReal - endDate) / 3600 / 1000;
-      const tinhTien = soGio * 15000;
+      item.sogio = soGio.toFixed(1).toLocaleString();
 
-      item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
+      // item.thanhTien = item.thanhTien.toLocaleString() + ` VNĐ`;
       item.thoigianbatdau = format(
         new Date(item?.thoigianbatdau),
         "H:mma dd/MM/yyyy"
@@ -37,6 +38,17 @@ function StatisticalMonth() {
         new Date(item?.thoigiankethucthuc),
         "H:mma dd/MM/yyyy"
       );
+      const getCate = item.loaixe.split(" ")[1];
+      var a = 0;
+      console.log(item.soGio);
+      if (getCate === "7") {
+        a = item?.sogio * "17000";
+      } else {
+        a = item?.sogio * "15000";
+      }
+      item.thanhTien = a.toLocaleString() + ` VNĐ`;
+      console.log(item?.thanhTien);
+      return item?.thanhTien;
     });
     setData(resp.data);
   };
@@ -44,6 +56,23 @@ function StatisticalMonth() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // function handleSortTime2() {
+  //   const dataF = data.map((item) => {
+  //     const getCate = item.loaixe.split(" ")[1];
+
+  //     var a = 0;
+  //     console.log(item.soGio);
+  //     if (getCate === "7") {
+  //       a = item.soGio * 17000;
+  //     } else {
+  //       a = item.soGio * 15000;
+  //     }
+  //     console.log(a);
+  //     return (a = item.thanhTien);
+  //   });
+  //   setIsRender(!isRender);
+  // }
 
   function handlecars(filterValue) {
     if (!filterValue) {

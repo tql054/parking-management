@@ -13,13 +13,15 @@ function Statistical() {
     const resp = await axios.get(
       "https://parkingmanagement16.herokuapp.com/dangkyvanglai"
     );
+
     resp?.data?.map((item, index) => {
       const startDate = new Date(item?.thoigianbatdau).getTime();
       const endDate = new Date(item?.thoigianketthuc).getTime();
       const soGio = (endDate - startDate) / 3600 / 1000;
-      const tinhTien = soGio * 15000;
-      item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
 
+      item.sogio = soGio.toFixed(1).toLocaleString();
+
+      // item.thanhTien = item.thanhTien.toLocaleString() + ` VNĐ`;
       item.thoigianbatdau = format(
         new Date(item?.thoigianbatdau),
         "H:mma dd/MM/yyyy"
@@ -28,6 +30,17 @@ function Statistical() {
         new Date(item?.thoigianketthuc),
         "H:mma dd/MM/yyyy"
       );
+      const getCate = item.loaixe.split(" ")[1];
+      var a = 0;
+      console.log(item.soGio);
+      if (getCate === "7") {
+        a = item?.sogio * "17000";
+      } else {
+        a = item?.sogio * "15000";
+      }
+      item.thanhTien = a.toLocaleString() + ` VNĐ`;
+      console.log(item?.thanhTien);
+      return item?.thanhTien;
     });
     setData(resp.data);
   };
@@ -37,6 +50,7 @@ function Statistical() {
   }, []);
   const a = 1;
   console.log(data);
+
   const columns = React.useMemo(
     () => [
       {
@@ -76,6 +90,22 @@ function Statistical() {
     []
   );
 
+  // function handleSortTime2() {
+  //   const dataF = data.map((item) => {
+  //     const getCate = item.loaixe.split(" ")[1];
+  //     var a = 0;
+  //     console.log(item.soGio);
+  //     if (getCate === "7") {
+  //       a = item?.sogio * "17000";
+  //     } else {
+  //       a = item?.sogio * "15000";
+  //     }
+  //     item.thanhTien = a.toLocaleString() + ` VNĐ`;
+  //     console.log(item?.thanhTien);
+  //     return item?.thanhTien;
+  //   });
+  //   setIsRender(!isRender);
+  // }
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();
