@@ -1,33 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-
+import { useStore } from "../../store/hooks";
 import { useNavigate } from "react-router-dom";
 // import pmApi from '../../api/pmApi';úe
 import Axios from 'axios';
 
 import './notification.css'
 
-// const data = [
-//     {
-//         id: 1,
-//         name: 'Tất cả'
-//     },
-//     {
-//         id: 2,
-//         name: 'Nhân viên'
-//     },
-//     {
-//         id: 3,
-//         name: 'Khách hàng'
-//     }
-// ];
-
-
-// call api quyen
-
-
-
-
 const Notification = () => {
+    const [state, dispatch] = useStore()
+    const { right, accessToken, phone } = state
+
     const [tieude, setTitle] = useState('');
     const [noidung, setContent] = useState('');
     const doituong = useRef([])
@@ -69,7 +51,8 @@ const Notification = () => {
             data: {
                 tieude: tieude,
                 noidung: noidung,
-                nguoinhan: nguoinhan
+                nguoinhan: nguoinhan,
+                nguoidang: phone
             }
         });
     }
@@ -108,7 +91,7 @@ const Notification = () => {
                             <input type="radio"
                                 name="nguoinhan"
                                 value={nguoinhan}
-                                // checked={nguoinhan == idDt.current}
+                                checked={JSON.stringify(nguoinhan) == JSON.stringify(idDt.current)}
                                 onChange={() => handleChecked(idDt.current, doituong.current)}
                             />
                             <label style={{ marginLeft: '10px' }} >Tất cả</label>
@@ -120,7 +103,8 @@ const Notification = () => {
                                         value={nguoinhan}
                                         id={dt.id}
                                         name="nguoinhan"
-                                        // checked={nguoinhan === dt.id}
+                                        checked={JSON.stringify(nguoinhan) == JSON.stringify(dt.id)}
+                                        
                                         onChange={() => handleChecked(dt.id, dt)}
                                     />
                                     <label style={{ marginLeft: '10px' }} htmlFor={dt.id}>{dt.tenquyen}</label>
@@ -128,6 +112,7 @@ const Notification = () => {
                             ))
                         }
                     </div>
+                    <input type="text" name="nguoidang" id="nguoidang" value={phone} hidden/>
                 </div>
                 <div className="submit">
                     <button className='btn post' type='submit'> Đăng bài</button>
