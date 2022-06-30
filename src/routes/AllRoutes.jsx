@@ -40,6 +40,7 @@ const AllRoutes = () => {
                     <Route
                         exact
                         path='/dangky-KVL/:id/:dateBegin/:dateEnd/:type'
+                        params
                         element={right === 2 ? <StrangerRenting /> : <Home/>}
                     />
 

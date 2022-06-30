@@ -285,7 +285,7 @@ const FormAuth = () => {
 } 
 
 const FormStranger = ({id, dateBegin, dateEnd, type}) => {
-
+    console.log(type)
     const [state, dispatch] = useStore(Context)
     const {phone} = state
     const formik = useFormik({
