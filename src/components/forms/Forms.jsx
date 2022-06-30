@@ -58,17 +58,14 @@ const Forms = ({id, dateBegin, dateEnd, type}) => {
 
     const getAllXeByPhone = async () => {
         console.log(hasUser.errCode)
+        let response = []
         if(hasUser.errCode === 0) {
             try {
-                let response = []
+                console.log(phoneNumber)
                 if(searchCar) {
-                    if(right===3) {
-                        response = await pmApi.getXeByPhone(phone, type, searchCar, {})
-                    } else {
-                        console.log('searching')
-                        response = await pmApi.getXeByPhone(phoneNumber, type, searchCar, {})
-                    }
+                    response = await pmApi.getXeByPhone(phoneNumber, type, searchCar, {})
                 }
+                console.log(response)
                 setCars(response)
             }
             catch(e) {
@@ -76,7 +73,13 @@ const Forms = ({id, dateBegin, dateEnd, type}) => {
                 window.location="http://localhost:3000/"
             }   
         } else {
-            setCars([])
+            if(phone && right===3) {
+                    console.log(phone)
+                    response = await pmApi.getXeByPhone(phone, type, searchCar, {})
+                    setCars(response)
+            } else {
+                setCars([])
+            }
         }
     }
 
@@ -127,7 +130,6 @@ const Forms = ({id, dateBegin, dateEnd, type}) => {
     useEffect(() => {
         getAllXeByPhone()
     }, [searchCar])
-    // console.log(hasUser)
     useEffect(() => {
         get_time_remaining(begin, end)
     }, [])
@@ -185,10 +187,14 @@ const Forms = ({id, dateBegin, dateEnd, type}) => {
                 </div>
 
                 <div className="form-buttons">
-                    {isChosen&&hasUser.errCode===0?(
+                    {isChosen && hasUser.errCode===0?(
                         <Button onClick={(e) => handleRegister(e)} name="Thanh toán"/>
                     ):(
-                        <Button unable name="Thanh toán"/>
+                        isChosen && right === 3 ? (
+                            <Button onClick={(e) => handleRegister(e)} name="Thanh toán"/>
+                        ):(
+                            <Button unable name="Thanh toán"/>
+                        )
                     )}
                 </div>
             </form>

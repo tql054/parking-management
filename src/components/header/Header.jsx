@@ -137,8 +137,8 @@ const Header = () => {
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
-  const handleSignout = () => {
-    dispatch(unsetInfoUser())
+  const handleSignout = async () => {
+    await dispatch(unsetInfoUser())
     window.location="http://localhost:3000/login"
   }
     // Close the dropdown if the user clicks outside of it -- need use useEffect()
