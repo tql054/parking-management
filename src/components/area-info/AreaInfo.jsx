@@ -66,7 +66,6 @@ const AreaInfo = ({idRegister, loaiDk}) => {
     useEffect(() => {
         checkRegister()
     })
-    console.log(register)
     return (
         <div className="area-info">
             <div className="area-info__title">Thông tin ô đỗ</div>
@@ -137,14 +136,16 @@ const AreaInfo = ({idRegister, loaiDk}) => {
 
 const RegisterInfo = ({register, handleClose}) => {
     const {searchKey} = useContext(SearchContext)
-    console.log(register.thoigianbatdau)
     const begin = new Date(register.thoigianbatdau) 
     const end= new Date(register.thoigianketthuc) 
-
+    const loaiDk = register.makhudo.slice(0, 3)
     const handleReceipt = async () => {
         try {
             if(window.confirm("Xác nhận thanh toán?")) {
-                const response = await pmApi.checkoutDangky(register.id, register.makhudo.slice(0, 3), {isPunished: true})
+                if(loaiDk === 'KTV') 
+                    await pmApi.checkoutDangky(register.id, loaiDk, {isPunished: true})
+                if(loaiDk === 'KVL')
+                    await pmApi.checkoutDangky(register.id, loaiDk)
                 alert('Thanh toán thành công ô đỗ thành công')
                 window.location=`http://localhost:3000/search/username/${searchKey}`
             } 
@@ -198,7 +199,7 @@ const RegisterInfo = ({register, handleClose}) => {
                 
                 register.code === -1 ? (
                     <div className="area-info__controller">
-                        <Button name={'Thanh toán'} onClick={handleReceipt}/>
+                        <Button name={'Nộp phạt'} onClick={handleReceipt}/>
                         <Button name={'Đóng'} onClick={handleClose}/>
                     </div>
                 ) : (

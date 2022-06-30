@@ -152,8 +152,8 @@ const Header = () => {
   };
 
   const handleSignout = () => {
-    window.location="http://localhost:3000/login"
     dispatch(unsetInfoUser())
+    window.location="http://localhost:3000/login"
   }
 
   const getInfoByphone = async function() {
@@ -176,48 +176,57 @@ const Header = () => {
       <div className="header__image"></div>
       <div className="header__navbar">
         <nav className="header__list container">
-          {headerContent.map((items, index) => (
-            <div className="dropdown">
-              {items.length < 2 ? (
-                <Link
-                  to={items[0].path}
-                  className={active === index ? "dropbtn active" : "dropbtn"}
-                >
-                  {items[0].display}
-                </Link>
-              ) : (
-                <>
-                  <button
+          <div className="header__list__navitem">
+            
+            {headerContent.map((items, index) => (
+              <div className="dropdown">
+                {items.length < 2 ? (
+                  <Link
+                    to={items[0].path}
                     className={active === index ? "dropbtn active" : "dropbtn"}
                   >
                     {items[0].display}
-                  </button>
-                  <div className="dropdown-content">
-                    {items.map((item, index) => (
-                      <Link to={item.path}>{item.display}</Link>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      className={active === index ? "dropbtn active" : "dropbtn"}
+                    >
+                      {items[0].display}
+                    </button>
+                    <div className="dropdown-content">
+                      {items.map((item, index) => (
+                        <Link to={item.path}>{item.display}</Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+            {/* <ul className=''>
+                          {
+                              headerNav.map(items => (
+                                  items.map((item, index) => (
+                                      <li key={index}>
+                                          <Link to={item.path} className={active === index ? 'active' : ''}>
+                                              {item.display}
+                                          </Link>
+                                      </li>
+                                  ))
 
-          {/* <ul className=''>
-                        {
-                            headerNav.map(items => (
-                                items.map((item, index) => (
-                                    <li key={index}>
-                                        <Link to={item.path} className={active === index ? 'active' : ''}>
-                                            {item.display}
-                                        </Link>
-                                    </li>
-                                ))
+                              ))
+                          }
 
-                            ))
-                        }
+                      </ul> */}
+          </div>
 
-                    </ul> */}
-          <SearchBar />
+          {
+            accessToken && right <=2 ? (
+              <SearchBar />
+            ) : (
+              <></>
+            )
+          }
           <div className="header__user">
             {/* handle show user info */}
 

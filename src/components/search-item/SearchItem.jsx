@@ -29,7 +29,6 @@ const SearchItem = ({ register, index }) => {
 
         }
     }, [register.code])
-    console.log(register)
     return (
         <>
             {

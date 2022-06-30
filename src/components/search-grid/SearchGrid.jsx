@@ -22,12 +22,10 @@ const SearchResult = ({setIsLimited, dangky, searchType, searchKey, params}) => 
 
     const [results, setResult] = useState([])
     const getResults = async () => {
-        console.log('refresh')
         try {
             const response = await pmApi.getSearchResults(dangky, searchType, {searchKey, ...params})
             if(response.length === params.limit) {
                 response.pop()
-                console.log('cut')
                 setIsLimited(false)
             } else {
                 setIsLimited(true)

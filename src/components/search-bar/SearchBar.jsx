@@ -40,7 +40,6 @@ const SearchBar = (props) => {
             if(e.keyCode === 13) {
                 e.preventDefault()
                 handleSearch()
-                console.log('refresh')
             }
         }
 

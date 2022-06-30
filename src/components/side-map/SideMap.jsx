@@ -35,6 +35,7 @@ const SideMap = () => {
     const [khudo, setKhudo] = useState([])
     var maxHours = now.getHours()
     var minHours = 0
+    var minBegin = 0
 
     const dateRefBegin = useRef()
     const dateRefEnd = useRef()
@@ -58,9 +59,12 @@ const SideMap = () => {
     const setMaxHours = () => {
         let dateBegin = dateRefBegin.current.value
         let dateEnd = dateRefEnd.current.value
+        let stampBegin = new Date(dateBegin)
+        let stampEnd = new Date(dateEnd)
+        if(stampBegin.getDate() === now.getDate() && stampBegin.getMonth() === now.getMonth()) {
+            minBegin = now.getHours()
+        }
         if(dateBegin && dateEnd) {
-            let stampBegin = new Date(dateBegin)
-            let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin===0) {
                 let value = +hoursRefEnd.current.value.slice(0 ,hoursRefEnd.current.value.length-3)
                 hoursRefBegin.current.value = `${--value}:00`
@@ -105,9 +109,11 @@ const SideMap = () => {
     const handleDown = (e) => {
         let value = +hoursRefBegin.current.value.slice(0 ,hoursRefBegin.current.value.length-3)
         setMaxHours()
-        if(value > 0) { 
-            hoursRefBegin.current.value = `${--value}:00`
-            upRefBegin.current.classList.remove('max-size')
+        if(value > minHours-1 && value > minBegin) { 
+            if(value>0) {
+                hoursRefBegin.current.value = `${--value}:00`
+                upRefBegin.current.classList.remove('max-size')
+            }
         } else {
             e.target.classList.add('min-size')
         } 
@@ -146,12 +152,14 @@ const SideMap = () => {
     }
 
     const handleChangeDateBegin = (e) => {
-        // setMaxHours()
         let dateBegin = dateRefBegin.current.value
         let dateEnd = dateRefEnd.current.value
+        console.log(dateEnd)
+        let stampBegin = new Date(dateBegin)
+        let stampEnd = new Date(dateEnd)
+        setMaxHours()
+        
         if(dateBegin && dateEnd) {
-            let stampBegin = new Date(dateBegin)
-            let stampEnd = new Date(dateEnd)
             if(stampEnd-stampBegin>=0) {
                 if(stampEnd-stampBegin===0) {
                     setDateLimit({
@@ -162,13 +170,23 @@ const SideMap = () => {
     
                     })
                 } else {
-                    setDateLimit({
-                        dateBegin: `${e.target.value}`,
-                        dateEnd: `${dateEnd}`,
-                        hourBegin: `${hoursRefBegin.current.value}`,
-                        hourEnd: `${hoursRefEnd.current.value}`,
-    
-                    })
+                    if(stampBegin.getDate() === now.getDate() && stampBegin.getMonth() === now.getMonth()) {
+                        console.log('set')
+                        setDateLimit({
+                            dateBegin: `${now.getFullYear()}-${now.getMonth().toString().length === 1 ? '0' + (now.getMonth()+1): now.getMonth()+1}-${now.getDate()}`,
+                            dateEnd: `${dateEnd}`,
+                            hourBegin: `${now.getHours()}:00`,
+                            hourEnd: `${now.getHours()+1}:00`
+            
+                        })
+                    } else
+                        setDateLimit({
+                            dateBegin: `${e.target.value}`,
+                            dateEnd: `${dateEnd}`,
+                            hourBegin: `${hoursRefBegin.current.value}`,
+                            hourEnd: `${hoursRefEnd.current.value}`,
+        
+                        })
                 }
             } else {
                 alert('Ngày không hợp lệ')

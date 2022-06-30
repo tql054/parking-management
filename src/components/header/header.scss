@@ -32,6 +32,12 @@
             margin-right: 15px;
         }
 
+        .header__list__navitem {
+            .dropdown {
+                margin-right: 40px;
+            }
+        }
+
         ul {
             @include flex(center, space-between);
             width: 35%;

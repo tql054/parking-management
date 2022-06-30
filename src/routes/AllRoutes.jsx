@@ -40,13 +40,13 @@ const AllRoutes = () => {
                     <Route
                         exact
                         path='/dangky-KVL/:id/:dateBegin/:dateEnd/:type'
-                        element={right <=2 ? <StrangerRenting /> : <Home/>}
+                        element={right === 2 ? <StrangerRenting /> : <Home/>}
                     />
 
                     <Route
                         exact
                         path='/thongbao'
-                        element={<Notification />}
+                        element={right <=1 ?<Notification /> : <Home/>}
                     />
 
                     <Route

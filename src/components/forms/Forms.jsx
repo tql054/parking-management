@@ -258,7 +258,7 @@ const FormAuth = () => {
                     <div className="form-group">
                         <label className="label" htmlFor="id">Mật khẩu</label>
                         <input 
-                            type="text" 
+                            type="password" 
                             className=" input login-password" 
                             value={password}
                             onChange={handleChangePassword}
@@ -284,7 +284,7 @@ const FormAuth = () => {
     )
 } 
 
-const FormStranger = ({id, dateBegin, dateEnd}) => {
+const FormStranger = ({id, dateBegin, dateEnd, type}) => {
 
     const [state, dispatch] = useStore(Context)
     const {phone} = state
@@ -326,7 +326,7 @@ const FormStranger = ({id, dateBegin, dateEnd}) => {
         const date_begin = new Date(dateBegin);
         const date_end = new Date(dateEnd);
         const hours = (date_end - date_begin) / 3600 / 1000;
-        return hours * 15000;
+        return type === '5'?  hours * 15000 : hours*17000;
     }
 
     const begin = new Date(dateBegin)
