@@ -40,15 +40,19 @@ function StatisticalMonth() {
       );
       const getCate = item.loaixe.split(" ")[1];
       var a = 0;
-
-      if (getCate === "7") {
-        a = item.sogio * "17000";
-
-        console.log(123);
+      if (item.sogio < -10000) {
+        a = "";
+        item.sogio = "Chưa lấy xe";
       } else {
-        a = item?.sogio * "15000";
+        if (getCate === "7") {
+          a = item.sogio * "17000";
+
+          console.log(123);
+        } else {
+          a = item?.sogio * "15000";
+        }
+        item.thanhTien = a.toLocaleString() + ` VNĐ`;
       }
-      item.thanhTien = a.toLocaleString() + ` VNĐ`;
       console.log(item?.thanhTien);
       return item.thanhTien;
     });

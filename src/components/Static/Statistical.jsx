@@ -43,6 +43,7 @@ function Statistical() {
       var a = 0;
       if (item.sogiono < -10000) {
         a = "";
+        item.sogiono = "Chưa lấy xe";
       } else {
         if (getCate === "7") {
           a = item?.sogio * "17000" + item.sogiono * "15000";
