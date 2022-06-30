@@ -5,6 +5,7 @@ import { useTable } from "react-table";
 import Table from "./TableData";
 import "./Statistical.scss";
 import { compareAsc, format } from "date-fns";
+import fi from "date-fns/esm/locale/fi/index.js";
 
 function Statistical() {
   const [data, setData] = useState([]);
@@ -13,12 +14,18 @@ function Statistical() {
     const resp = await axios.get(
       "https://parkingmanagement16.herokuapp.com/dangkyvanglai"
     );
+
     resp?.data?.map((item, index) => {
       const startDate = new Date(item?.thoigianbatdau).getTime();
       const endDate = new Date(item?.thoigianketthuc).getTime();
+      const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
       const soGio = (endDate - startDate) / 3600 / 1000;
-      const tinhTien = soGio * 15000;
-      item.thanhTien = tinhTien.toLocaleString() + ` VNĐ`;
+      const soGioNo = (endDateReal - endDate) / 3600 / 1000;
+
+      item.sogio = soGio.toFixed(1).toLocaleString();
+      item.sogiono = soGioNo.toFixed(0).toLocaleString();
+
+      // item.thanhTien = item.thanhTien.toLocaleString() + ` VNĐ`;
 
       item.thoigianbatdau = format(
         new Date(item?.thoigianbatdau),
@@ -28,6 +35,30 @@ function Statistical() {
         new Date(item?.thoigianketthuc),
         "H:mma dd/MM/yyyy"
       );
+      item.thoigiankethucthuc = format(
+        new Date(item?.thoigiankethucthuc),
+        "H:mma dd/MM/yyyy"
+      );
+      const getCate = item.loaixe.split(" ")[1];
+      var a = 0;
+      if (item.sogiono < -10000) {
+        a = "";
+        item.sogiono = "Chưa lấy xe";
+      } else {
+        if (getCate === "7") {
+          a = item?.sogio * "17000" + item.sogiono * "15000";
+
+          a = "chưa lấy xe";
+        } else {
+          if (getCate === "5") {
+            a = item?.sogio * "15000" + item.sogiono * "15000";
+            // a = "chưa lấy xe";
+          }
+          item.thanhTien = a.toLocaleString() + ` VNĐ`;
+        }
+      }
+      console.log(item?.thanhTien);
+      return item?.thanhTien;
     });
     setData(resp.data);
   };
@@ -37,6 +68,7 @@ function Statistical() {
   }, []);
   const a = 1;
   console.log(data);
+
   const columns = React.useMemo(
     () => [
       {
@@ -69,13 +101,41 @@ function Statistical() {
         accessor: "thoigianketthuc",
       },
       {
-        Header: "Tổng tiền",
+        Header: "Thời gian kết thúc thực",
+        accessor: "thoigiankethucthuc",
+      },
+      {
+        Header: "Số giờ",
+        accessor: "sogio",
+      },
+      {
+        Header: "Số giờ nợ",
+        accessor: "sogiono",
+      },
+      {
+        Header: "Thành tiền",
         accessor: "thanhTien",
       },
     ],
     []
   );
 
+  // function handleSortTime2() {
+  //   const dataF = data.map((item) => {
+  //     const getCate = item.loaixe.split(" ")[1];
+  //     var a = 0;
+  //     console.log(item.soGio);
+  //     if (getCate === "7") {
+  //       a = item?.sogio * "17000";
+  //     } else {
+  //       a = item?.sogio * "15000";
+  //     }
+  //     item.thanhTien = a.toLocaleString() + ` VNĐ`;
+  //     console.log(item?.thanhTien);
+  //     return item?.thanhTien;
+  //   });
+  //   setIsRender(!isRender);
+  // }
   function handlecars(filterValue) {
     if (!filterValue) {
       fetchData();

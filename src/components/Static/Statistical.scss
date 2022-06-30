@@ -349,6 +349,8 @@ $gray: #0055ff;
    border: 1px solid darken($baseColor, 5%);
    height: 3em;
    align-items: center;
+   display: flex;
+   justify-content: space-around;
    
 }
 
