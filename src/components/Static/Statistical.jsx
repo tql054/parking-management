@@ -32,7 +32,7 @@ function Statistical() {
       );
       const getCate = item.loaixe.split(" ")[1];
       var a = 0;
-      console.log(item.soGio);
+
       if (getCate === "7") {
         a = item?.sogio * "17000";
       } else {

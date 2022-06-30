@@ -23,7 +23,7 @@ function StatisticalMonth() {
       const endDate = new Date(item?.thoigianketthuc).getTime();
       const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
       const soGio = (endDateReal - endDate) / 3600 / 1000;
-      item.sogio = soGio.toFixed(1).toLocaleString();
+      item.sogio = soGio.toFixed(0).toLocaleString();
 
       // item.thanhTien = item.thanhTien.toLocaleString() + ` VNĐ`;
       item.thoigianbatdau = format(
@@ -40,15 +40,17 @@ function StatisticalMonth() {
       );
       const getCate = item.loaixe.split(" ")[1];
       var a = 0;
-      console.log(item.soGio);
+
       if (getCate === "7") {
-        a = item?.sogio * "17000";
+        a = item.sogio * "17000";
+
+        console.log(123);
       } else {
         a = item?.sogio * "15000";
       }
       item.thanhTien = a.toLocaleString() + ` VNĐ`;
       console.log(item?.thanhTien);
-      return item?.thanhTien;
+      return item.thanhTien;
     });
     setData(resp.data);
   };

@@ -110,6 +110,10 @@ const InfoTable = ({ columns, data }) => {
             </tbody>
           </table>
           <div class="gotoPage">
+            <div className="thongKe">
+              <span>Tổng tiền là :</span>
+            </div>
+
             <div className="gotoPage_item">
               <span id="page_number">
                 page{""}
