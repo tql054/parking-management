@@ -211,6 +211,10 @@ function StatisticalMonth() {
         accessor: "trangthai",
       },
       {
+        Header: "Số giờ nợ",
+        accessor: "sogio",
+      },
+      {
         Header: "Tổng tiền",
         accessor: "thanhTien",
       },

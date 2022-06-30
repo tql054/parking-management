@@ -5,6 +5,7 @@ import { useTable } from "react-table";
 import Table from "./TableData";
 import "./Statistical.scss";
 import { compareAsc, format } from "date-fns";
+import fi from "date-fns/esm/locale/fi/index.js";
 
 function Statistical() {
   const [data, setData] = useState([]);
@@ -17,11 +18,15 @@ function Statistical() {
     resp?.data?.map((item, index) => {
       const startDate = new Date(item?.thoigianbatdau).getTime();
       const endDate = new Date(item?.thoigianketthuc).getTime();
+      const endDateReal = new Date(item?.thoigiankethucthuc).getTime();
       const soGio = (endDate - startDate) / 3600 / 1000;
+      const soGioNo = (endDateReal - endDate) / 3600 / 1000;
 
       item.sogio = soGio.toFixed(1).toLocaleString();
+      item.sogiono = soGioNo.toFixed(0).toLocaleString();
 
       // item.thanhTien = item.thanhTien.toLocaleString() + ` VNĐ`;
+
       item.thoigianbatdau = format(
         new Date(item?.thoigianbatdau),
         "H:mma dd/MM/yyyy"
@@ -30,15 +35,27 @@ function Statistical() {
         new Date(item?.thoigianketthuc),
         "H:mma dd/MM/yyyy"
       );
+      item.thoigiankethucthuc = format(
+        new Date(item?.thoigiankethucthuc),
+        "H:mma dd/MM/yyyy"
+      );
       const getCate = item.loaixe.split(" ")[1];
       var a = 0;
-
-      if (getCate === "7") {
-        a = item?.sogio * "17000";
+      if (item.sogiono < -10000) {
+        a = "";
       } else {
-        a = item?.sogio * "15000";
+        if (getCate === "7") {
+          a = item?.sogio * "17000" + item.sogiono * "15000";
+
+          a = "chưa lấy xe";
+        } else {
+          if (getCate === "5") {
+            a = item?.sogio * "15000" + item.sogiono * "15000";
+            // a = "chưa lấy xe";
+          }
+          item.thanhTien = a.toLocaleString() + ` VNĐ`;
+        }
       }
-      item.thanhTien = a.toLocaleString() + ` VNĐ`;
       console.log(item?.thanhTien);
       return item?.thanhTien;
     });
@@ -83,7 +100,19 @@ function Statistical() {
         accessor: "thoigianketthuc",
       },
       {
-        Header: "Tổng tiền",
+        Header: "Thời gian kết thúc thực",
+        accessor: "thoigiankethucthuc",
+      },
+      {
+        Header: "Số giờ",
+        accessor: "sogio",
+      },
+      {
+        Header: "Số giờ nợ",
+        accessor: "sogiono",
+      },
+      {
+        Header: "Thành tiền",
         accessor: "thanhTien",
       },
     ],
